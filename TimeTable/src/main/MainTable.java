@@ -1,7 +1,9 @@
 package main;
 
-public class timetable_main {
+public class MainTable {
 	public static void main(String[] args) {
         System.out.println("Hello, world!");
+        
+
     }
 }

@@ -22,7 +22,6 @@ public class fileReader {
 		try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
 			String line;
 
-			int count = 0;
 			while ((line = br.readLine()) != null) {
 
 				String[] parts = line.split("\t"); // 탭으로 문자열을 분할

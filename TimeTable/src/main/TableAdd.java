@@ -5,4 +5,4 @@ public class TableAdd {
 		  System.out.println("박수진");
       System.out.println("이건");
       System.out.println("김진솔");
-}
+}}

@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class TimeTableManager {
 	
 	private static Scanner scan = new Scanner(System.in);
-	private User logedUser; // 로그인한 사용자 정보 저장용 User 객체
+	private User loginUser; // 로그인한 사용자 정보 저장용 User 객체
 		
 	// 생성자
 	public TimeTableManager() {

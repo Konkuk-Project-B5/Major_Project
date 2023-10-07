@@ -43,7 +43,7 @@ class Login {
 	
 	boolean isID(String id) {
 		try {
-			File file = new File("./src/user.txt");
+			File file = new File("./user.txt");
 			BufferedReader br = new BufferedReader(new FileReader(file));
 			String line="";
 			while((line=br.readLine())!= null) {
@@ -60,7 +60,7 @@ class Login {
 	
 	boolean isIdPwMatch(String id, String pw) {
 		try {
-			File file = new File("./src/user.txt");
+			File file = new File("./user.txt");
 			BufferedReader br = new BufferedReader(new FileReader(file));
 			String line="";
 			while((line=br.readLine())!= null) {
@@ -100,7 +100,7 @@ class Login {
 			return;
 		}
 		try {
-			File file = new File("./src/user.txt");
+			File file = new File("./user.txt");
 			FileWriter fw = new FileWriter(file, true);
 			fw.write(inputid+" "+inputpw+"\n");
 			fw.close();
@@ -120,7 +120,7 @@ class Login {
 		String input = scan.nextLine().trim();
 		String inputidpw[] = input.split("\\s+");
 		if(inputidpw.length != 2 || !(Pattern.matches("(201[0-9]|202[0-3])([0-9]{5})", inputidpw[0])) || !(Pattern.matches("[a-z0-9]{7,13}", inputidpw[1]))) {
-			System.out.println("학번과 비밀번호를 확인해주세요.1");
+			System.out.println("학번과 비밀번호를 확인해주세요.");
 			screen();
 			menuinput();
 			return;
@@ -130,7 +130,7 @@ class Login {
 			//메인 메뉴 실행
 		}
 		else {
-			System.out.println("학번과 비밀번호를 확인해주세요.2");
+			System.out.println("학번과 비밀번호를 확인해주세요.");
 			screen();
 			menuinput();
 			return;

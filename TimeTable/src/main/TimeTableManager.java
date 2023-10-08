@@ -14,13 +14,17 @@ public class TimeTableManager {
 	
 	private static Scanner scan = new Scanner(System.in);
 	private User loginUser; // 로그인한 사용자 정보 저장용 User 객체
-	private BufferedReader reader; // 파일 입력
-	private BufferedWriter writer; // 파일 출력
+	private BufferedReader reader; // 학번.txt 파일 입력
+	private BufferedWriter writer; // 학번.txt 파일 출력
+	private fileReader filereader; // filereader 객체
 		
 	// 생성자
 	public TimeTableManager() {
 		
 		// 파일 무결성 검사 //
+		
+		// filereader 객체 초기화
+		filereader = new fileReader("./lecture_list.txt");
 		
 		// 검사 후 프로그램 실행, 로그인/회원가입 메뉴 출력
 		loginAndRegisterMenu(); 
@@ -103,15 +107,15 @@ public class TimeTableManager {
 		try {
 			reader = new BufferedReader(new FileReader(loginUser.FILEPATH));
 			
-			loginUser.myLectureList = new ArrayList<String>();
+			loginUser.myLectureList = new ArrayList<Lecture>();
 			String lectureNum = null;
 			while((lectureNum = reader.readLine()) != null) {
-				loginUser.myLectureList.add(lectureNum);
+				loginUser.myLectureList.add(filereader.lecturelist.get(lectureNum));
 			}
 			
 //			//확인용
-//			for(String l : loginUser.lectureList)
-//				System.out.println(l);
+//			for(Lecture l : loginUser.myLectureList)
+//				System.out.println(l.lectureName);
 			
 			reader.close();
 			
@@ -199,6 +203,7 @@ public class TimeTableManager {
 		while(true) {
 			
 			// 강의 목록 출력 //
+			filereader.printLectureList();
 			
 			System.out.println("\n\n수강신청할 과목번호를 입력해주세요\n※ 'q'를 입력한 경우 메인메뉴로 돌아갑니다.\n\n");
 			System.out.print("과목번호 입력 : ");
@@ -221,8 +226,8 @@ public class TimeTableManager {
 			break;
 		}
 		
-		// 수강신청한 과목번호 loginUser의 myLectureList에 저장
-		loginUser.myLectureList.add(input);
+		// 수강신청한 과목 loginUser의 myLectureList에 저장
+		loginUser.myLectureList.add(filereader.lecturelist.get(input));
 										
 		// 학번.txt 파일 업데이트
 		updateIdFile();
@@ -234,8 +239,8 @@ public class TimeTableManager {
 	// 학번.txt 파일 업데이트 메소드
 	private void updateIdFile() {
 		String content = "";
-		for(String lectureNum : loginUser.myLectureList)
-			content += lectureNum + "\n";
+		for(Lecture lecture : loginUser.myLectureList)
+			content += lecture.lectureCode + "\n";
 	
 		try {
 			writer = new BufferedWriter(new FileWriter(loginUser.FILEPATH));

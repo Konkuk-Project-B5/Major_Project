@@ -3,12 +3,9 @@ package main;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 
-// Lecture 클래스가 없음
 public class fileReader {
 
 	private String filePath = "./lecture_list.txt";

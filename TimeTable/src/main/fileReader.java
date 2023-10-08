@@ -25,7 +25,7 @@ public class fileReader {
 			while ((line = br.readLine()) != null) {
 
 				String[] parts = line.split("\t"); // 탭으로 문자열을 분할
-
+				
 				if (parts.length >= 7) {
 					Lecture lec = new Lecture();
 					lec.lectureCode = parts[0].trim();

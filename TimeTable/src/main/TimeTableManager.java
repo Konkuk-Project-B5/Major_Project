@@ -280,11 +280,12 @@ public class TimeTableManager {
 		filereader.lecturelist.get(input).plusLectureCnum();
 
 		//lecture_list 현재 수강신청 인원 업데이트
-
+		filereader.updateLectureFile(input);
 
 		// 수강신청 완료
 		System.out.println("수강신청이 완료되었습니다.");
 	}
+	
 
 	// 학번.txt 파일 업데이트 메소드
 	private void updateIdFile() {

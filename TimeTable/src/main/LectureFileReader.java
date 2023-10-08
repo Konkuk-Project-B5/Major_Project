@@ -6,12 +6,12 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 
-public class fileReader {
+public class LectureFileReader {
 
 	private String filePath = "./lecture_list.txt";
 	public HashMap<String, Lecture> lecturelist = new HashMap<>();
 
-	public fileReader(String filePath) {
+	public LectureFileReader(String filePath) {
 		this.filePath = filePath;
 		readFile();
 	}

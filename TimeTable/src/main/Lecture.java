@@ -31,24 +31,53 @@ public class Lecture {
 		return lectureDay2;
 	}
 
-	public String getLectureStime() {
-		return lectureStime;
+	public int getLectureStime() {
+		int Stime = 0;
+		try {
+			 Stime = Integer.parseInt(lectureStime);
+		} catch (NumberFormatException e) {
+			System.exit(0); // 오류 발생시 프로그램 종료
+		}
+		return Stime;
 	}
 
-	public String getLectureOtime() {
-		return lectureOtime;
+	public int getLectureOtime() {
+		int Otime = 0;
+		try {
+			Otime = Integer.parseInt(lectureOtime);
+		} catch (NumberFormatException e) {
+			System.exit(0); // 오류 발생시 프로그램 종료
+		}
+		return Otime;
 	}
 
-	public String getLectureCnum() {
-		return lectureCnum;
+	public int getLectureCnum() {
+		int Cnum = 0;
+		try {
+			Cnum = Integer.parseInt(lectureCnum);
+		} catch (NumberFormatException e) {
+			System.exit(0); // 오류 발생시 프로그램 종료
+		}
+		return Cnum;
 	}
 
 	public void setLectureCnum(String lectureCnum) { // setter이거밖에 없음
 		this.lectureCnum = lectureCnum;
 	}
 
-	public String getLectureMnum() {
-		return lectureMnum;
+	public void plusLectureCnum() {
+		int n = getLectureCnum();
+		this.lectureCnum = Integer.toString(++n);
+	}
+
+	public int getLectureMnum() {
+		int Mnum = 0;
+		try {
+			Mnum = Integer.parseInt(lectureMnum);
+		} catch (NumberFormatException e) {
+			System.exit(0); // 오류 발생시 프로그램 종료
+		}
+		return Mnum;
 	}
 
 	public void printLectureList() {

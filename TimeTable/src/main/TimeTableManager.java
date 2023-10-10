@@ -160,7 +160,7 @@ public class TimeTableManager {
 				case "1":
 				case "수강신청하기":
 					// 수강 신청 메소드 실행
-					signUp();
+					registerForLecture();
 					break;
 				case "2":
 				case "시간표조회하기":
@@ -191,7 +191,7 @@ public class TimeTableManager {
 	}
 
 	// 수강신청 메소드
-	private void signUp() {
+	private void registerForLecture() {
 		String input = null;
 
 		while (true) {

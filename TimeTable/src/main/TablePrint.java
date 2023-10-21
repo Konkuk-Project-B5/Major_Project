@@ -205,7 +205,6 @@ public class TablePrint{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	
 		System.out.println();
 
 		// System.out.println(loginUser.ID);

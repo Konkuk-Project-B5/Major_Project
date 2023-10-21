@@ -31,7 +31,7 @@ public class TablePrint{
 		
 		System.out.println("[수강신청 프로그램]");
 		String input = null; // 사용자 입력 저장
-		
+///		
 		while(true) {
 			// 메뉴 출력
 			System.out.println("1.회원가입\n2.로그인\n3.종료");

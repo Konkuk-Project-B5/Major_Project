@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class TimeTableManager {
+public class TablePrint{
 	
 	private static Scanner scan = new Scanner(System.in);
 	private User loginUser; // 로그인한 사용자 정보 저장용 User 객체

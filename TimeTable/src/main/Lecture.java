@@ -4,6 +4,7 @@ public class Lecture {
 
 	protected String lectureCode;
 	protected String lectureName;
+	protected String lectureCredit; // 1차 요구사항 - 강의 학점 추가
 	protected String lectureDay1;
 	protected String lectureDay2;
 	protected String lectureStime;
@@ -22,7 +23,18 @@ public class Lecture {
 	public String getLectureName() {
 		return lectureName;
 	}
-
+	
+	// 1차 요구사항 - 학점 getter
+	public int getLectureCredit() {
+		int credit = 0;
+		try {
+			credit = Integer.parseInt(lectureCredit);
+		} catch (NumberFormatException e) {
+			System.exit(0); // 오류 발생시 프로그램 종료
+		}
+		return credit;
+	}
+	
 	public String getLectureDay1() {
 		return lectureDay1;
 	}

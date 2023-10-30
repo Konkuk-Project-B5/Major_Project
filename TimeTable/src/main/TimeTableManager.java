@@ -4,6 +4,26 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/*
+ *  1차 요구사항 - 분반
+ *  lecture_list.txt에 분반 2개인 과목, 분반 3개인 과목 추가
+ *  
+ *  1차 요구사항 - 최대 학점 한도 및 강의 학점 추가
+ *  lecture_list.txt에 학점 추가 후 파일에서 읽어와 Lecture 객체의 lectureCredit 초기화
+ *  학점 추가에 따른 메소드 수정 필요함
+ *  학점 추가에 따른 데이터 파일 정규식 수정 필요함
+ *  
+ *  1차 요구사항 - 수강 철회
+ *  수강 철회된 강의의 수강신청 인원 감소에 대한 업데이트 가능하도록 메소드 추가 또는 수정 필요함 
+ *  
+ *  이외에 추가 또는 수정해야 할 사항
+ *  회원가입 및 로그인 관련 메소드 TimeTableManager에 추가
+ *  파일 무결성 검사 관련 메소드 추가
+ *  
+ *  table print branch에 작성된 시간표 출력 메소드가 LectureFileReader가 변경되기 전에 작성된 메소드라 수정이 필요합니다. 시간표 조회하기 메뉴에서 수강 철회를 진행하므로 
+ *  시간표를 출력할 때 학번.txt 파일에 접근하는 것 대신 User 객체의 myLectureList로부터 강의 정보 읽어와 출력하도록 변경하는 게 좋을 것 같습니다.
+ */
+
 public class TimeTableManager {
 
 	private static Scanner scan = new Scanner(System.in);
@@ -82,7 +102,6 @@ public class TimeTableManager {
 
 		// 로그인 //
 
-
 		// 사용자로부터 받은 입력값 검사 후 User 객체 생성
 		String id = "202211329"; // 테스트
 		String password = "a1b2c3"; // 테스트
@@ -104,7 +123,15 @@ public class TimeTableManager {
 			loginUser.myLectureList = new ArrayList<Lecture>();
 			String lectureNum = null;
 			while ((lectureNum = reader.readLine()) != null) {
-				loginUser.myLectureList.add(filereader.lecturelist.get(lectureNum));
+				
+				// filereader로부터 lecture 객체 가져옴
+				Lecture lecture = filereader.lecturelist.get(lectureNum);
+				
+				// loginUser의 myLectureList에 lecture 추가
+				loginUser.myLectureList.add(lecture);
+				
+				// 1차 요구사항 - loginUser의 myCredit에 lecture의 credit 추가
+				loginUser.myCredit += lecture.getLectureCredit();
 			}
 
 //			//확인용
@@ -187,7 +214,69 @@ public class TimeTableManager {
 
 	// 시간표 조회 메소드
 	private void showTimeTable() {
+		String input = null;
+		
+		while(true) {
+			
+			// 수강신청내역 출력 //
+			
+			// 1차 요구사항 - 수강 철회 기능 추가
+			System.out.println("\n\n수강을 철회할 과목번호를 입력해주세요\n※ 'q'를 입력한 경우 메인메뉴로 돌아갑니다.\n\n");
+			System.out.print("과목번호 입력 : ");
+			input = scan.nextLine().strip();
 
+			if (input.equals("q")) {
+				System.out.println("메인메뉴로 돌아갑니다.");
+				return;
+			}
+			
+			// 문법규칙에 맞는지 검사
+			if (!input.matches("\\d{3}")) {
+				System.out.println("과목번호는 0과 자연수로만 이루어진 길이가 3인 문자열입니다.");
+				continue;
+			}
+			
+			//의미규칙 검사
+			//1. lecture_list.txt에 있는 번호인지
+			if (!filereader.lecturelist.containsKey(input)) {
+				System.out.println("강의가 존재하지 않습니다.");
+				continue;
+			}
+			
+			//2. 학번.txt에 있는 번호인지
+			boolean flag = false;
+			for (Lecture lec : loginUser.myLectureList) {
+				if (lec.lectureCode.equals(input)) {
+					flag = true;
+					break;
+				}
+			}
+			
+			if (!flag) {
+				System.out.println("수강신청내역에 입력한 강의가 존재하지 않습니다.");
+				continue;
+			}
+			
+			// 검사 통과시 break
+			break;
+		}
+		
+		// 입력한 과목 loginUser의 myLectureList에서 삭제
+		loginUser.myLectureList.remove(filereader.lecturelist.get(input));
+					
+		// loginUser의 myCredit 수강철회한 과목의 학점만큼 감소 
+		loginUser.myCredit -= filereader.lecturelist.get(input).getLectureCredit();
+					
+		// 학번.txt 파일 업데이트
+		updateIdFile();
+
+		//lecturelist의 lecture의 수강신청 인원 업데이트 - 수강신청 인원 감소
+
+		//lecture_list 현재 수강신청 인원 업데이트 - 수강신청 인원 감소
+
+		// 수강철회 완료
+		System.out.println("수강철회가 완료되었습니다.");
+//		System.out.println("학점: "+loginUser.myCredit);
 	}
 
 	// 수강신청 메소드
@@ -196,7 +285,7 @@ public class TimeTableManager {
 
 		while (true) {
 
-			// 강의 목록 출력 //
+			// 강의 목록 출력
 			filereader.printLectureList();
 
 			System.out.println("\n\n수강신청할 과목번호를 입력해주세요\n※ 'q'를 입력한 경우 메인메뉴로 돌아갑니다.\n\n");
@@ -223,9 +312,25 @@ public class TimeTableManager {
 
 			//2. 동일한 강의 중복 추가 검사
 			Lecture inputLecture = filereader.lecturelist.get(input);
-			if(loginUser.myLectureList.contains(inputLecture)) {
+			if (loginUser.myLectureList.contains(inputLecture)) {
 				System.out.println("동일한 강의를 추가했습니다.");
 				continue;
+			} else {
+				// 1차 요구 사항 - 분반 검사 추가 
+				// 분반 == 수강신청내역에 없음 && 수강신청내역에 동일한 이름의 과목 존재
+				boolean flag = true;
+				for(Lecture lec : loginUser.myLectureList) {
+					if (lec.lectureName.equals(inputLecture.lectureName)) {
+						flag = false;
+						break;
+					}
+				}
+				
+				if (!flag) {
+					// 분반 신청시 메세지 출력 - 질문?
+					System.out.println("이미 수강 중인 강의의 다른 분반을 추가했습니다.");
+					continue;
+				}
 			}
 
 			//3. 중복 시간대 검사
@@ -237,13 +342,13 @@ public class TimeTableManager {
 						inputLecture.getLectureDay2().equals(lec.getLectureDay1()) ||
 						inputLecture.getLectureDay2().equals(lec.getLectureDay2()))  //같은 요일
 				{
-					if(inputLecture.getLectureStime() > lec.getLectureStime()) {  //이후 교시에 추가될 때
-						if(inputLecture.getLectureStime() < lec.getLectureOtime() + 1) {  //기존 01-02면 03부터 시작하는 수업들 추가 가능
+					if (inputLecture.getLectureStime() > lec.getLectureStime()) {  //이후 교시에 추가될 때
+						if (inputLecture.getLectureStime() < lec.getLectureOtime() + 1) {  //기존 01-02면 03부터 시작하는 수업들 추가 가능
 							flag = false;
 							break;
 						}
 					} else if (inputLecture.getLectureStime() < lec.getLectureStime()) {  //이전 교시에 추가될 때
-						if(inputLecture.getLectureOtime() > lec.getLectureStime() - 1) {  //기존 03-04면 02까지 끝나는 수업 추가 가능
+						if (inputLecture.getLectureOtime() > lec.getLectureStime() - 1) {  //기존 03-04면 02까지 끝나는 수업 추가 가능
 							flag = false;
 							break;
 						}
@@ -253,26 +358,36 @@ public class TimeTableManager {
 					}
 				}
 			}
-			if(!flag) {
+			if (!flag) {
 				System.out.println("기존 시간표와 강의 시간이 겹칩니다.");
 				continue;
 			}
 
 			//4. 인원제한 검사
-			if(inputLecture.getLectureCnum() >= inputLecture.getLectureMnum()) {
+			if (inputLecture.getLectureCnum() >= inputLecture.getLectureMnum()) {
 //				System.out.println("과목 코드: " + inputLecture.getLectureCode());
 //				System.out.println("현인원: " + inputLecture.getLectureCnum() + " " + inputLecture.lectureCnum + " / Max:" + inputLecture.getLectureMnum());
 				System.out.println("여석이 없습니다.");
 				continue;
 			}
-
+			
+			//5. 1차 요구사항 - 최대 학점 한도 검사
+			if (loginUser.myCredit + inputLecture.getLectureCredit() > User.MAX_CREDIT) {
+				// 최대 학점 한도 초과시 메세지 출력 - 질문?
+				System.out.println(User.MAX_CREDIT+"학점을 초과해 신청할 수 없습니다.");
+				continue;
+			}
+			
 			// 검사 통과시 break
 			break;
 		}
 
 		// 수강신청한 과목 loginUser의 myLectureList에 저장
 		loginUser.myLectureList.add(filereader.lecturelist.get(input));
-
+		
+		// loginUser의 myCredit 수강신청한 과목의 학점만큼 증가 
+		loginUser.myCredit += filereader.lecturelist.get(input).getLectureCredit();
+		
 		// 학번.txt 파일 업데이트
 		updateIdFile();
 
@@ -284,6 +399,7 @@ public class TimeTableManager {
 
 		// 수강신청 완료
 		System.out.println("수강신청이 완료되었습니다.");
+//		System.out.println("학점: "+loginUser.myCredit);
 	}
 	
 

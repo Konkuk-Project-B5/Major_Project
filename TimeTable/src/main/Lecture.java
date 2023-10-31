@@ -1,6 +1,6 @@
 package main;
 
-public class Lecture {
+public class Lecture implements Comparable<Lecture> {
 
 	protected String lectureCode;
 	protected String lectureName;
@@ -12,6 +12,12 @@ public class Lecture {
 	protected String lectureCnum;
 	protected String lectureMnum;
 
+	// Comparable 학번순 정렬 규칙
+	@Override
+	public int compareTo(Lecture other) {
+		return this.lectureCode.compareTo(other.lectureCode);
+	}
+	
 	public Lecture() {
 		super();
 	}
@@ -81,7 +87,15 @@ public class Lecture {
 		int n = getLectureCnum();
 		this.lectureCnum = Integer.toString(++n);
 	}
-
+	
+	// 인원 감소 메소드
+	public void minusLectureCnum() {
+	    int n = getLectureCnum();
+	    if (n > 0) {
+	        this.lectureCnum = Integer.toString(n - 1);
+	    }
+	}
+	
 	public int getLectureMnum() {
 		int Mnum = 0;
 		try {
@@ -92,6 +106,8 @@ public class Lecture {
 		return Mnum;
 	}
 
+	
+	
 	public void printLectureList() {
 		
 

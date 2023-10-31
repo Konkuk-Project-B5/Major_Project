@@ -36,6 +36,44 @@ public class TimeTableManager {
 	public TimeTableManager() {
 
 		// 파일 무결성 검사 //
+		try{
+		        //파일 객체 생성
+		        File lecture_list_file = new File("./lecture_list.txt");
+		        //입력 스트림 생성
+		        FileReader filereader = new FileReader(lecture_list_file);
+		        //입력 버퍼 생성
+		        BufferedReader lecture_list_bufReader = new BufferedReader(filereader);
+		        String line = "";
+		        while((line = lecture_list_bufReader.readLine()) != null){
+		            boolean result = line.matches("^\\d{3}\s[가-힣]+\s(([월|화|수|목|금]{1}\s\s)|((월|화|수|목|금){1}\s){2})\\d{2}\s\\d{2}\s\\d{2}\s\\d{2}$");
+		            if(result == false) {
+		            	System.out.println("오류 : 데이터 파일이 손상되었습니다.");
+		            	System.out.println("프로그램을 종료합니다.");
+				       	System.exit(0);
+		            }
+		        }
+		        lecture_list_bufReader.close();
+		        File user_file = new File("./user.txt");
+		        FileReader user_filereader = new FileReader(user_file);
+		        BufferedReader user_bufReader = new BufferedReader(user_filereader);
+		        line = "";
+		        while((line = user_bufReader.readLine()) != null){
+		            boolean result = line.matches("(201[0-9])|(202[0-3])[0-9]{5}\s[a-z0-9]{7,13}");
+		            if(result == false) {
+		              	System.out.println("오류 : 데이터 파일이 손상되었습니다.");
+				       	System.out.println("프로그램을 종료합니다.");
+				       	System.exit(0);
+		            }
+		        }		    
+		        user_bufReader.close();
+		        }catch (FileNotFoundException e) {
+		        	System.out.println("오류 : 올바른 경로에 데이터 파일이 존재하지 않습니다.");
+		        	System.out.println("프로그램을 종료합니다.");
+		        	System.exit(0);
+		        }catch(IOException e){
+		            System.out.println(e);
+		        	System.exit(0);
+		        }
 
 		// filereader 객체 초기화
 		filereader = new LectureFileReader("./lecture_list.txt");

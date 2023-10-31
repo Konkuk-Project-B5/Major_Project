@@ -2,6 +2,7 @@ package main;
 
 public class Lecture implements Comparable<Lecture> { // 정렬을 위해 interface 구현
 
+	
 	protected String lectureCode;
 	protected String lectureName;
 	protected String lectureCredit; // 1차 요구사항 - 강의 학점 추가

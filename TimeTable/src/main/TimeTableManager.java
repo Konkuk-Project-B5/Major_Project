@@ -1,7 +1,14 @@
 package main;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -307,6 +314,35 @@ public class TimeTableManager {
 		while(true) {
 			
 			// 수강신청내역 출력 //
+			System.out.println("수강신청내역");
+		    // 과목번호 순으로 정렬
+		    Collections.sort(loginUser.myLectureList);
+		    // 수강신청 안한 경우
+		    if (loginUser.myLectureList.isEmpty()) {
+		        System.out.println("아직 수강신청한 강의가 없습니다.");
+		    } else {
+		    	System.out.println("과목번호\t\t교과목명\t\t학점\t강의시간");
+		        for (Lecture lecture : loginUser.myLectureList) {
+		        	String time; // 강의 시간 정보
+		        	String LectureName; // 강의 이름, 10글자로 포맷팅
+		        	LectureName = String.format("%-10s", lecture.getLectureName()); 
+		        	
+		        	// 강의 시간 정보 처리
+		        	if(lecture.lectureDay2.isEmpty()) {
+		        		time = String.format("%s %s-%s", lecture.lectureDay1, lecture.lectureStime, lecture.lectureOtime);
+		            } else {// 요일 두개
+						 time = String.format("%s %s-%s, %s %s-%s", lecture.lectureDay1, lecture.lectureStime, lecture.lectureOtime, 
+								lecture.lectureDay2, lecture.lectureStime, lecture.lectureOtime);
+		            }
+		        	// 시간표 출력
+		            System.out.println(lecture.getLectureCode() + "\t\t" +
+		                    LectureName + "\t" + 
+		                    lecture.getLectureCredit() + "\t" + time);
+		            
+		        }
+		        System.out.println();
+		        System.out.println(loginUser.id); // 학번 출력
+		    }
 			
 			// 1차 요구사항 - 수강 철회 기능 추가
 			System.out.println("\n\n수강을 철회할 과목번호를 입력해주세요. 현재 수강 학점은 "+loginUser.myCredit+"학점입니다. (최대 수강 학점: "+User.MAX_CREDIT+"학점)\n※ 'q'를 입력한 경우 메인메뉴로 돌아갑니다.\n\n");
@@ -357,9 +393,11 @@ public class TimeTableManager {
 			updateIdFile();
 
 			//lecturelist의 lecture의 수강신청 인원 업데이트 - 수강신청 인원 감소
-
+			filereader.lecturelist.get(input).minusLectureCnum();
+			
 			//lecture_list 현재 수강신청 인원 업데이트 - 수강신청 인원 감소
-
+			filereader.updateLectureFile2(input);
+			
 			// 수강철회 완료
 			System.out.println("수강철회가 완료되었습니다.");
 //			System.out.println("학점: "+loginUser.myCredit);

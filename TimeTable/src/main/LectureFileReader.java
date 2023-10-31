@@ -32,16 +32,14 @@ public class LectureFileReader {
 					Lecture lec = new Lecture();
 					lec.lectureCode = parts[0].trim();
 					lec.lectureName = parts[1].trim();
-					
-					// 1차 요구사항 - 강의 학점 임시 초기화
-					lec.lectureCredit = "3";
-					
 					lec.lectureDay1 = parts[2].trim();
 					lec.lectureDay2 = parts[3].trim();
 					lec.lectureStime = parts[4].trim();
 					lec.lectureOtime = parts[5].trim();
 					lec.lectureCnum = parts[6].trim();
 					lec.lectureMnum = parts[7].trim();
+					// 1차 요구사항 - 강의 학점 임시 초기화
+					lec.lectureCredit = "3";
 					lecturelist.put(parts[0].trim(), lec);
 				}
 

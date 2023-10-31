@@ -35,7 +35,6 @@ public class TimeTableManager {
 	// 생성자
 	public TimeTableManager() {
 
-		// 파일 무결성 검사 //
 		try{
 		        //파일 객체 생성
 		        File lecture_list_file = new File("./lecture_list.txt");
@@ -44,9 +43,9 @@ public class TimeTableManager {
 		        //입력 버퍼 생성
 		        BufferedReader lecture_list_bufReader = new BufferedReader(filereader);
 		        String line = "";
-		        while((line = lecture_list_bufReader.readLine()) != null){
+		        while ((line = lecture_list_bufReader.readLine()) != null) {
 		            boolean result = line.matches("^\\d{3}\s[가-힣]+\s(([월|화|수|목|금]{1}\s\s)|((월|화|수|목|금){1}\s){2})\\d{2}\s\\d{2}\s\\d{2}\s\\d{2}$");
-		            if(result == false) {
+		            if (result == false) {
 		            	System.out.println("오류 : 데이터 파일이 손상되었습니다.");
 		            	System.out.println("프로그램을 종료합니다.");
 				       	System.exit(0);
@@ -57,20 +56,20 @@ public class TimeTableManager {
 		        FileReader user_filereader = new FileReader(user_file);
 		        BufferedReader user_bufReader = new BufferedReader(user_filereader);
 		        line = "";
-		        while((line = user_bufReader.readLine()) != null){
+		        while ((line = user_bufReader.readLine()) != null) {
 		            boolean result = line.matches("(201[0-9])|(202[0-3])[0-9]{5}\s[a-z0-9]{7,13}");
-		            if(result == false) {
+		            if (result == false) {
 		              	System.out.println("오류 : 데이터 파일이 손상되었습니다.");
 				       	System.out.println("프로그램을 종료합니다.");
 				       	System.exit(0);
 		            }
 		        }		    
 		        user_bufReader.close();
-		        }catch (FileNotFoundException e) {
+		        } catch (FileNotFoundException e) {
 		        	System.out.println("오류 : 올바른 경로에 데이터 파일이 존재하지 않습니다.");
 		        	System.out.println("프로그램을 종료합니다.");
 		        	System.exit(0);
-		        }catch(IOException e){
+		        } catch(IOException e) {
 		            System.out.println(e);
 		        	System.exit(0);
 		        }
@@ -259,7 +258,7 @@ public class TimeTableManager {
 			// 수강신청내역 출력 //
 			
 			// 1차 요구사항 - 수강 철회 기능 추가
-			System.out.println("\n\n수강을 철회할 과목번호를 입력해주세요\n※ 'q'를 입력한 경우 메인메뉴로 돌아갑니다.\n\n");
+			System.out.println("\n\n수강을 철회할 과목번호를 입력해주세요. 현재 수강 학점은 "+loginUser.myCredit+"학점입니다. (최대 수강 학점: "+User.MAX_CREDIT+"학점)\n※ 'q'를 입력한 경우 메인메뉴로 돌아갑니다.\n\n");
 			System.out.print("과목번호 입력 : ");
 			input = scan.nextLine().strip();
 
@@ -295,26 +294,25 @@ public class TimeTableManager {
 				continue;
 			}
 			
-			// 검사 통과시 break
-			break;
+			// 검사 통과 
+	
+			// 입력한 과목 loginUser의 myLectureList에서 삭제
+			loginUser.myLectureList.remove(filereader.lecturelist.get(input));
+						
+			// loginUser의 myCredit 수강철회한 과목의 학점만큼 감소 
+			loginUser.myCredit -= filereader.lecturelist.get(input).getLectureCredit();
+						
+			// 학번.txt 파일 업데이트
+			updateIdFile();
+
+			//lecturelist의 lecture의 수강신청 인원 업데이트 - 수강신청 인원 감소
+
+			//lecture_list 현재 수강신청 인원 업데이트 - 수강신청 인원 감소
+
+			// 수강철회 완료
+			System.out.println("수강철회가 완료되었습니다.");
+//			System.out.println("학점: "+loginUser.myCredit);
 		}
-		
-		// 입력한 과목 loginUser의 myLectureList에서 삭제
-		loginUser.myLectureList.remove(filereader.lecturelist.get(input));
-					
-		// loginUser의 myCredit 수강철회한 과목의 학점만큼 감소 
-		loginUser.myCredit -= filereader.lecturelist.get(input).getLectureCredit();
-					
-		// 학번.txt 파일 업데이트
-		updateIdFile();
-
-		//lecturelist의 lecture의 수강신청 인원 업데이트 - 수강신청 인원 감소
-
-		//lecture_list 현재 수강신청 인원 업데이트 - 수강신청 인원 감소
-
-		// 수강철회 완료
-		System.out.println("수강철회가 완료되었습니다.");
-//		System.out.println("학점: "+loginUser.myCredit);
 	}
 
 	// 수강신청 메소드

@@ -94,13 +94,19 @@ public class LectureFileReader {
 	                if (parts[0].trim().equals(lectureNum)) {
 	                    int val = Integer.parseInt(parts[6].trim());
 	                    val++;
-	                    parts[6] = Integer.toString(val);
+	                    // 데이터 파일 형식 맞게 10 이하일 경우 앞에 0 추가
+	                    if(val < 10) {
+	                    	parts[6] = "0" + Integer.toString(val);
+	                    } else {
+	                    	parts[6] = Integer.toString(val);
+	                    }
 	                    // 수정된 줄을 리스트에 추가
 	                    updatedData.add(String.join(" ", parts));
 	                } else {
 	                    // 수정하지 않은 줄은 그대로 리스트에 추가
 	                    updatedData.add(line);
 	                }
+	         
 	            }
 	        }
 	    } catch (IOException e) {
@@ -137,8 +143,13 @@ public class LectureFileReader {
 	                    val--;
 	                    if (val < 0) {
 	                        val = 0; // 음수로 떨어지지 않도록 처리
+	                        parts[6] = "0" + Integer.toString(val);
+	                    } 
+	                    else if(val < 10) {
+	                    	parts[6] = "0" + Integer.toString(val);
+	                    } else {
+	                    	parts[6] = Integer.toString(val);
 	                    }
-	                    parts[6] = Integer.toString(val);
 	                    // 수정된 줄을 리스트에 추가
 	                    updatedData.add(String.join(" ", parts));
 	                } else {

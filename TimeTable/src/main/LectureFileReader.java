@@ -94,7 +94,62 @@ public class LectureFileReader {
 	                if (parts[0].trim().equals(lectureNum)) {
 	                    int val = Integer.parseInt(parts[6].trim());
 	                    val++;
-	                    parts[6] = Integer.toString(val);
+	                    // 데이터 파일 형식 맞게 10 이하일 경우 앞에 0 추가
+	                    if(val < 10) {
+	                    	parts[6] = "0" + Integer.toString(val);
+	                    } else {
+	                    	parts[6] = Integer.toString(val);
+	                    }
+	                    // 수정된 줄을 리스트에 추가
+	                    updatedData.add(String.join(" ", parts));
+	                } else {
+	                    // 수정하지 않은 줄은 그대로 리스트에 추가
+	                    updatedData.add(line);
+	                }
+	         
+	            }
+	        }
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	        System.out.println("파일을 찾을 수 없습니다.");
+	        return;
+	    }
+
+	    // 파일에 수정된 데이터를 다시 씀
+	    try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
+	        for (String updatedLine : updatedData) {
+	            bw.write(updatedLine);
+	            bw.newLine(); 
+	        }
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	        System.out.println("파일 쓰기 오류 발생.");
+	    }
+	}
+	
+	// 인원 감소 업데이트
+	public void updateLectureFile2(String lectureNum) {
+	    // 임시로 수정된 데이터를 저장할 리스트
+	    List<String> updatedData = new ArrayList<>();
+
+	    try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+	        String line;
+
+	        while ((line = br.readLine()) != null) {
+	            String[] parts = line.split(" "); // 공백으로 문자열을 분할
+	            if (parts.length >= 7) {
+	                if (parts[0].trim().equals(lectureNum)) {
+	                    int val = Integer.parseInt(parts[6].trim());
+	                    val--;
+	                    if (val < 0) {
+	                        val = 0; // 음수로 떨어지지 않도록 처리
+	                        parts[6] = "0" + Integer.toString(val);
+	                    } 
+	                    else if(val < 10) {
+	                    	parts[6] = "0" + Integer.toString(val);
+	                    } else {
+	                    	parts[6] = Integer.toString(val);
+	                    }
 	                    // 수정된 줄을 리스트에 추가
 	                    updatedData.add(String.join(" ", parts));
 	                } else {

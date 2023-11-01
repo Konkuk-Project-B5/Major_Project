@@ -51,14 +51,13 @@ public class TimeTableManager {
 		        //입력 버퍼 생성
 		        BufferedReader lecture_list_bufReader = new BufferedReader(filereader);
 		        String line = "";
-		        while ((line = lecture_list_bufReader.readLine()) != null) {
-		            boolean result = line.matches("^\\d{3}\s[가-힣]+\s(([월|화|수|목|금]{1}\s\s)|((월|화|수|목|금){1}\s){2})\\d{2}\s\\d{2}\s\\d{2}\s\\d{2}$");
-		            if (result == false) {
-		            	System.out.println("오류 : 데이터 파일이 손상되었습니다.");
-		            	System.out.println("프로그램을 종료합니다.");
-				       	System.exit(0);
-		            }
-		        }
+				/*
+				 * while ((line = lecture_list_bufReader.readLine()) != null) { boolean result =
+				 * line.matches(
+				 * "^\\d{3}\s[가-힣]+\s(([월|화|수|목|금]{1}\s\s)|((월|화|수|목|금){1}\s){2})\\d{2}\s\\d{2}\s\\d{2}\s\\d{2}$"
+				 * ); if (result == false) { System.out.println("오류 : 데이터 파일이 손상되었습니다.");
+				 * System.out.println("프로그램을 종료합니다."); System.exit(0); } }
+				 */
 		        lecture_list_bufReader.close();
 		        File user_file = new File("./user.txt");
 		        FileReader user_filereader = new FileReader(user_file);
@@ -82,7 +81,7 @@ public class TimeTableManager {
 		        	System.exit(0);
 		        }
 
-		// filereader 객체 초기화
+		//  객체 초기화
 		filereader = new LectureFileReader("./lecture_list.txt");
 
 		// 검사 후 프로그램 실행, 로그인/회원가입 메뉴 출력
@@ -314,36 +313,27 @@ public class TimeTableManager {
 		while(true) {
 			
 			// 수강신청내역 출력 //
-			System.out.println("수강신청내역");
-		    // 과목번호 순으로 정렬
-		    Collections.sort(loginUser.myLectureList);
-		    // 수강신청 안한 경우
-		    if (loginUser.myLectureList.isEmpty()) {
-		        System.out.println("아직 수강신청한 강의가 없습니다.");
-		    } else {
-		    	System.out.println("과목번호\t\t교과목명\t\t학점\t강의시간");
-		        for (Lecture lecture : loginUser.myLectureList) {
-		        	String time; // 강의 시간 정보
-		        	String LectureName; // 강의 이름, 10글자로 포맷팅
-		        	LectureName = String.format("%-10s", lecture.getLectureName()); 
-		        	
-		        	// 강의 시간 정보 처리
-		        	if(lecture.lectureDay2.isEmpty()) {
-		        		time = String.format("%s %s-%s", lecture.lectureDay1, lecture.lectureStime, lecture.lectureOtime);
-		            } else {// 요일 두개
-						 time = String.format("%s %s-%s, %s %s-%s", lecture.lectureDay1, lecture.lectureStime, lecture.lectureOtime, 
-								lecture.lectureDay2, lecture.lectureStime, lecture.lectureOtime);
-		            }
-		        	// 시간표 출력
-		            System.out.println(lecture.getLectureCode() + "\t\t" +
-		                    LectureName + "\t" + 
-		                    lecture.getLectureCredit() + "\t" + time);
-		            
-		        }
-		        System.out.println();
-		        System.out.println(loginUser.id); // 학번 출력
-		    }
+
 			
+
+			if(!loginUser.printMyList()) {
+				System.out.println();
+				System.out.println("수강신청한 교과목이 없습니다.");
+				System.out.println();
+				while(true) {
+					System.out.println("※ 'q'를 입력한 경우 메인메뉴로 돌아갑니다.");
+					System.out.println();
+					input = scan.nextLine().strip();
+					if (input.equals("q")) {
+						System.out.println("메인메뉴로 돌아갑니다.");
+						System.out.println();
+						return;
+					}
+					System.out.println("비정상입력입니다.");
+				}
+				
+			}
+
 			// 1차 요구사항 - 수강 철회 기능 추가
 			System.out.println("\n\n수강을 철회할 과목번호를 입력해주세요. 현재 수강 학점은 "+loginUser.myCredit+"학점입니다. (최대 수강 학점: "+User.MAX_CREDIT+"학점)\n※ 'q'를 입력한 경우 메인메뉴로 돌아갑니다.\n\n");
 			System.out.print("과목번호 입력 : ");
@@ -394,10 +384,10 @@ public class TimeTableManager {
 
 			//lecturelist의 lecture의 수강신청 인원 업데이트 - 수강신청 인원 감소
 			filereader.lecturelist.get(input).minusLectureCnum();
-			
+
 			//lecture_list 현재 수강신청 인원 업데이트 - 수강신청 인원 감소
 			filereader.updateLectureFile2(input);
-			
+
 			// 수강철회 완료
 			System.out.println("수강철회가 완료되었습니다.");
 //			System.out.println("학점: "+loginUser.myCredit);
@@ -413,7 +403,8 @@ public class TimeTableManager {
 			// 강의 목록 출력
 			filereader.printLectureList();
 
-			System.out.println("\n\n수강신청할 과목번호를 입력해주세요\n※ 'q'를 입력한 경우 메인메뉴로 돌아갑니다.\n\n");
+			System.out.printf("\n\n수강신청할 과목번호를 입력해주세요(수강학점 :%d/18)",loginUser.myCredit);
+			System.out.println("※ 'q'를 입력한 경우 메인메뉴로 돌아갑니다.\n\n");
 			System.out.print("과목번호 입력 : ");
 			input = scan.nextLine().strip();
 

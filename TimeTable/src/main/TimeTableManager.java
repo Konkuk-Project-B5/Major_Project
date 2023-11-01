@@ -452,11 +452,21 @@ public class TimeTableManager {
 			//3. 중복 시간대 검사
 			boolean flag = true;
 			for(Lecture lec : loginUser.myLectureList) {
+				boolean flag_inputDay1_lecDay1 = inputLecture.getLectureDay1().equals(lec.getLectureDay1());
+				boolean flag_inputDay1_lecDay2 = false;
+				boolean flag_inputDay2_lecDay1 = false;
+				boolean flag_inputDay2_lecDay2 = false;
 
-				if (inputLecture.getLectureDay1().equals(lec.getLectureDay1()) ||
-						inputLecture.getLectureDay1().equals(lec.getLectureDay2()) ||
-						inputLecture.getLectureDay2().equals(lec.getLectureDay1()) ||
-						inputLecture.getLectureDay2().equals(lec.getLectureDay2()))  //같은 요일
+				if(!lec.getLectureDay2().equals("")) {
+					flag_inputDay1_lecDay2 = inputLecture.getLectureDay1().equals(lec.getLectureDay2());
+				}
+				if(!inputLecture.getLectureDay2().equals("")) {
+					flag_inputDay2_lecDay1 = inputLecture.getLectureDay2().equals(lec.getLectureDay1());
+				}
+				if(!lec.getLectureDay2().equals("") || !inputLecture.getLectureDay2().equals("")) {
+					flag_inputDay2_lecDay2 = inputLecture.getLectureDay2().equals(lec.getLectureDay2());
+				}
+				if (flag_inputDay1_lecDay1 || flag_inputDay1_lecDay2 || flag_inputDay2_lecDay1 || flag_inputDay2_lecDay2)  //같은 요일
 				{
 					if (inputLecture.getLectureStime() > lec.getLectureStime()) {  //이후 교시에 추가될 때
 						if (inputLecture.getLectureStime() < lec.getLectureOtime() + 1) {  //기존 01-02면 03부터 시작하는 수업들 추가 가능

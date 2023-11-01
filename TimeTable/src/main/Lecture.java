@@ -1,6 +1,6 @@
 package main;
 
-public class Lecture implements Comparable<Lecture> {
+public class Lecture {
 
 	protected String lectureCode;
 	protected String lectureName;
@@ -12,12 +12,6 @@ public class Lecture implements Comparable<Lecture> {
 	protected String lectureCnum;
 	protected String lectureMnum;
 
-	// Comparable 학번순 정렬 규칙
-	@Override
-	public int compareTo(Lecture other) {
-		return this.lectureCode.compareTo(other.lectureCode);
-	}
-	
 	public Lecture() {
 		super();
 	}
@@ -87,15 +81,11 @@ public class Lecture implements Comparable<Lecture> {
 		int n = getLectureCnum();
 		this.lectureCnum = Integer.toString(++n);
 	}
-	
-	// 인원 감소 메소드
 	public void minusLectureCnum() {
-	    int n = getLectureCnum();
-	    if (n > 0) {
-	        this.lectureCnum = Integer.toString(n - 1);
-	    }
+		int n = getLectureCnum();
+		this.lectureCnum = Integer.toString(--n);
 	}
-	
+
 	public int getLectureMnum() {
 		int Mnum = 0;
 		try {
@@ -106,8 +96,6 @@ public class Lecture implements Comparable<Lecture> {
 		return Mnum;
 	}
 
-	
-	
 	public void printLectureList() {
 		
 
@@ -115,13 +103,26 @@ public class Lecture implements Comparable<Lecture> {
 
 			if (lectureDay2.isEmpty()) {// 요일 한개
 				String time = String.format("%s %s-%s", lectureDay1, lectureStime, lectureOtime);
-				System.out.printf("%-10s %-20s %-20s %-20s%n", lectureCode, lectureName, time, enrollment);
+				System.out.printf("%-10s %-20s %-20s %-20s %10s%n", lectureCode, lectureName, time, enrollment,lectureCredit);
 			} else {// 요일 두개
 				String time = String.format("%s %s-%s, %s %s-%s", lectureDay1, lectureStime, lectureOtime, lectureDay2, lectureStime, lectureOtime);
-				System.out.printf("%-10s %-20s %-20s %-20s%n", lectureCode, lectureName, time, enrollment);
+				System.out.printf("%-10s %-20s %-20s %-20s %10s%n", lectureCode, lectureName, time, enrollment,lectureCredit);
 			}
 
 		}
+	public void printMyLectureList() {
+		
+
+
+		if (lectureDay2.isEmpty()) {// 요일 한개
+			String time = String.format("%s %s-%s", lectureDay1, lectureStime, lectureOtime);
+			System.out.printf("%-10s %-10s %-10s %-20s%n", lectureCode, lectureName ,lectureCredit,time);
+		} else {// 요일 두개
+			String time = String.format("%s %s-%s, %s %s-%s", lectureDay1, lectureStime, lectureOtime, lectureDay2, lectureStime, lectureOtime);
+			System.out.printf("%-10s %-10s %-10s %-20s%n", lectureCode, lectureName,lectureCredit,time);
+		}
+
+	}
 
 	}
 

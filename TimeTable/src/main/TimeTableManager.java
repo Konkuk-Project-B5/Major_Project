@@ -1,16 +1,8 @@
 package main;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Scanner;
-import java.util.regex.Pattern;
 
 /*
  *  1차 요구사항 - 분반
@@ -51,14 +43,13 @@ public class TimeTableManager {
 		        //입력 버퍼 생성
 		        BufferedReader lecture_list_bufReader = new BufferedReader(filereader);
 		        String line = "";
-		        while ((line = lecture_list_bufReader.readLine()) != null) {
-		            boolean result = line.matches("^\\d{3}\s[가-힣]+\s(([월|화|수|목|금]{1}\s\s)|((월|화|수|목|금){1}\s){2})\\d{2}\s\\d{2}\s\\d{2}\s\\d{2}$");
-		            if (result == false) {
-		            	System.out.println("오류 : 데이터 파일이 손상되었습니다.");
-		            	System.out.println("프로그램을 종료합니다.");
-				       	System.exit(0);
-		            }
-		        }
+				/*
+				 * while ((line = lecture_list_bufReader.readLine()) != null) { boolean result =
+				 * line.matches(
+				 * "^\\d{3}\s[가-힣]+\s(([월|화|수|목|금]{1}\s\s)|((월|화|수|목|금){1}\s){2})\\d{2}\s\\d{2}\s\\d{2}\s\\d{2}$"
+				 * ); if (result == false) { System.out.println("오류 : 데이터 파일이 손상되었습니다.");
+				 * System.out.println("프로그램을 종료합니다."); System.exit(0); } }
+				 */
 		        lecture_list_bufReader.close();
 		        File user_file = new File("./user.txt");
 		        FileReader user_filereader = new FileReader(user_file);
@@ -82,142 +73,82 @@ public class TimeTableManager {
 		        	System.exit(0);
 		        }
 
-		// filereader 객체 초기화
+		//  객체 초기화
 		filereader = new LectureFileReader("./lecture_list.txt");
 
 		// 검사 후 프로그램 실행, 로그인/회원가입 메뉴 출력
-		System.out.println("[수강신청 프로그램]");
-		screen();
-		menuinput();
+		loginAndRegisterMenu();
 	}
 
 	// 로그인/회원가입 메뉴 출력 메소드
-	private void screen() {
-        System.out.println("1. 회원가입");
-        System.out.println("2. 로그인");
-        System.out.println("3. 종료");
-        System.out.print("메뉴 입력: ");
-    }
-	
-	// 로그인/회원가입 메뉴 입력 메소드
-	private void menuinput() {
-		String input = scan.nextLine().replaceAll("\\s", "");
-		if(input.equals("1")||input.equals("회원가입"))
-			signup();
-		else if(input.equals("2")||input.equals("로그인"))
-			signin();
-		else if(input.equals("3")||input.equals("종료")) {
-			System.out.println("프로그램을 종료합니다.");
-			System.exit(0);
-		}
-		else {
-			System.out.println("입력이 올바르지 않습니다. 다시입력해주세요");
-			System.out.print("메뉴 입력: ");
-			menuinput();
-		}
-	}
-	
-	//회원가입 시 입력한 Id가 이미 존재하는지 검사 메소드
-	private boolean isID(String id) {
-		try {
-			File file = new File("./user.txt");
-			BufferedReader br = new BufferedReader(new FileReader(file));
-			String line="";
-			while((line=br.readLine())!= null) {
-				String[] idpw = line.split(" ");
-				if(idpw[0].equals(id))
-					return true;
+	private void loginAndRegisterMenu() {
+
+		System.out.println("[수강신청 프로그램]");
+		String input = null; // 사용자 입력 저장
+
+		while (true) {
+			// 메뉴 출력
+			System.out.println("1.회원가입\n2.로그인\n3.종료");
+
+			// 사용자 입력
+			boolean flag = false; // 올바른 입력인지 확인
+			while (!flag) {
+				System.out.print("메뉴 입력: ");
+				input = scan.nextLine().strip(); // strip(): 앞 뒤 공백 제거
+				switch (input) {
+					case "1":
+					case "회원가입":
+					case "2":
+					case "로그인":
+					case "3":
+					case "종료":
+						// 올바른 입력인 경우 break
+						flag = true;
+						break;
+					default:
+						// 오류 메세지 출력
+						System.out.println("입력이 올바르지 않습니다. 다시 입력해주세요.");
+						break;
+				}
 			}
-			br.close();
-		}catch(Exception e) {
-			System.out.println("파일 읽기 실패");
-		}
-		return false;
-	}
-	
-	//로그인 시 입력 Id와 Pw가 매치되는지 검사 메소드
-	private boolean isIdPwMatch(String id, String pw) {
-		try {
-			File file = new File("./user.txt");
-			BufferedReader br = new BufferedReader(new FileReader(file));
-			String line="";
-			while((line=br.readLine())!= null) {
-				String[] idpw = line.split(" ");
-				if(idpw[0].equals(id)&&idpw[1].equals(pw))
-					return true;
+
+			switch (input) {
+				case "1":
+				case "회원가입":
+					// 회원가입 메소드 실행
+					register();
+					break;
+				case "2":
+				case "로그인":
+					// 로그인 메소드 실행
+					login();
+					break;
+				case "3":
+				case "종료":
+					// 프로그램 종료
+					System.out.println("프로그램을 종료합니다.");
+					return;
 			}
-			br.close();
-		}catch (Exception e) {
-			System.out.println("파일 읽기 실패");
 		}
-		return false;
+
 	}
-	
-	//회원가입 메소드
-	private void signup() {
-		System.out.println("회원가입을 시작합니다.");
-		System.out.print("학번 입력: ");
-		String inputid = scan.nextLine();
-		if(!(Pattern.matches("(201[0-9]|202[0-3])([0-9]{5})", inputid))) {
-			System.out.println("학번은 201000000이상 202399999 이하의 자연수입니다.");
-			screen();
-			menuinput();
-			return;
-		}
-		if(isID(inputid)) {
-			System.out.println("이미 등록된 학번입니다.");
-			screen();
-			menuinput();
-			return;
-		}
-		System.out.print("비밀번호 입력: ");
-		String inputpw = scan.nextLine();
-		if(!(Pattern.matches("[a-z0-9]{7,13}", inputpw))){
-			System.out.println("비밀번호는 영문 소문자와 숫자로만 이루어진 길이가 7이상 13이하인 문자열이어야합니다.");
-			screen();
-			menuinput();
-			return;
-		}
-		try {
-			File file = new File("./user.txt");
-			FileWriter fw = new FileWriter(file, true);
-			fw.write(inputid+" "+inputpw+"\n");
-			fw.close();
-			System.out.println("회원가입을 완료했습니다.");
-		}catch(Exception e) {
-			System.out.println("파일 쓰기 실패");
-		}
-		createIdFile(inputid);
-		screen();
-		menuinput();
-		return;
-	}
-	
-	//로그인 메소드
-	private void signin() {
-		System.out.println("로그인을 시작합니다. 학번과 비밀번호를 입력해주세요.");
-		System.out.println("형식: (<횡공백류열0><학번><횡공백류열1><비밀번호><횡공백류열0>)");
-		System.out.print("입력: ");
-		String input = scan.nextLine().trim();
-		String inputidpw[] = input.split("\\s+");
-		if(inputidpw.length != 2 || !(Pattern.matches("(201[0-9]|202[0-3])([0-9]{5})", inputidpw[0])) || !(Pattern.matches("[a-z0-9]{7,13}", inputidpw[1]))) {
-			System.out.println("학번과 비밀번호를 확인해주세요.");
-			screen();
-			menuinput();
-			return;
-		}
-		if(isIdPwMatch(inputidpw[0],inputidpw[1])) {
-			loginUser = new User(inputidpw[0], inputidpw[1]);
-			System.out.println("로그인을 완료했습니다.");
-			initUserLectureList();
-			mainMenu();
-		}
-		else {
-			System.out.println("학번과 비밀번호를 확인해주세요.");
-			screen();
-			menuinput();
-			return;
-		}
+
+	// 로그인 메소드
+	private void login() {
+
+		// 로그인 //
+
+		// 사용자로부터 받은 입력값 검사 후 User 객체 생성
+		String id = "202211329"; // 테스트
+		String password = "a1b2c3"; // 테스트
+		loginUser = new User(id, password);
+
+		// 학번.txt에서 과목번호 읽고 loginUser의 myLectureList 초기화
+		initUserLectureList();
+
+		// 로그인 완료 후 메인 메뉴로 이동
+		System.out.println("로그인을 완료하였습니다.");
+		mainMenu();
 	}
 
 	// loginUser의 myLectureList 초기화 메소드
@@ -252,6 +183,18 @@ public class TimeTableManager {
 //			System.out.println(loginUser.FILEPATH+": 읽기 실패");
 			System.exit(0); // 오류 발생시 프로그램 종료
 		}
+	}
+
+	// 회원가입 메소드
+	private void register() {
+
+		// 회원 가입 //
+
+		// 학번.txt 파일 생성
+		String id = "202211329"; // 테스트
+		createIdFile(id);
+
+		System.out.println("회원가입을 완료했습니다.");
 	}
 
 	// 학번.txt 파일 생성 메소드
@@ -291,8 +234,6 @@ public class TimeTableManager {
 				case "로그아웃":
 					// 로그아웃
 					System.out.println("로그아웃이 완료되었습니다.");
-					screen();
-					menuinput();
 					return;
 				case "4":
 				case "종료하기":
@@ -314,36 +255,23 @@ public class TimeTableManager {
 		while(true) {
 			
 			// 수강신청내역 출력 //
-			System.out.println("수강신청내역");
-		    // 과목번호 순으로 정렬
-		    Collections.sort(loginUser.myLectureList);
-		    // 수강신청 안한 경우
-		    if (loginUser.myLectureList.isEmpty()) {
-		        System.out.println("아직 수강신청한 강의가 없습니다.");
-		    } else {
-		    	System.out.println("과목번호\t\t교과목명\t\t학점\t강의시간");
-		        for (Lecture lecture : loginUser.myLectureList) {
-		        	String time; // 강의 시간 정보
-		        	String LectureName; // 강의 이름, 10글자로 포맷팅
-		        	LectureName = String.format("%-10s", lecture.getLectureName()); 
-		        	
-		        	// 강의 시간 정보 처리
-		        	if(lecture.lectureDay2.isEmpty()) {
-		        		time = String.format("%s %s-%s", lecture.lectureDay1, lecture.lectureStime, lecture.lectureOtime);
-		            } else {// 요일 두개
-						 time = String.format("%s %s-%s, %s %s-%s", lecture.lectureDay1, lecture.lectureStime, lecture.lectureOtime, 
-								lecture.lectureDay2, lecture.lectureStime, lecture.lectureOtime);
-		            }
-		        	// 시간표 출력
-		            System.out.println(lecture.getLectureCode() + "\t\t" +
-		                    LectureName + "\t" + 
-		                    lecture.getLectureCredit() + "\t" + time);
-		            
-		        }
-		        System.out.println();
-		        System.out.println(loginUser.id); // 학번 출력
-		    }
-			
+			if(!loginUser.printMyList()) {
+				System.out.println();
+				System.out.println("수강신청한 교과목이 없습니다.");
+				System.out.println();
+				while(true) {
+					System.out.println("※ 'q'를 입력한 경우 메인메뉴로 돌아갑니다.");
+					System.out.println();
+					input = scan.nextLine().strip();
+					if (input.equals("q")) {
+						System.out.println("메인메뉴로 돌아갑니다.");
+						System.out.println();
+						return;
+					}
+					System.out.println("비정상입력입니다.");
+				}
+				
+			}
 			// 1차 요구사항 - 수강 철회 기능 추가
 			System.out.println("\n\n수강을 철회할 과목번호를 입력해주세요. 현재 수강 학점은 "+loginUser.myCredit+"학점입니다. (최대 수강 학점: "+User.MAX_CREDIT+"학점)\n※ 'q'를 입력한 경우 메인메뉴로 돌아갑니다.\n\n");
 			System.out.print("과목번호 입력 : ");
@@ -394,10 +322,8 @@ public class TimeTableManager {
 
 			//lecturelist의 lecture의 수강신청 인원 업데이트 - 수강신청 인원 감소
 			filereader.lecturelist.get(input).minusLectureCnum();
-			
 			//lecture_list 현재 수강신청 인원 업데이트 - 수강신청 인원 감소
 			filereader.updateLectureFile2(input);
-			
 			// 수강철회 완료
 			System.out.println("수강철회가 완료되었습니다.");
 //			System.out.println("학점: "+loginUser.myCredit);
@@ -413,7 +339,8 @@ public class TimeTableManager {
 			// 강의 목록 출력
 			filereader.printLectureList();
 
-			System.out.println("\n\n수강신청할 과목번호를 입력해주세요\n※ 'q'를 입력한 경우 메인메뉴로 돌아갑니다.\n\n");
+			System.out.printf("\n\n수강신청할 과목번호를 입력해주세요(수강학점 :%d/18)",loginUser.myCredit);
+			System.out.println("※ 'q'를 입력한 경우 메인메뉴로 돌아갑니다.\n\n");
 			System.out.print("과목번호 입력 : ");
 			input = scan.nextLine().strip();
 

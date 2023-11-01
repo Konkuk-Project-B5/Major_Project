@@ -26,9 +26,9 @@ public class LectureFileReader {
 
 			while ((line = br.readLine()) != null) {
 
-				String[] parts = line.split(" "); // 탭으로 문자열을 분할
+				String[] parts = line.split(" "); // 스페이스바로 문자열을 분할
 				
-				if (parts.length >= 7) {
+				if (parts.length >= 8) {
 					Lecture lec = new Lecture();
 					lec.lectureCode = parts[0].trim();
 					lec.lectureName = parts[1].trim();
@@ -39,7 +39,7 @@ public class LectureFileReader {
 					lec.lectureCnum = parts[6].trim();
 					lec.lectureMnum = parts[7].trim();
 					// 1차 요구사항 - 강의 학점 임시 초기화
-					lec.lectureCredit = "3";
+					lec.lectureCredit = parts[8].trim();
 					lecturelist.put(parts[0].trim(), lec);
 				}
 
@@ -52,7 +52,7 @@ public class LectureFileReader {
 
 	public void printLectureList() {
 		System.out.println("강의목록");
-		System.out.printf("%-10s %-20s %-20s %-20s%n", "과목번호", "교과목명", "강의시간", "현재수강인원 / 최대수강인원 \t");
+		System.out.printf("%-10s %-20s %-20s %-18s %10s%n", "과목번호", "교과목명", "강의시간", "현재수강인원 / 최대수강인원","학점");
 		Collection<Lecture> values = lecturelist.values();
 		for (Lecture value : values) {
 			value.printLectureList();
@@ -120,4 +120,48 @@ public class LectureFileReader {
 	        System.out.println("파일 쓰기 오류 발생.");
 	    }
 	}
+
+
+public void updateLectureFile2(String lectureNum) {
+    // 임시로 수정된 데이터를 저장할 리스트
+    List<String> updatedData = new ArrayList<>();
+
+    try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+        String line;
+
+        while ((line = br.readLine()) != null) {
+            String[] parts = line.split(" "); // 공백으로 문자열을 분할
+            if (parts.length >= 7) {
+                if (parts[0].trim().equals(lectureNum)) {
+                    int val = Integer.parseInt(parts[6].trim());
+                    if (val > 0) {
+                        val--;
+                    }
+
+                    parts[6] = Integer.toString(val);
+                    // 수정된 줄을 리스트에 추가
+                    updatedData.add(String.join(" ", parts));
+                } else {
+                    // 수정하지 않은 줄은 그대로 리스트에 추가
+                    updatedData.add(line);
+                }
+            }
+        }
+    } catch (IOException e) {
+        e.printStackTrace();
+        System.out.println("파일을 찾을 수 없습니다.");
+        return;
+    }
+
+    // 파일에 수정된 데이터를 다시 씀
+    try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
+        for (String updatedLine : updatedData) {
+            bw.write(updatedLine);
+            bw.newLine(); 
+        }
+    } catch (IOException e) {
+        e.printStackTrace();
+        System.out.println("파일 쓰기 오류 발생.");
+    }
+}
 }

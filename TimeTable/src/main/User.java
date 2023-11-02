@@ -2,6 +2,7 @@ package main;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 public class User {
 	
@@ -21,22 +22,22 @@ public class User {
 		this.FILEPATH = "./"+id+".txt";
 		this.myCredit = 0;
 	}
-
 	
 	public boolean printMyList() {
 		if (myLectureList.isEmpty()) {
 			return false;
 		} else {
+			Collections.sort(myLectureList);
 			System.out.println("수강신청내역");
 			System.out.printf("%-10s %-10s %-10s %-20s\n", "과목번호", "교과목명", "학점","강의시간");
 			for (Lecture value : myLectureList) {
 				value.printMyLectureList();
-			}
-			System.out.println();
-			System.out.println(id);
-//			System.out.println(myLectureList.size());
-			return true;
+		  }
+		  System.out.println();
+		  System.out.println(id);
+      
+		  return true;
 		}
-	}
-	
+  }
+  
 }

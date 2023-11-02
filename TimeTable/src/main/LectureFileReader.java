@@ -59,28 +59,6 @@ public class LectureFileReader {
 		}
 	}
 	
-//	public void printLectureList(String key) {      
-//        HashMap<String, Object> secondHashMap = lecturelist.get(key);
-//        String lectureName = (String) secondHashMap.get("name");
-//
-//        String day1 = (String) secondHashMap.get("day1");
-//        String day2 = (String) secondHashMap.get("day2");
-//        String stime = (String) secondHashMap.get("stime");
-//        String etime = (String) secondHashMap.get("otime");
-//        // 현재수강인원 / 최대수강인원 형식으로 출력하고 공백을 추가하여 맞춤
-//        String enrollment = " ";
-//
-//
-//
-//        if (day2.isEmpty()) {// 요일 한개
-//            String time = String.format("%s %s-%s", day1, stime, etime);
-//            System.out.printf("%-10s %-20s %-20s %-20s%n", key, lectureName, time, enrollment);
-//        } else {// 요일 두개
-//            String time = String.format("%s %s-%s, %s %s-%s", day1, stime, etime, day2, stime, etime);
-//            System.out.printf("%-10s %-20s %-20s %-20s%n", key, lectureName, time, enrollment);
-//        }
-//    }
-
 	public void updateLectureFile(String lectureNum) {
 	    // 임시로 수정된 데이터를 저장할 리스트
 	    List<String> updatedData = new ArrayList<>();
@@ -175,5 +153,5 @@ public class LectureFileReader {
 	        System.out.println("파일 쓰기 오류 발생.");
 	    }
 	}
-
+	
 }

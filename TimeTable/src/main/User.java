@@ -24,10 +24,9 @@ public class User {
 
 	
 	public boolean printMyList() {
-		
-		if(myLectureList.isEmpty()) {
+		if (myLectureList.isEmpty()) {
 			return false;
-		}else {
+		} else {
 			System.out.println("수강신청내역");
 			System.out.printf("%-10s %-10s %-10s %-20s\n", "과목번호", "교과목명", "학점","강의시간");
 			for (Lecture value : myLectureList) {
@@ -35,10 +34,9 @@ public class User {
 			}
 			System.out.println();
 			System.out.println(id);
-			System.out.println(myLectureList.size());
+//			System.out.println(myLectureList.size());
 			return true;
 		}
+	}
 	
-
-}
 }

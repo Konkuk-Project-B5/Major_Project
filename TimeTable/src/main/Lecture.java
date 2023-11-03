@@ -88,8 +88,6 @@ public class Lecture implements Comparable<Lecture> {
 		this.lectureCnum = Integer.toString(++n);
 	}
 
-	
-
 	public void minusLectureCnum() {
 		int n = getLectureCnum();
 		this.lectureCnum = Integer.toString(--n);
@@ -105,26 +103,19 @@ public class Lecture implements Comparable<Lecture> {
 		return Mnum;
 	}
 
-	
-	
 	public void printLectureList() {
-		
+		String enrollment = String.format("%s / %s", lectureCnum, lectureMnum);
 
-			String enrollment = String.format("%s / %s", lectureCnum, lectureMnum);
-
-			if (lectureDay2.isEmpty()) {// 요일 한개
-				String time = String.format("%s %s-%s", lectureDay1, lectureStime, lectureOtime);
-				System.out.printf("%-10s %-20s %-20s %-20s %10s%n", lectureCode, lectureName, time, enrollment,lectureCredit);
-			} else {// 요일 두개
-				String time = String.format("%s %s-%s, %s %s-%s", lectureDay1, lectureStime, lectureOtime, lectureDay2, lectureStime, lectureOtime);
-				System.out.printf("%-10s %-20s %-20s %-20s %10s%n", lectureCode, lectureName, time, enrollment,lectureCredit);
-			}
-
+		if (lectureDay2.isEmpty()) {// 요일 한개
+			String time = String.format("%s %s-%s", lectureDay1, lectureStime, lectureOtime);
+			System.out.printf("%-10s %-20s %-20s %-20s %10s%n", lectureCode, lectureName, time, enrollment,lectureCredit);
+		} else {// 요일 두개
+			String time = String.format("%s %s-%s, %s %s-%s", lectureDay1, lectureStime, lectureOtime, lectureDay2, lectureStime, lectureOtime);
+			System.out.printf("%-10s %-20s %-20s %-20s %10s%n", lectureCode, lectureName, time, enrollment,lectureCredit);
 		}
+	}
+	
 	public void printMyLectureList() {
-		
-
-
 		if (lectureDay2.isEmpty()) {// 요일 한개
 			String time = String.format("%s %s-%s", lectureDay1, lectureStime, lectureOtime);
 			System.out.printf("%-10s %-10s %-10s %-20s%n", lectureCode, lectureName ,lectureCredit,time);
@@ -135,6 +126,6 @@ public class Lecture implements Comparable<Lecture> {
 
 	}
 
-	}
+}
 
 

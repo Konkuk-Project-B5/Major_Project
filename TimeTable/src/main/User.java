@@ -23,22 +23,21 @@ public class User {
 		this.myCredit = 0;
 	}
 	
-	
 	public boolean printMyList() {
-		
-		if(myLectureList.isEmpty()) {
+		if (myLectureList.isEmpty()) {
 			return false;
-		}else {
+		} else {
 			Collections.sort(myLectureList);
 			System.out.println("수강신청내역");
 			System.out.printf("%-10s %-10s %-10s %-20s\n", "과목번호", "교과목명", "학점","강의시간");
 			for (Lecture value : myLectureList) {
 				value.printMyLectureList();
-			}
-			System.out.println();
-			System.out.println(id);
-			return true;
+		  }
+		  System.out.println();
+		  System.out.println(id);
+      
+		  return true;
 		}
-
-}
+  }
+  
 }

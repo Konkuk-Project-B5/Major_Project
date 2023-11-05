@@ -85,12 +85,20 @@ public class Lecture implements Comparable<Lecture> {
 
 	public void plusLectureCnum() {
 		int n = getLectureCnum();
-		this.lectureCnum = Integer.toString(++n);
+		if(n < 10) {
+			this.lectureCnum = "0" +Integer.toString(++n);
+		} else
+			this.lectureCnum = Integer.toString(++n);
+		
 	}
 
 	public void minusLectureCnum() {
 		int n = getLectureCnum();
-		this.lectureCnum = Integer.toString(--n);
+		if(n < 10) {
+			this.lectureCnum = "0" +Integer.toString(--n);
+		} else
+			this.lectureCnum = Integer.toString(--n);
+		
 	}
 
 	public int getLectureMnum() {

@@ -185,6 +185,30 @@ public class TimeTableManager {
 			return;
 		}
 		if (isIdPwMatch(inputidpw[0],inputidpw[1])) {
+			try {
+				File student_file = new File("./"+inputidpw[0]+".txt");
+			    // 입력 스트림 생성
+			    FileReader filereader = new FileReader(student_file);
+			    // 입력 버퍼 생성
+			    BufferedReader student_bufReader = new BufferedReader(filereader);
+			    String line = "";
+			    
+				while ((line = student_bufReader.readLine()) != null) { boolean result =
+				line.matches(
+				"^\\d{3}$"
+				); if (result == false) { System.out.println("오류 : 데이터 파일이 손상되었습니다.");
+				System.out.println("프로그램을 종료합니다."); System.exit(0); } }
+				 
+			    student_bufReader.close();	
+			}
+		    catch (FileNotFoundException e) {
+			    System.out.println("오류 : 올바른 경로에 데이터 파일이 존재하지 않습니다.");
+			    System.out.println("프로그램을 종료합니다.");
+			    System.exit(0);
+			} catch (IOException e) {
+			    System.out.println(e);
+			    System.exit(0);
+			}
 			loginUser = new User(inputidpw[0], inputidpw[1]);
 			System.out.println("로그인을 완료했습니다.");
 			initUserLectureList();

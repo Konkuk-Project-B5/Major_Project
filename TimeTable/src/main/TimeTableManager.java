@@ -30,13 +30,13 @@ public class TimeTableManager {
 		    // 입력 버퍼 생성
 		    BufferedReader lecture_list_bufReader = new BufferedReader(filereader);
 		    String line = "";
-		    /*
-			 * while ((line = lecture_list_bufReader.readLine()) != null) { boolean result =
-			 * line.matches(
-			 * "^\\d{3}\s[가-힣]+\s(([월|화|수|목|금]{1}\s\s)|((월|화|수|목|금){1}\s){2})\\d{2}\s\\d{2}\s\\d{2}\s\\d{2}$"
-			 * ); if (result == false) { System.out.println("오류 : 데이터 파일이 손상되었습니다.");
-			 * System.out.println("프로그램을 종료합니다."); System.exit(0); } }
-			 */
+		    
+			while ((line = lecture_list_bufReader.readLine()) != null) { boolean result =
+			line.matches(
+			"^\\d{3}\s[가-힣]+[0-9]*\s(([월|화|수|목|금]{1}\s\s)|((월|화|수|목|금){1}\s){2})\\d{2}\s\\d{2}\s\\d{2}\s\\d{2}\s\\d{1}$"
+			); if (result == false) { System.out.println("오류 : 데이터 파일이 손상되었습니다.");
+			System.out.println("프로그램을 종료합니다."); System.exit(0); } }
+			 
 		    lecture_list_bufReader.close();
 		    File user_file = new File("./user.txt");
 		    FileReader user_filereader = new FileReader(user_file);

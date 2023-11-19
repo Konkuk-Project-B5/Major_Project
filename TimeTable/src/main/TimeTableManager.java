@@ -12,6 +12,18 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class TimeTableManager {
+	
+	/*
+	 * 2차 요구사항
+	 * 
+	 * '강의실' 개념 
+	 * '교강사' 개념
+	 * 이미 A 학점 이상을 받았던 과목은 재수강할 수 없음.
+	 * 신청한 강의 목록을 '강의 일시 순'으로 정렬해서 표시
+	 * 
+	 * 이전년도 수강했던 과목 조회 기능
+	 * - 메인메뉴 수정. 수강기록 조회 메소드 추가.
+	 * */
 
 	private static Scanner scan = new Scanner(System.in);
 	private User loginUser; // 로그인한 사용자 정보 저장용 User 객체
@@ -268,7 +280,7 @@ public class TimeTableManager {
 
 		while (true) {
 			System.out.println("[메인 메뉴] 실행할 메뉴를 선택하세요");
-			System.out.println("1. 수강신청하기\n2. 시간표조회하기\n3. 로그아웃\n4. 종료하기");
+			System.out.println("1. 수강신청하기\n2. 시간표조회하기\n3. 수강기록조회하기\n4. 로그아웃\n5. 종료하기");
 			System.out.print("선택: ");
 
 			input = scan.nextLine().strip();
@@ -284,14 +296,20 @@ public class TimeTableManager {
 					// 시간표 조회 메소드 실행
 					showTimeTable();
 					break;
+				// 2차 요구 사항 - 수강했던 과목 조회
 				case "3":
+				case "수강기록조회하기":
+					// 수강기록 조회 메소드 실행
+					showPastTimeTable();
+					break;
+				case "4":
 				case "로그아웃":
 					// 로그아웃
 					System.out.println("로그아웃이 완료되었습니다.");
 					screen();
 					menuinput();
 					return;
-				case "4":
+				case "5":
 				case "종료하기":
 					// 프로그램 종료
 					System.out.println("프로그램을 종료합니다.");
@@ -303,12 +321,17 @@ public class TimeTableManager {
 			}
 		}
 	}
+	
+	// 수강기록 조회 메소드
+	private void showPastTimeTable() {
+		// 학점 받았던 과목 출력
+	}
 
 	// 시간표 조회 메소드
 	private void showTimeTable() {
 		String input = null;
 		
-		while(true) {
+		while (true) {
 			if (!loginUser.printMyList()) {
 				System.out.println();
 				System.out.println("수강신청한 교과목이 없습니다.");

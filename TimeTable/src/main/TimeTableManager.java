@@ -91,7 +91,7 @@ public class TimeTableManager {
 		loginUser = new User(id, password);
 		
 		// 학번.txt에서 과목번호 읽고 loginUser의 myLectureList 초기화
-		initUserLectureList();		
+		//initUserLectureList();		
 		
 		// 로그인 완료 후 메인 메뉴로 이동
 		System.out.println("로그인을 완료하였습니다.");
@@ -99,30 +99,30 @@ public class TimeTableManager {
 	}
 	
 	// loginUser의 myLectureList 초기화 메소드
-	private void initUserLectureList() {
-		try {
-			reader = new BufferedReader(new FileReader(loginUser.FILEPATH));
+	// private void initUserLectureList() {
+	// 	try {
+	// 		reader = new BufferedReader(new FileReader(loginUser.FILEPATH));
 			
-			loginUser.myLectureList = new ArrayList<String>();
-			String lectureNum = null;
-			while((lectureNum = reader.readLine()) != null) {
-				loginUser.myLectureList.add(lectureNum);
-			}
+	// 		loginUser.myLectureList = new ArrayList<String>();
+	// 		String lectureNum = null;
+	// 		while((lectureNum = reader.readLine()) != null) {
+	// 			loginUser.myLectureList.add(lectureNum);
+	// 		}
 			
 //			//확인용
 //			for(String l : loginUser.lectureList)
 //				System.out.println(l);
 			
-			reader.close();
+		//	reader.close();
 			
-		} catch (FileNotFoundException e) {
+	//	} catch (FileNotFoundException e) {
 //			System.out.println(loginUser.FILEPATH+": 파일 존재하지 않음");
-			System.exit(0); // 오류 발생시 프로그램 종료
-		} catch (IOException e) {
+	//		System.exit(0); // 오류 발생시 프로그램 종료
+	///	} catch (IOException e) {
 //			System.out.println(loginUser.FILEPATH+": 읽기 실패");
-			System.exit(0); // 오류 발생시 프로그램 종료
-		}
-	}
+		//	System.exit(0); // 오류 발생시 프로그램 종료
+//		}
+//	}
 
 	// 회원가입 메소드
 	private void register() {
@@ -221,29 +221,29 @@ public class TimeTableManager {
 			break;
 		}
 		
-		// 수강신청한 과목번호 loginUser의 myLectureList에 저장
-		loginUser.myLectureList.add(input);
+// 		// 수강신청한 과목번호 loginUser의 myLectureList에 저장
+// 		loginUser.myLectureList.add(input);
 										
-		// 학번.txt 파일 업데이트
-		updateIdFile();
+// 		// 학번.txt 파일 업데이트
+// 		updateIdFile();
 					
-		// 수강신청 완료
-		System.out.println("수강신청이 완료되었습니다.");
-	}
+// 		// 수강신청 완료
+// 		System.out.println("수강신청이 완료되었습니다.");
+// 	}
 	
-	// 학번.txt 파일 업데이트 메소드
-	private void updateIdFile() {
-		String content = "";
-		for(String lectureNum : loginUser.myLectureList)
-			content += lectureNum + "\n";
+// 	// 학번.txt 파일 업데이트 메소드
+// 	private void updateIdFile() {
+// 		String content = "";
+// 		for(String lectureNum : loginUser.myLectureList)
+// 			content += lectureNum + "\n";
 	
-		try {
-			writer = new BufferedWriter(new FileWriter(loginUser.FILEPATH));
-			writer.write(content);
-			writer.close();
-		} catch (IOException e) {
-//			System.out.println(loginUser.FILEPATH+": 쓰기 실패");
-			System.exit(0); // 오류 발생시 프로그램 종료
-		}
+// 		try {
+// 			writer = new BufferedWriter(new FileWriter(loginUser.FILEPATH));
+// 			writer.write(content);
+// 			writer.close();
+// 		} catch (IOException e) {
+// //			System.out.println(loginUser.FILEPATH+": 쓰기 실패");
+// 			System.exit(0); // 오류 발생시 프로그램 종료
+// 		}
 	}
 }

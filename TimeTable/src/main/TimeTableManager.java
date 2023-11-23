@@ -3,10 +3,12 @@ package main;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -40,14 +42,16 @@ public class TimeTableManager {
 		    // 입력 스트림 생성
 		    FileReader filereader = new FileReader(lecture_list_file);
 		    // 입력 버퍼 생성
-		    BufferedReader lecture_list_bufReader = new BufferedReader(filereader);
+		    BufferedReader lecture_list_bufReader = new BufferedReader(new InputStreamReader(new FileInputStream(lecture_list_file),"euc-kr"));
 		    String line = "";
-		    
-			while ((line = lecture_list_bufReader.readLine()) != null) { boolean result =
-			line.matches(
-			"^\\d{3}\s[가-힣]+[0-9]*\s(([월|화|수|목|금]{1}\s\s)|((월|화|수|목|금){1}\s){2})\\d{2}\s\\d{2}\s\\d{2}\s\\d{2}\s\\d{1}$"
-			); if (result == false) { System.out.println("오류 : 데이터 파일이 손상되었습니다.");
-			System.out.println("프로그램을 종료합니다."); System.exit(0); } }
+			while ((line = lecture_list_bufReader.readLine()) != null) { 
+				boolean result = line.matches(
+					"^\\d{3}\s[가-힣]+[0-9]*\s(((월|화|수|목|금){1}\s\s)|(((월|화|수|목|금){1}\s){2}))\\d{2}\s\\d{2}\s\\d{2}\s\\d{2}\s\\d{1}$"); 
+				if (result == false) { 
+					System.out.println("오류 : 데이터 파일이 손상되었습니다. lecture_list.txt");
+					System.out.println("프로그램을 종료합니다."); System.exit(0); 
+				} 
+			}
 			 
 		    lecture_list_bufReader.close();
 		    File user_file = new File("./user.txt");
@@ -57,7 +61,7 @@ public class TimeTableManager {
 		    while ((line = user_bufReader.readLine()) != null) {
 		        boolean result = line.matches("(201[0-9])|(202[0-3])[0-9]{5}\s[a-z0-9]{7,13}");
 		        if (result == false) {        
-		        	System.out.println("오류 : 데이터 파일이 손상되었습니다.");
+		        	System.out.println("오류 : 데이터 파일이 손상되었습니다. user.txt");
 				    System.out.println("프로그램을 종료합니다.");
 				    System.exit(0);
 		        }
@@ -106,6 +110,7 @@ public class TimeTableManager {
 			menuinput();
 		}
 	}
+
 	
 	// 회원가입 시 입력한 Id가 이미 존재하는지 검사 메소드
 	private boolean isID(String id) {

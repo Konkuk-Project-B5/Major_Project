@@ -29,7 +29,7 @@ public class TimeTableManager {
 	private User loginUser; // 로그인한 사용자 정보 저장용 User 객체
 	private BufferedReader reader; // 학번.txt 파일 입력
 	private BufferedWriter writer; // 학번.txt 파일 출력
-	private LectureFileReader filereader; // filereader 객체
+	private myFileReader filereader; // filereader 객체
 
 	// 생성자
 	public TimeTableManager() {
@@ -73,7 +73,7 @@ public class TimeTableManager {
 		}
 
 		// 객체 초기화
-		filereader = new LectureFileReader("./lecture_list.txt");
+		filereader = new myFileReader("./lecture_list.txt", "./lecturer.txt", "./lecture_room.txt");
 
 		// 검사 후 프로그램 실행, 로그인/회원가입 메뉴 출력
 		System.out.println("[수강신청 프로그램]");

@@ -256,8 +256,8 @@ public class TimeTableManager {
 			reader.close();
 		} catch (FileNotFoundException e) {
 //			System.out.println(loginUser.FILEPATH+": 파일 존재하지 않음");
-			System.exit(0); // 오류 발생시 프로그램 종료
-		} catch (IOException e) {
+	//		System.exit(0); // 오류 발생시 프로그램 종료
+	///	} catch (IOException e) {
 //			System.out.println(loginUser.FILEPATH+": 읽기 실패");
 			System.exit(0); // 오류 발생시 프로그램 종료
 		}

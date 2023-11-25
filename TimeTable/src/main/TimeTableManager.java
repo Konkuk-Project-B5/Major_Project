@@ -12,12 +12,24 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class TimeTableManager {
+	
+	/*
+	 * 2차 요구사항
+	 * 
+	 * '강의실' 개념 
+	 * '교강사' 개념
+	 * 이미 A 학점 이상을 받았던 과목은 재수강할 수 없음.
+	 * 신청한 강의 목록을 '강의 일시 순'으로 정렬해서 표시
+	 * 
+	 * 이전년도 수강했던 과목 조회 기능
+	 * - 메인메뉴 수정. 수강기록 조회 메소드 추가.
+	 * */
 
 	private static Scanner scan = new Scanner(System.in);
 	private User loginUser; // 로그인한 사용자 정보 저장용 User 객체
 	private BufferedReader reader; // 학번.txt 파일 입력
 	private BufferedWriter writer; // 학번.txt 파일 출력
-	private LectureFileReader filereader; // filereader 객체
+	private myFileReader filereader; // filereader 객체
 
 	// 생성자
 	public TimeTableManager() {
@@ -30,13 +42,13 @@ public class TimeTableManager {
 		    // 입력 버퍼 생성
 		    BufferedReader lecture_list_bufReader = new BufferedReader(filereader);
 		    String line = "";
-		    /*
-			 * while ((line = lecture_list_bufReader.readLine()) != null) { boolean result =
-			 * line.matches(
-			 * "^\\d{3}\s[가-힣]+\s(([월|화|수|목|금]{1}\s\s)|((월|화|수|목|금){1}\s){2})\\d{2}\s\\d{2}\s\\d{2}\s\\d{2}$"
-			 * ); if (result == false) { System.out.println("오류 : 데이터 파일이 손상되었습니다.");
-			 * System.out.println("프로그램을 종료합니다."); System.exit(0); } }
-			 */
+		    
+			while ((line = lecture_list_bufReader.readLine()) != null) { boolean result =
+			line.matches(
+			"^\\d{3}\s[가-힣]+[0-9]*\s(([월|화|수|목|금]{1}\s\s)|((월|화|수|목|금){1}\s){2})\\d{2}\s\\d{2}\s\\d{2}\s\\d{2}\s\\d{1}$"
+			); if (result == false) { System.out.println("오류 : 데이터 파일이 손상되었습니다.");
+			System.out.println("프로그램을 종료합니다."); System.exit(0); } }
+			 
 		    lecture_list_bufReader.close();
 		    File user_file = new File("./user.txt");
 		    FileReader user_filereader = new FileReader(user_file);
@@ -61,7 +73,7 @@ public class TimeTableManager {
 		}
 
 		// 객체 초기화
-		filereader = new LectureFileReader("./lecture_list.txt");
+		filereader = new myFileReader("./lecture_list.txt", "./lecturer.txt", "./lecture_room.txt");
 
 		// 검사 후 프로그램 실행, 로그인/회원가입 메뉴 출력
 		System.out.println("[수강신청 프로그램]");
@@ -185,6 +197,30 @@ public class TimeTableManager {
 			return;
 		}
 		if (isIdPwMatch(inputidpw[0],inputidpw[1])) {
+			try {
+				File student_file = new File("./"+inputidpw[0]+".txt");
+			    // 입력 스트림 생성
+			    FileReader filereader = new FileReader(student_file);
+			    // 입력 버퍼 생성
+			    BufferedReader student_bufReader = new BufferedReader(filereader);
+			    String line = "";
+			    
+				while ((line = student_bufReader.readLine()) != null) { boolean result =
+				line.matches(
+				"^\\d{3}$"
+				); if (result == false) { System.out.println("오류 : 데이터 파일이 손상되었습니다.");
+				System.out.println("프로그램을 종료합니다."); System.exit(0); } }
+				 
+			    student_bufReader.close();	
+			}
+		    catch (FileNotFoundException e) {
+			    System.out.println("오류 : 올바른 경로에 데이터 파일이 존재하지 않습니다.");
+			    System.out.println("프로그램을 종료합니다.");
+			    System.exit(0);
+			} catch (IOException e) {
+			    System.out.println(e);
+			    System.exit(0);
+			}
 			loginUser = new User(inputidpw[0], inputidpw[1]);
 			System.out.println("로그인을 완료했습니다.");
 			initUserLectureList();
@@ -220,8 +256,8 @@ public class TimeTableManager {
 			reader.close();
 		} catch (FileNotFoundException e) {
 //			System.out.println(loginUser.FILEPATH+": 파일 존재하지 않음");
-			System.exit(0); // 오류 발생시 프로그램 종료
-		} catch (IOException e) {
+	//		System.exit(0); // 오류 발생시 프로그램 종료
+	///	} catch (IOException e) {
 //			System.out.println(loginUser.FILEPATH+": 읽기 실패");
 			System.exit(0); // 오류 발생시 프로그램 종료
 		}
@@ -244,7 +280,7 @@ public class TimeTableManager {
 
 		while (true) {
 			System.out.println("[메인 메뉴] 실행할 메뉴를 선택하세요");
-			System.out.println("1. 수강신청하기\n2. 시간표조회하기\n3. 로그아웃\n4. 종료하기");
+			System.out.println("1. 수강신청하기\n2. 시간표조회하기\n3. 수강기록조회하기\n4. 로그아웃\n5. 종료하기");
 			System.out.print("선택: ");
 
 			input = scan.nextLine().strip();
@@ -260,14 +296,20 @@ public class TimeTableManager {
 					// 시간표 조회 메소드 실행
 					showTimeTable();
 					break;
+				// 2차 요구 사항 - 수강했던 과목 조회
 				case "3":
+				case "수강기록조회하기":
+					// 수강기록 조회 메소드 실행
+					showPastTimeTable();
+					break;
+				case "4":
 				case "로그아웃":
 					// 로그아웃
 					System.out.println("로그아웃이 완료되었습니다.");
 					screen();
 					menuinput();
 					return;
-				case "4":
+				case "5":
 				case "종료하기":
 					// 프로그램 종료
 					System.out.println("프로그램을 종료합니다.");
@@ -279,12 +321,17 @@ public class TimeTableManager {
 			}
 		}
 	}
+	
+	// 수강기록 조회 메소드
+	private void showPastTimeTable() {
+		// 학점 받았던 과목 출력
+	}
 
 	// 시간표 조회 메소드
 	private void showTimeTable() {
 		String input = null;
 		
-		while(true) {
+		while (true) {
 			if (!loginUser.printMyList()) {
 				System.out.println();
 				System.out.println("수강신청한 교과목이 없습니다.");

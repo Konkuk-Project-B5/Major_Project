@@ -7,7 +7,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -22,61 +21,56 @@ public class TimeTableManager {
 	 * 이미 A 학점 이상을 받았던 과목은 재수강할 수 없음.
 	 * 신청한 강의 목록을 '강의 일시 순'으로 정렬해서 표시
 	 * 
+	 * 이전년도 수강했던 과목 조회 기능
+	 * - 메인메뉴 수정. 수강기록 조회 메소드 추가.
 	 * */
-	
+
 	private static Scanner scan = new Scanner(System.in);
 	private User loginUser; // 로그인한 사용자 정보 저장용 User 객체
 	private BufferedReader reader; // 학번.txt 파일 입력
 	private BufferedWriter writer; // 학번.txt 파일 출력
 	private myFileReader filereader; // filereader 객체
 
-	// 2차 요구사항 - 현재 날짜 추가
-	private LocalDate date;
-	
 	// 생성자
 	public TimeTableManager() {
-		// 2차 요구사항 - 현재 날짜 초기화
-		date = LocalDate.now();
-		// System.out.println(date.getYear()+" "+date.getMonthValue());
-		
 		// 파일 무결성 검사
-//		try {
-//			// 파일 객체 생성
-//		    File lecture_list_file = new File("./lecture_list.txt");
-//		    // 입력 스트림 생성
-//		    FileReader filereader = new FileReader(lecture_list_file);
-//		    // 입력 버퍼 생성
-//		    BufferedReader lecture_list_bufReader = new BufferedReader(filereader);
-//		    String line = "";
-//		    
-//			while ((line = lecture_list_bufReader.readLine()) != null) { boolean result =
-//			line.matches(
-//			"^\\d{3}\s[가-힣]+[0-9]*\s(([월|화|수|목|금]{1}\s\s)|((월|화|수|목|금){1}\s){2})\\d{2}\s\\d{2}\s\\d{2}\s\\d{2}\s\\d{1}$"
-//			); if (result == false) { System.out.println("오류 : 데이터 파일이 손상되었습니다.");
-//			System.out.println("프로그램을 종료합니다."); System.exit(0); } }
-//			 
-//		    lecture_list_bufReader.close();
-//		    File user_file = new File("./user.txt");
-//		    FileReader user_filereader = new FileReader(user_file);
-//		    BufferedReader user_bufReader = new BufferedReader(user_filereader);
-//		    line = "";
-//		    while ((line = user_bufReader.readLine()) != null) {
-//		        boolean result = line.matches("(201[0-9])|(202[0-3])[0-9]{5}\s[a-z0-9]{7,13}");
-//		        if (result == false) {        
-//		        	System.out.println("오류 : 데이터 파일이 손상되었습니다.");
-//				    System.out.println("프로그램을 종료합니다.");
-//				    System.exit(0);
-//		        }
-//		    }		    
-//		    user_bufReader.close();
-//		} catch (FileNotFoundException e) {
-//		    System.out.println("오류 : 올바른 경로에 데이터 파일이 존재하지 않습니다.");
-//		    System.out.println("프로그램을 종료합니다.");
-//		    System.exit(0);
-//		} catch (IOException e) {
-//		    System.out.println(e);
-//		    System.exit(0);
-//		}
+		try {
+			// 파일 객체 생성
+		    File lecture_list_file = new File("./lecture_list.txt");
+		    // 입력 스트림 생성
+		    FileReader filereader = new FileReader(lecture_list_file);
+		    // 입력 버퍼 생성
+		    BufferedReader lecture_list_bufReader = new BufferedReader(filereader);
+		    String line = "";
+		    
+			while ((line = lecture_list_bufReader.readLine()) != null) { boolean result =
+			line.matches(
+			"^\\d{3}\s[가-힣]+[0-9]*\s(([월|화|수|목|금]{1}\s\s)|((월|화|수|목|금){1}\s){2})\\d{2}\s\\d{2}\s\\d{2}\s\\d{2}\s\\d{1}$"
+			); if (result == false) { System.out.println("오류 : 데이터 파일이 손상되었습니다.");
+			System.out.println("프로그램을 종료합니다."); System.exit(0); } }
+			 
+		    lecture_list_bufReader.close();
+		    File user_file = new File("./user.txt");
+		    FileReader user_filereader = new FileReader(user_file);
+		    BufferedReader user_bufReader = new BufferedReader(user_filereader);
+		    line = "";
+		    while ((line = user_bufReader.readLine()) != null) {
+		        boolean result = line.matches("(201[0-9])|(202[0-3])[0-9]{5}\s[a-z0-9]{7,13}");
+		        if (result == false) {        
+		        	System.out.println("오류 : 데이터 파일이 손상되었습니다.");
+				    System.out.println("프로그램을 종료합니다.");
+				    System.exit(0);
+		        }
+		    }		    
+		    user_bufReader.close();
+		} catch (FileNotFoundException e) {
+		    System.out.println("오류 : 올바른 경로에 데이터 파일이 존재하지 않습니다.");
+		    System.out.println("프로그램을 종료합니다.");
+		    System.exit(0);
+		} catch (IOException e) {
+		    System.out.println(e);
+		    System.exit(0);
+		}
 
 		// 객체 초기화
 		filereader = new myFileReader("./lecture_list.txt", "./lecturer.txt", "./lecture_room.txt");
@@ -121,11 +115,10 @@ public class TimeTableManager {
 			String line="";
 			while ((line=br.readLine())!= null) {
 				String[] idpw = line.split(" ");
-				if (idpw[0].equals(id)) {
-					br.close();
+				if (idpw[0].equals(id))
 					return true;
-				}
 			}
+			br.close();
 		}catch(Exception e) {
 			System.out.println("파일 읽기 실패");
 		}
@@ -140,11 +133,10 @@ public class TimeTableManager {
 			String line="";
 			while ((line=br.readLine())!= null) {
 				String[] idpw = line.split(" ");
-				if (idpw[0].equals(id)&&idpw[1].equals(pw)) {
-					br.close();
+				if (idpw[0].equals(id)&&idpw[1].equals(pw))
 					return true;
-				}
 			}
+			br.close();
 		} catch (Exception e) {
 			System.out.println("파일 읽기 실패");
 		}
@@ -205,34 +197,30 @@ public class TimeTableManager {
 			return;
 		}
 		if (isIdPwMatch(inputidpw[0],inputidpw[1])) {
-//			try {
-//				File student_file = new File("./"+inputidpw[0]+".txt");
-//			    // 입력 스트림 생성
-//			    FileReader filereader = new FileReader(student_file);
-//			    // 입력 버퍼 생성
-//			    BufferedReader student_bufReader = new BufferedReader(filereader);
-//			    String line = "";
-//			    
-//				while ((line = student_bufReader.readLine()) != null) {
-//					// 정규식 수정 필요
-//					boolean result = line.matches("^\\d{3}$"); 
-//					if (result == false) { 
-//						System.out.println("오류 : 데이터 파일이 손상되었습니다.");
-//						System.out.println("프로그램을 종료합니다."); 
-//						System.exit(0); 
-//					} 
-//				}
-//				 
-//			    student_bufReader.close();	
-//			}
-//		    catch (FileNotFoundException e) {
-//			    System.out.println("오류 : 올바른 경로에 데이터 파일이 존재하지 않습니다.");
-//			    System.out.println("프로그램을 종료합니다.");
-//			    System.exit(0);
-//			} catch (IOException e) {
-//			    System.out.println(e);
-//			    System.exit(0);
-//			}
+			try {
+				File student_file = new File("./"+inputidpw[0]+".txt");
+			    // 입력 스트림 생성
+			    FileReader filereader = new FileReader(student_file);
+			    // 입력 버퍼 생성
+			    BufferedReader student_bufReader = new BufferedReader(filereader);
+			    String line = "";
+			    
+				while ((line = student_bufReader.readLine()) != null) { boolean result =
+				line.matches(
+				"^\\d{3}$"
+				); if (result == false) { System.out.println("오류 : 데이터 파일이 손상되었습니다.");
+				System.out.println("프로그램을 종료합니다."); System.exit(0); } }
+				 
+			    student_bufReader.close();	
+			}
+		    catch (FileNotFoundException e) {
+			    System.out.println("오류 : 올바른 경로에 데이터 파일이 존재하지 않습니다.");
+			    System.out.println("프로그램을 종료합니다.");
+			    System.exit(0);
+			} catch (IOException e) {
+			    System.out.println(e);
+			    System.exit(0);
+			}
 			loginUser = new User(inputidpw[0], inputidpw[1]);
 			System.out.println("로그인을 완료했습니다.");
 			initUserLectureList();
@@ -247,44 +235,29 @@ public class TimeTableManager {
 	}
 
 	// loginUser의 myLectureList 초기화 메소드
-	// 2차 요구사항 - loginUser의 myLectureList와 pastLectureList 초기화
 	private void initUserLectureList() {
 		try {
 			reader = new BufferedReader(new java.io.FileReader(loginUser.FILEPATH));
 
 			loginUser.myLectureList = new ArrayList<Lecture>();
-			loginUser.pastLectureList = new ArrayList<Lecture>();
-			String line = null;
-			while ((line = reader.readLine()) != null) {
+			String lectureNum = null;
+			while ((lectureNum = reader.readLine()) != null) {
 				
-				// 2차 요구사항 - 학번.txt에 저장된 강의 정보 가져옴
-				// 수강 연도, 과목 번호, 강의명, 학점, 등급 
-				String[] lectureInfo = line.split(" ");
-					
 				// filereader로부터 lecture 객체 가져옴
-				Lecture lecture = filereader.lecturelist.get(lectureInfo[1]);
+				Lecture lecture = filereader.lecturelist.get(lectureNum);
 				
-				// 2차 요구사항 - lecture 객체의 grade 초기화
-				lecture.grade = lectureInfo[4];
+				// loginUser의 myLectureList에 lecture 추가
+				loginUser.myLectureList.add(lecture);
 				
-				// 수강 연도가 현재 연도와 같으면  
-				if (lectureInfo[0].equals(Integer.toString(date.getYear()))) {
-					// loginUser의 myLectureList에 lecture 추가
-					loginUser.myLectureList.add(lecture);
-					
-					// loginUser의 myCredit에 lecture의 credit 추가
-					loginUser.myCredit += lecture.getLectureCredit();
-				} else {
-					// 다르면 pastLectureList에 추가
-					loginUser.pastLectureList.add(lecture);
-				}
+				// 1차 요구사항 - loginUser의 myCredit에 lecture의 credit 추가
+				loginUser.myCredit += lecture.getLectureCredit();
 			}
 
 			reader.close();
 		} catch (FileNotFoundException e) {
 //			System.out.println(loginUser.FILEPATH+": 파일 존재하지 않음");
-			System.exit(0); // 오류 발생시 프로그램 종료
-		} catch (IOException e) {
+	//		System.exit(0); // 오류 발생시 프로그램 종료
+	///	} catch (IOException e) {
 //			System.out.println(loginUser.FILEPATH+": 읽기 실패");
 			System.exit(0); // 오류 발생시 프로그램 종료
 		}
@@ -304,7 +277,7 @@ public class TimeTableManager {
 	// 수강신청 및 시간표 조회 (메인 메뉴) 출력 메소드
 	private void mainMenu() {
 		String input = null;
-		
+
 		while (true) {
 			System.out.println("[메인 메뉴] 실행할 메뉴를 선택하세요");
 			System.out.println("1. 수강신청하기\n2. 시간표조회하기\n3. 수강기록조회하기\n4. 로그아웃\n5. 종료하기");
@@ -550,10 +523,7 @@ public class TimeTableManager {
 			// 검사 통과시 break
 			break;
 		}
-		
-		// 2차 요구사항 - 수강신청한 과목의 등급 초기화
-		filereader.lecturelist.get(input).grade = "X";
-		
+
 		// 수강신청한 과목 loginUser의 myLectureList에 저장
 		loginUser.myLectureList.add(filereader.lecturelist.get(input));
 		
@@ -578,12 +548,8 @@ public class TimeTableManager {
 	private void updateIdFile() {
 		String content = "";
 		for (Lecture lecture : loginUser.myLectureList)
-			content += date.getYear() + " " + lecture.lectureCode + " " + lecture.lectureName + " " + lecture.lectureCredit + " " + lecture.grade + "\n";
-		
-		// 2차 요구사항 - 수강했던 강의 추가
-		for (Lecture lecture : loginUser.pastLectureList)
-			content += date.getYear() + " " + lecture.lectureCode + " " + lecture.lectureName + " " + lecture.lectureCredit + " " + lecture.grade + "\n";
-		
+			content += lecture.lectureCode + "\n";
+
 		try {
 			writer = new BufferedWriter(new FileWriter(loginUser.FILEPATH));
 			writer.write(content);

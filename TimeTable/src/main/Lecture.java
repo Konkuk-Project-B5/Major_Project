@@ -15,10 +15,7 @@ public class Lecture implements Comparable<Lecture> {
 	protected String lecturer; //2차요구사항 - 교강사 추가
 	protected String lectureRoomDay1;  //2차요구사항 - 강의실 추가
 	protected String lectureRoomDay2; //2차요구사항 - 강의실 추가
-	
-	// 2차 요구사항 - 등급 추가
-	String grade;
-	
+
 	// // Comparable 학번순 정렬 규칙
 	// @Override
 	// public int compareTo(Lecture other) {

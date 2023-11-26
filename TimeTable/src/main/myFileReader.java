@@ -12,7 +12,7 @@ import java.util.List;
 
 public class myFileReader {
 
-	private String filePath1 = "./lecture_list.txt";
+private String filePath1 = "./lecture_list.txt";
 	private String filePath2 = "./lecturer.txt";
 	private String filePath3 = "./lecture_room.txt";
 	public HashMap<String, Lecture> lecturelist = new HashMap<>();
@@ -34,7 +34,7 @@ public class myFileReader {
 			while ((line = br.readLine()) != null) {
 
 				String[] parts = line.split(" "); // 스페이스바로 문자열을 분할
-				
+
 				if (parts.length >= 2) {
 					Lecture_room lec = new Lecture_room(parts[0].trim(), parts[1].trim());
 					lectureRoomlist.put(parts[0].trim(), lec);
@@ -54,7 +54,7 @@ public class myFileReader {
 			while ((line = br.readLine()) != null) {
 
 				String[] parts = line.split(" "); // 스페이스바로 문자열을 분할
-				
+
 				if (parts.length >= 1) {
 					Lecturer lec = new Lecturer(parts[0].trim());
 					lecturerlist.put(parts[0].trim(), lec);
@@ -66,7 +66,6 @@ public class myFileReader {
 			System.out.println("파일을 찾을 수 없습니다,");
 		}
 	}
-
 	private void readLectureFile() {
 		try (BufferedReader br = new BufferedReader(new FileReader(filePath1))) {
 			String line;
@@ -74,7 +73,7 @@ public class myFileReader {
 			while ((line = br.readLine()) != null) {
 
 				String[] parts = line.split(" "); // 스페이스바로 문자열을 분할
-				
+
 				if (parts.length >= 13) {
 					Lecture lec = new Lecture();
 					lec.lectureCode = parts[0].trim();
@@ -107,7 +106,7 @@ public class myFileReader {
 		System.out.printf("%-10s %-20s %-20s %-18s %10s%n", "과목번호", "교과목명", "강의시간", "현재수강인원 / 최대수강인원","학점");
 		Collection<Lecture> values = lecturelist.values();
 		for (Lecture value : values) {
-			//value.printLectureList();
+			value.printLectureList();
 		}
 	}
 	
@@ -115,7 +114,7 @@ public class myFileReader {
 	    // 임시로 수정된 데이터를 저장할 리스트
 	    List<String> updatedData = new ArrayList<>();
 
-	    try (BufferedReader br = new BufferedReader(new FileReader(filePath1))) {
+	try (BufferedReader br = new BufferedReader(new FileReader(filePath1))) {
 	        String line;
 
 	        while ((line = br.readLine()) != null) {
@@ -162,7 +161,7 @@ public class myFileReader {
 	    // 임시로 수정된 데이터를 저장할 리스트
 	    List<String> updatedData = new ArrayList<>();
 
-	    try (BufferedReader br = new BufferedReader(new FileReader(filePath1))) {
+	try (BufferedReader br = new BufferedReader(new FileReader(filePath1))) {
 	        String line;
 
 	        while ((line = br.readLine()) != null) {

@@ -1,34 +1,38 @@
 package main;
 
 public class Lecture implements Comparable<Lecture> {
-
 	protected String lectureCode;
 	protected String lectureName;
 	protected String lectureCredit; // 1차 요구사항 - 강의 학점 추가
 	protected String lectureDay1;
 	protected String lectureDay2;
-	protected String lectureStime;
-	protected String lectureOtime;
+	protected String lectureDay1Stime;
+	protected String lectureDay1Otime;
+	protected String lectureDay2Stime;//2차요구사항 - 요일에 따라 강의 시간 다르게 가능
+	protected String lectureDay2Otime;
 	protected String lectureCnum;
 	protected String lectureMnum;
+	protected String lecturer; //2차요구사항 - 교강사 추가
+	protected String lectureRoomDay1;  //2차요구사항 - 강의실 추가
+	protected String lectureRoomDay2; //2차요구사항 - 강의실 추가
 
-	// Comparable 학번순 정렬 규칙
-	@Override
-	public int compareTo(Lecture other) {
-		return this.lectureCode.compareTo(other.lectureCode);
-	}
+	// // Comparable 학번순 정렬 규칙
+	// @Override
+	// public int compareTo(Lecture other) {
+	// 	return this.lectureCode.compareTo(other.lectureCode);
+	// }
 	
-	public Lecture() {
-		super();
-	}
+	// public Lecture() {
+	// 	super();
+	// }
 
-	public String getLectureCode() {
-		return lectureCode;
-	}
+	// public String getLectureCode() {
+	// 	return lectureCode;
+	// }
 
-	public String getLectureName() {
-		return lectureName;
-	}
+	// public String getLectureName() {
+	// 	return lectureName;
+	// }
 	
 	// 1차 요구사항 - 학점 getter
 	public int getLectureCredit() {
@@ -52,7 +56,7 @@ public class Lecture implements Comparable<Lecture> {
 	public int getLectureStime() {
 		int Stime = 0;
 		try {
-			 Stime = Integer.parseInt(lectureStime);
+		//	 Stime = Integer.parseInt(lectureStime);
 		} catch (NumberFormatException e) {
 			System.exit(0); // 오류 발생시 프로그램 종료
 		}
@@ -62,7 +66,7 @@ public class Lecture implements Comparable<Lecture> {
 	public int getLectureOtime() {
 		int Otime = 0;
 		try {
-			Otime = Integer.parseInt(lectureOtime);
+		//	Otime = Integer.parseInt(lectureOtime);
 		} catch (NumberFormatException e) {
 			System.exit(0); // 오류 발생시 프로그램 종료
 		}
@@ -115,23 +119,29 @@ public class Lecture implements Comparable<Lecture> {
 		String enrollment = String.format("%s / %s", lectureCnum, lectureMnum);
 
 		if (lectureDay2.isEmpty()) {// 요일 한개
-			String time = String.format("%s %s-%s", lectureDay1, lectureStime, lectureOtime);
-			System.out.printf("%-10s %-20s %-20s %-20s %10s%n", lectureCode, lectureName, time, enrollment,lectureCredit);
+		//	String time = String.format("%s %s-%s", lectureDay1, lectureStime, lectureOtime);
+		//	System.out.printf("%-10s %-20s %-20s %-20s %10s%n", lectureCode, lectureName, time, enrollment,lectureCredit);
 		} else {// 요일 두개
-			String time = String.format("%s %s-%s, %s %s-%s", lectureDay1, lectureStime, lectureOtime, lectureDay2, lectureStime, lectureOtime);
-			System.out.printf("%-10s %-20s %-20s %-20s %10s%n", lectureCode, lectureName, time, enrollment,lectureCredit);
+		//	String time = String.format("%s %s-%s, %s %s-%s", lectureDay1, lectureStime, lectureOtime, lectureDay2, lectureStime, lectureOtime);
+	//		System.out.printf("%-10s %-20s %-20s %-20s %10s%n", lectureCode, lectureName, time, enrollment,lectureCredit);
 		}
 	}
 	
 	public void printMyLectureList() {
 		if (lectureDay2.isEmpty()) {// 요일 한개
-			String time = String.format("%s %s-%s", lectureDay1, lectureStime, lectureOtime);
-			System.out.printf("%-10s %-10s %-10s %-20s%n", lectureCode, lectureName ,lectureCredit,time);
+	//		String time = String.format("%s %s-%s", lectureDay1, lectureStime, lectureOtime);
+	//		System.out.printf("%-10s %-10s %-10s %-20s%n", lectureCode, lectureName ,lectureCredit,time);
 		} else {// 요일 두개
-			String time = String.format("%s %s-%s, %s %s-%s", lectureDay1, lectureStime, lectureOtime, lectureDay2, lectureStime, lectureOtime);
-			System.out.printf("%-10s %-10s %-10s %-20s%n", lectureCode, lectureName,lectureCredit,time);
+	//		String time = String.format("%s %s-%s, %s %s-%s", lectureDay1, lectureStime, lectureOtime, lectureDay2, lectureStime, lectureOtime);
+		//	System.out.printf("%-10s %-10s %-10s %-20s%n", lectureCode, lectureName,lectureCredit,time);
 		}
 
+	}
+
+	@Override
+	public int compareTo(Lecture o) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'compareTo'");
 	}
 
 }

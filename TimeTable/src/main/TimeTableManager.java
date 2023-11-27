@@ -286,6 +286,7 @@ public class TimeTableManager {
 
 			loginUser.myLectureList = new ArrayList<Lecture>();
 			loginUser.pastLectureList = new ArrayList<Lecture>();
+			loginUser.pastLectureListYear = new ArrayList<Integer>();
 			String line = null;
 			while ((line = reader.readLine()) != null) {
 				
@@ -309,6 +310,7 @@ public class TimeTableManager {
 				} else {
 					// 다르면 pastLectureList에 추가
 					loginUser.pastLectureList.add(lecture);
+					loginUser.pastLectureListYear.add(Integer.parseInt(lectureInfo[0])); // 수강했던 강의 연도 저장
 				}
 			}
 
@@ -384,6 +386,15 @@ public class TimeTableManager {
 	// 수강기록 조회 메소드
 	private void showPastTimeTable() {
 		// 학점 받았던 과목 출력
+		String content="";
+		int count=0;
+		for (Lecture lecture : loginUser.pastLectureList) {
+			content += loginUser.pastLectureListYear.get(count) + " " + lecture.lectureCode + " " + lecture.lectureName + " " + lecture.lectureCredit + " " + lecture.grade + "\n";
+			count++;
+		}
+		System.out.println(content);
+		System.out.println("입력이 들어오는 경우 메인 메뉴로 돌아갑니다.\n");
+		scan.nextLine();
 	}
 
 	// 시간표 조회 메소드
@@ -609,12 +620,16 @@ public class TimeTableManager {
 	// 학번.txt 파일 업데이트 메소드
 	private void updateIdFile() {
 		String content = "";
+		int count = 0;
 		for (Lecture lecture : loginUser.myLectureList)
 			content += date.getYear() + " " + lecture.lectureCode + " " + lecture.lectureName + " " + lecture.lectureCredit + " " + lecture.grade + "\n";
 		
 		// 2차 요구사항 - 수강했던 강의 추가
-		for (Lecture lecture : loginUser.pastLectureList)
-			content += date.getYear() + " " + lecture.lectureCode + " " + lecture.lectureName + " " + lecture.lectureCredit + " " + lecture.grade + "\n";
+		for (Lecture lecture : loginUser.pastLectureList) {
+			content += loginUser.pastLectureListYear.get(count) + " " + lecture.lectureCode + " " + lecture.lectureName + " " + lecture.lectureCredit + " " + lecture.grade + "\n";
+			count++;
+			// 수강했던 연도 그대로 변경
+		}
 		
 		try {
 			writer = new BufferedWriter(new FileWriter(loginUser.FILEPATH));

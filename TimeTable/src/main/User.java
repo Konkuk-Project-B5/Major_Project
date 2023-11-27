@@ -10,7 +10,7 @@ public class User {
 	final String FILEPATH; // 학번.txt 파일 경로 문자열
 	ArrayList<Lecture> myLectureList = null; // 수강 신청한 강의 리스트
 	ArrayList<Lecture> pastLectureList = null; // 2차 요구사항 - 수강했던 강의 리스트
-	
+	ArrayList<Integer> pastLectureListYear = null; // 수강했던 강의 연도 리스트
 	// 1차 요구사항 - 최대 학점 한도, 사용자 학점 추가
 	static final int MAX_CREDIT = 18; // 최대 학점 한도
 	int myCredit; // 학점

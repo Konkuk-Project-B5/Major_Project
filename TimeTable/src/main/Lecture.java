@@ -53,24 +53,44 @@ public class Lecture implements Comparable<Lecture> {
 		return lectureDay2;
 	}
 
-	public int getLectureStime() {
-		int Stime = 0;
+	public int getLectureDay1Stime() {
+		int LectureDay1Stime = 0;
 		try {
-		//	 Stime = Integer.parseInt(lectureStime);
+			 LectureDay1Stime = Integer.parseInt(lectureDay1Stime);
 		} catch (NumberFormatException e) {
 			System.exit(0); // 오류 발생시 프로그램 종료
 		}
-		return Stime;
+		return LectureDay1Stime;
 	}
 
-	public int getLectureOtime() {
-		int Otime = 0;
+	public int getLectureDay2Stime() {
+		int LectureDay2Stime = 0;
 		try {
-		//	Otime = Integer.parseInt(lectureOtime);
+			LectureDay2Stime = Integer.parseInt(lectureDay2Stime);
 		} catch (NumberFormatException e) {
 			System.exit(0); // 오류 발생시 프로그램 종료
 		}
-		return Otime;
+		return LectureDay2Stime;
+	}
+
+	public int getLectureDay1Otime() {
+		int LectureDay1Otime = 0;
+		try {
+			LectureDay1Otime = Integer.parseInt(lectureDay1Otime);
+		} catch (NumberFormatException e) {
+			System.exit(0); // 오류 발생시 프로그램 종료
+		}
+		return LectureDay1Otime;
+	}
+
+	public int getLectureDay2Otime() {
+		int LectureDay2Otime = 0;
+		try {
+			LectureDay2Otime = Integer.parseInt(lectureDay2Otime);
+		} catch (NumberFormatException e) {
+			System.exit(0); // 오류 발생시 프로그램 종료
+		}
+		return LectureDay2Otime;
 	}
 
 	public int getLectureCnum() {

@@ -17,11 +17,7 @@ public class Lecture implements Comparable<Lecture> {
 	protected String lecturer; //2차요구사항 - 교강사 추가
 	protected String lectureRoomDay1;  //2차요구사항 - 강의실 추가
 	protected String lectureRoomDay2; //2차요구사항 - 강의실 추가
-
-	public String getGrade() {
-		return grade;
-	}
-
+	
 	// 2차 요구사항 - 등급 추가
 	String grade;
 	
@@ -62,44 +58,24 @@ public class Lecture implements Comparable<Lecture> {
 		return lectureDay2;
 	}
 
-	public int int_getLectureDay1Stime() {
-		int LectureDay1Stime = 0;
+	public int getLectureStime() {
+		int Stime = 0;
 		try {
-			 LectureDay1Stime = Integer.parseInt(lectureDay1Stime);
+		//	 Stime = Integer.parseInt(lectureStime);
 		} catch (NumberFormatException e) {
 			System.exit(0); // 오류 발생시 프로그램 종료
 		}
-		return LectureDay1Stime;
+		return Stime;
 	}
 
-	public int int_getLectureDay2Stime() {
-		int LectureDay2Stime = 0;
+	public int getLectureOtime() {
+		int Otime = 0;
 		try {
-			LectureDay2Stime = Integer.parseInt(lectureDay2Stime);
+		//	Otime = Integer.parseInt(lectureOtime);
 		} catch (NumberFormatException e) {
 			System.exit(0); // 오류 발생시 프로그램 종료
 		}
-		return LectureDay2Stime;
-	}
-
-	public int int_getLectureDay1Otime() {
-		int LectureDay1Otime = 0;
-		try {
-			LectureDay1Otime = Integer.parseInt(lectureDay1Otime);
-		} catch (NumberFormatException e) {
-			System.exit(0); // 오류 발생시 프로그램 종료
-		}
-		return LectureDay1Otime;
-	}
-
-	public int int_getLectureDay2Otime() {
-		int LectureDay2Otime = 0;
-		try {
-			LectureDay2Otime = Integer.parseInt(lectureDay2Otime);
-		} catch (NumberFormatException e) {
-			System.exit(0); // 오류 발생시 프로그램 종료
-		}
-		return LectureDay2Otime;
+		return Otime;
 	}
 
 	public int getLectureCnum() {

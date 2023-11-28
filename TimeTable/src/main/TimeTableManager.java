@@ -43,7 +43,7 @@ public class TimeTableManager {
 		    BufferedReader lecture_list_bufReader = new BufferedReader(filereader);
 		    String line = "";
 		    
-			/*while ((line = lecture_list_bufReader.readLine()) != null) { boolean result =
+			while ((line = lecture_list_bufReader.readLine()) != null) { boolean result =
 			line.matches(
 			"^\\d{3}\s[가-힣]+[0-9]*\s(([월|화|수|목|금]{1}\s\s)|((월|화|수|목|금){1}\s){2})\\d{2}\s\\d{2}\s\\d{2}\s\\d{2}\s\\d{1}$"
 			); if (result == false) { System.out.println("오류 : 데이터 파일이 손상되었습니다.");
@@ -62,7 +62,7 @@ public class TimeTableManager {
 				    System.exit(0);
 		        }
 		    }		    
-		    user_bufReader.close();*/
+		    user_bufReader.close();
 		} catch (FileNotFoundException e) {
 		    System.out.println("오류 : 올바른 경로에 데이터 파일이 존재하지 않습니다.");
 		    System.out.println("프로그램을 종료합니다.");
@@ -255,10 +255,10 @@ public class TimeTableManager {
 
 			reader.close();
 		} catch (FileNotFoundException e) {
-			System.out.println(loginUser.FILEPATH+": 파일 존재하지 않음");
-			System.exit(0); // 오류 발생시 프로그램 종료
-		} catch (IOException e) {
-			System.out.println(loginUser.FILEPATH+": 읽기 실패");
+//			System.out.println(loginUser.FILEPATH+": 파일 존재하지 않음");
+	//		System.exit(0); // 오류 발생시 프로그램 종료
+	///	} catch (IOException e) {
+//			System.out.println(loginUser.FILEPATH+": 읽기 실패");
 			System.exit(0); // 오류 발생시 프로그램 종료
 		}
 	}
@@ -481,69 +481,15 @@ public class TimeTableManager {
 				if (!lec.getLectureDay2().equals("") || !inputLecture.getLectureDay2().equals("")) {
 					flag_inputDay2_lecDay2 = inputLecture.getLectureDay2().equals(lec.getLectureDay2());
 				}
-				if (flag_inputDay1_lecDay1)  //Day1, Day1 같은 요일
+				if (flag_inputDay1_lecDay1 || flag_inputDay1_lecDay2 || flag_inputDay2_lecDay1 || flag_inputDay2_lecDay2)  //같은 요일
 				{
-					if (inputLecture.getLectureDay1Stime() > lec.getLectureDay1Stime()) {  //이후 교시에 추가될 때
-						if (inputLecture.getLectureDay1Stime() < lec.getLectureDay1Otime() + 1) {  //기존 01-02면 03부터 시작하는 수업들 추가 가능
+					if (inputLecture.getLectureStime() > lec.getLectureStime()) {  //이후 교시에 추가될 때
+						if (inputLecture.getLectureStime() < lec.getLectureOtime() + 1) {  //기존 01-02면 03부터 시작하는 수업들 추가 가능
 							flag = false;
 							break;
 						}
-					} else if (inputLecture.getLectureDay1Stime() < lec.getLectureDay1Stime()) {  //이전 교시에 추가될 때
-						if (inputLecture.getLectureDay1Otime() > lec.getLectureDay1Stime() - 1) {  //기존 03-04면 02까지 끝나는 수업 추가 가능
-							flag = false;
-							break;
-						}
-					} else {  //같은 교시에 시작
-						flag = false;
-						break;
-					}
-				}
-
-				if (flag_inputDay1_lecDay2)  //Day1, Day2 같은 요일
-				{
-					if (inputLecture.getLectureDay1Stime() > lec.getLectureDay2Stime()) {  //이후 교시에 추가될 때
-						if (inputLecture.getLectureDay1Stime() < lec.getLectureDay2Otime() + 1) {  //기존 01-02면 03부터 시작하는 수업들 추가 가능
-							flag = false;
-							break;
-						}
-					} else if (inputLecture.getLectureDay1Stime() < lec.getLectureDay2Stime()) {  //이전 교시에 추가될 때
-						if (inputLecture.getLectureDay1Otime() > lec.getLectureDay2Stime() - 1) {  //기존 03-04면 02까지 끝나는 수업 추가 가능
-							flag = false;
-							break;
-						}
-					} else {  //같은 교시에 시작
-						flag = false;
-						break;
-					}
-				}
-
-				if (flag_inputDay2_lecDay1)  //Day2, Day1 같은 요일
-				{
-					if (inputLecture.getLectureDay2Stime() > lec.getLectureDay1Stime()) {  //이후 교시에 추가될 때
-						if (inputLecture.getLectureDay2Stime() < lec.getLectureDay2Otime() + 1) {  //기존 01-02면 03부터 시작하는 수업들 추가 가능
-							flag = false;
-							break;
-						}
-					} else if (inputLecture.getLectureDay2Stime() < lec.getLectureDay1Stime()) {  //이전 교시에 추가될 때
-						if (inputLecture.getLectureDay2Otime() > lec.getLectureDay1Stime() - 1) {  //기존 03-04면 02까지 끝나는 수업 추가 가능
-							flag = false;
-							break;
-						}
-					} else {  //같은 교시에 시작
-						flag = false;
-						break;
-					}
-				}
-
-				if (flag_inputDay2_lecDay2)  //Day2, Day2 같은 요일
-				{
-					if (inputLecture.getLectureDay2Stime() > lec.getLectureDay2Stime()) {  //이후 교시에 추가될 때
-						if (inputLecture.getLectureDay2Stime() < lec.getLectureDay2Otime() + 1) {  //기존 01-02면 03부터 시작하는 수업들 추가 가능
-							flag = false;
-							break;
-						}
-					} else if (inputLecture.getLectureDay2Stime() < lec.getLectureDay2Stime()) {  //이전 교시에 추가될 때
-						if (inputLecture.getLectureDay2Otime() > lec.getLectureDay2Stime() - 1) {  //기존 03-04면 02까지 끝나는 수업 추가 가능
+					} else if (inputLecture.getLectureStime() < lec.getLectureStime()) {  //이전 교시에 추가될 때
+						if (inputLecture.getLectureOtime() > lec.getLectureStime() - 1) {  //기존 03-04면 02까지 끝나는 수업 추가 가능
 							flag = false;
 							break;
 						}
@@ -573,10 +519,7 @@ public class TimeTableManager {
 				System.out.println(User.MAX_CREDIT+"학점을 초과해 신청할 수 없습니다.");
 				continue;
 			}
-
-			//6. 2차 요구사항 - A이상 재수강 못함
-			//if ()
-
+			
 			// 검사 통과시 break
 			break;
 		}

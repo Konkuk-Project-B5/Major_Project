@@ -1,5 +1,7 @@
 package main;
 
+import java.util.List;
+
 public class Lecture implements Comparable<Lecture> {
 	protected String lectureCode;
 	protected String lectureName;
@@ -122,31 +124,81 @@ public class Lecture implements Comparable<Lecture> {
 		String enrollment = String.format("%s / %s", lectureCnum, lectureMnum);
 
 		if (lectureDay2.isEmpty()) {// 요일 한개
-		//	String time = String.format("%s %s-%s", lectureDay1, lectureStime, lectureOtime);
-		//	System.out.printf("%-10s %-20s %-20s %-20s %10s%n", lectureCode, lectureName, time, enrollment,lectureCredit);
+			String time = String.format("%s %s-%s", lectureDay1, lectureDay1Stime, lectureDay1Otime);
+			System.out.printf("%-10s %-20s %-20s %-20s %10s%n", lectureCode, lectureName, time, enrollment,lectureCredit);
 		} else {// 요일 두개
-		//	String time = String.format("%s %s-%s, %s %s-%s", lectureDay1, lectureStime, lectureOtime, lectureDay2, lectureStime, lectureOtime);
-	//		System.out.printf("%-10s %-20s %-20s %-20s %10s%n", lectureCode, lectureName, time, enrollment,lectureCredit);
+			String time = String.format("%s %s-%s, %s %s-%s", lectureDay1, lectureDay1Stime, lectureDay1Otime, lectureDay2, lectureDay2Stime, lectureDay2Otime);
+			System.out.printf("%-10s %-20s %-20s %-20s %10s%n", lectureCode, lectureName, time, enrollment,lectureCredit);
 		}
 	}
 	
+	// 강의실, 강사 추가
 	public void printMyLectureList() {
 		if (lectureDay2.isEmpty()) {// 요일 한개
-	//		String time = String.format("%s %s-%s", lectureDay1, lectureStime, lectureOtime);
-	//		System.out.printf("%-10s %-10s %-10s %-20s%n", lectureCode, lectureName ,lectureCredit,time);
+			String time = String.format("%s %s-%s", lectureDay1, lectureDay1Stime, lectureDay1Otime);
+			System.out.printf("%-10s %-10s %-10s %-20s %-12s %-10s%n", lectureCode, lectureName ,lectureCredit,time, lectureRoomDay1, lecturer);
 		} else {// 요일 두개
-	//		String time = String.format("%s %s-%s, %s %s-%s", lectureDay1, lectureStime, lectureOtime, lectureDay2, lectureStime, lectureOtime);
-		//	System.out.printf("%-10s %-10s %-10s %-20s%n", lectureCode, lectureName,lectureCredit,time);
+			String time = String.format("%s %s-%s, %s %s-%s", lectureDay1, lectureDay1Stime, lectureDay1Otime, lectureDay2, lectureDay2Stime, lectureDay2Otime);
+			String lectureRoom = "";
+			// 강의실 2개인 경우
+			if(!lectureRoomDay1.equals(lectureRoomDay2)) {
+				 lectureRoom = String.format("%s / %s", lectureRoomDay1, lectureRoomDay2);
+		    // 강의실 1개인 경우
+			} else {
+				 lectureRoom = lectureRoomDay1;
+			}
+			// 출력
+			System.out.printf("%-10s %-10s %-10s %-20s %-12s %-10s%n", lectureCode, lectureName,lectureCredit,time, lectureRoom,lecturer);
 		}
 
 	}
 
-	@Override
-	public int compareTo(Lecture o) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'compareTo'");
-	}
+	// 2차 요구사항 정렬 위한 Getter 추가
+		public String getLectureDay1Stime() {
+			return lectureDay1Stime;
+		}
 
+		// 2차 요구사항 정렬 위한 Getter 추가
+		public String getLectureDay1Otime() {
+			return lectureDay1Otime;
+		}
+	
+	
+	@Override
+	public int compareTo(Lecture other) {
+		// 요일 숫자 매핑
+	    List<String> daysOfWeek = List.of("월", "화", "수", "목", "금");
+	    
+	    // 요일 비교
+	    int dayComparison = daysOfWeek.indexOf(this.getLectureDay1()) - daysOfWeek.indexOf(other.getLectureDay1());
+	    if (dayComparison != 0) {
+	        return dayComparison;
+	    }
+
+	    // 시간 비교
+	    // 시작시간 
+	    int lectureStartTime = Integer.parseInt(getLectureDay1Stime());
+	    int otherlectureStartTime = Integer.parseInt(other.getLectureDay1Stime());
+	    
+	    // 종료시간
+	    int lectureEndTime = Integer.parseInt(getLectureDay1Otime());
+	    int OtherlectureEndTime	= Integer.parseInt(other.getLectureDay1Otime());
+	    
+	    // 시작시간 비교결과
+	    int timeComparison1 = Integer.compare(lectureStartTime, otherlectureStartTime);
+	    // 종료시간 비교결과
+	    int timeComparison2 = Integer.compare(lectureEndTime, OtherlectureEndTime);
+	    
+	    // 시작시간 비교
+	    if (timeComparison1 != 0) {
+	        return timeComparison1;
+	    } // 종료시간 비교
+	    else if(timeComparison2 != 0) {
+	    	return timeComparison2;
+	    }
+	    // 과목번호 비교
+	    return this.lectureCode.compareTo(other.lectureCode);
+	}
 }
 
 

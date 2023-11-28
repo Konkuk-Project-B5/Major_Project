@@ -17,7 +17,11 @@ public class Lecture implements Comparable<Lecture> {
 	protected String lecturer; //2차요구사항 - 교강사 추가
 	protected String lectureRoomDay1;  //2차요구사항 - 강의실 추가
 	protected String lectureRoomDay2; //2차요구사항 - 강의실 추가
-	
+
+	public String getGrade() {
+		return grade;
+	}
+
 	// 2차 요구사항 - 등급 추가
 	String grade;
 	
@@ -58,7 +62,7 @@ public class Lecture implements Comparable<Lecture> {
 		return lectureDay2;
 	}
 
-	public int getLectureDay1Stime() {
+	public int int_getLectureDay1Stime() {
 		int LectureDay1Stime = 0;
 		try {
 			 LectureDay1Stime = Integer.parseInt(lectureDay1Stime);
@@ -68,7 +72,7 @@ public class Lecture implements Comparable<Lecture> {
 		return LectureDay1Stime;
 	}
 
-	public int getLectureDay2Stime() {
+	public int int_getLectureDay2Stime() {
 		int LectureDay2Stime = 0;
 		try {
 			LectureDay2Stime = Integer.parseInt(lectureDay2Stime);
@@ -78,7 +82,7 @@ public class Lecture implements Comparable<Lecture> {
 		return LectureDay2Stime;
 	}
 
-	public int getLectureDay1Otime() {
+	public int int_getLectureDay1Otime() {
 		int LectureDay1Otime = 0;
 		try {
 			LectureDay1Otime = Integer.parseInt(lectureDay1Otime);
@@ -88,7 +92,7 @@ public class Lecture implements Comparable<Lecture> {
 		return LectureDay1Otime;
 	}
 
-	public int getLectureDay2Otime() {
+	public int int_getLectureDay2Otime() {
 		int LectureDay2Otime = 0;
 		try {
 			LectureDay2Otime = Integer.parseInt(lectureDay2Otime);

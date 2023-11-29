@@ -488,7 +488,7 @@ public class TimeTableManager {
 			// 강의 목록 출력
 			filereader.printLectureList();
 
-			System.out.printf("\n\n수강신청할 과목번호를 입력해주세요(수강학점 :%d/18)",loginUser.myCredit);
+			System.out.printf("\n\n수강신청할 과목번호를 입력해주세요(수강학점 :%d/18)", loginUser.myCredit);
 			System.out.println("※ 'q'를 입력한 경우 메인메뉴로 돌아갑니다.\n\n");
 			System.out.print("과목번호 입력 : ");
 			input = scan.nextLine().strip();
@@ -520,13 +520,13 @@ public class TimeTableManager {
 				// 1차 요구 사항 - 분반 검사 추가 
 				// 분반 == 수강신청내역에 없음 && 수강신청내역에 동일한 이름의 과목 존재
 				boolean flag = true;
-				for(Lecture lec : loginUser.myLectureList) {
+				for (Lecture lec : loginUser.myLectureList) {
 					if (lec.lectureName.equals(inputLecture.lectureName)) {
 						flag = false;
 						break;
 					}
 				}
-				
+
 				if (!flag) {
 					// 분반 신청시 메세지 출력
 					System.out.println("이미 수강 중인 강의의 다른 분반을 추가했습니다.");
@@ -536,7 +536,7 @@ public class TimeTableManager {
 
 			//3. 중복 시간대 검사
 			boolean flag = true;
-			for(Lecture lec : loginUser.myLectureList) {
+			for (Lecture lec : loginUser.myLectureList) {
 				boolean flag_inputDay1_lecDay1 = inputLecture.getLectureDay1().equals(lec.getLectureDay1());
 				boolean flag_inputDay1_lecDay2 = false;
 				boolean flag_inputDay2_lecDay1 = false;
@@ -551,71 +551,149 @@ public class TimeTableManager {
 				if (!lec.getLectureDay2().equals("") || !inputLecture.getLectureDay2().equals("")) {
 					flag_inputDay2_lecDay2 = inputLecture.getLectureDay2().equals(lec.getLectureDay2());
 				}
-				if (flag_inputDay1_lecDay1 || flag_inputDay1_lecDay2 || flag_inputDay2_lecDay1 || flag_inputDay2_lecDay2)  //같은 요일
+				if (flag_inputDay1_lecDay1)  //Day1, Day1 같은 요일
 				{
-					if (inputLecture.getLectureStime() > lec.getLectureStime()) {  //이후 교시에 추가될 때
-						if (inputLecture.getLectureStime() < lec.getLectureOtime() + 1) {  //기존 01-02면 03부터 시작하는 수업들 추가 가능
+					if (inputLecture.int_getLectureDay1Stime() > lec.int_getLectureDay1Stime()) {  //이후 교시에 추가될 때
+						if (inputLecture.int_getLectureDay1Stime() < lec.int_getLectureDay1Otime() + 1) {  //기존 01-02면 03부터 시작하는 수업들 추가 가능
 							flag = false;
+							System.out.println("a");
 							break;
 						}
-					} else if (inputLecture.getLectureStime() < lec.getLectureStime()) {  //이전 교시에 추가될 때
-						if (inputLecture.getLectureOtime() > lec.getLectureStime() - 1) {  //기존 03-04면 02까지 끝나는 수업 추가 가능
+					} else if (inputLecture.int_getLectureDay1Stime() < lec.int_getLectureDay1Stime()) {  //이전 교시에 추가될 때
+						if (inputLecture.int_getLectureDay1Otime() > lec.int_getLectureDay1Stime() - 1) {  //기존 03-04면 02까지 끝나는 수업 추가 가능
 							flag = false;
+							System.out.println("a2");
 							break;
 						}
 					} else {  //같은 교시에 시작
 						flag = false;
+						System.out.println("a3");
 						break;
 					}
 				}
-			}
-			
-			if (!flag) {
-				System.out.println("기존 시간표와 강의 시간이 겹칩니다.");
-				continue;
+
+				if (flag_inputDay1_lecDay2)  //Day1, Day2 같은 요일
+				{
+					if (inputLecture.int_getLectureDay1Stime() > lec.int_getLectureDay2Stime()) {  //이후 교시에 추가될 때
+						if (inputLecture.int_getLectureDay1Stime() < lec.int_getLectureDay2Otime() + 1) {  //기존 01-02면 03부터 시작하는 수업들 추가 가능
+							flag = false;
+							System.out.println("b");
+							break;
+						}
+					} else if (inputLecture.int_getLectureDay1Stime() < lec.int_getLectureDay2Stime()) {  //이전 교시에 추가될 때
+						if (inputLecture.int_getLectureDay1Otime() > lec.int_getLectureDay2Stime() - 1) {  //기존 03-04면 02까지 끝나는 수업 추가 가능
+							flag = false;
+							System.out.println("b2");
+							break;
+						}
+					} else {  //같은 교시에 시작
+						flag = false;
+						System.out.println("b3");
+						break;
+					}
+				}
+
+				if (flag_inputDay2_lecDay1)  //Day2, Day1 같은 요일
+				{
+					if (inputLecture.int_getLectureDay2Stime() > lec.int_getLectureDay1Stime()) {  //이후 교시에 추가될 때
+						if (inputLecture.int_getLectureDay2Stime() < lec.int_getLectureDay2Otime() + 1) {  //기존 01-02면 03부터 시작하는 수업들 추가 가능
+							flag = false;
+							System.out.println("c");
+							break;
+						}
+					} else if (inputLecture.int_getLectureDay2Stime() < lec.int_getLectureDay1Stime()) {  //이전 교시에 추가될 때
+						if (inputLecture.int_getLectureDay2Otime() > lec.int_getLectureDay1Stime() - 1) {  //기존 03-04면 02까지 끝나는 수업 추가 가능
+							flag = false;
+							System.out.println("c2");
+							break;
+						}
+					} else {  //같은 교시에 시작
+						flag = false;
+						System.out.println("c3");
+						break;
+					}
+				}
+				if (flag_inputDay2_lecDay2)  //Day2, Day2 같은 요일
+				{
+					if (inputLecture.int_getLectureDay2Stime() > lec.int_getLectureDay2Stime()) {  //이후 교시에 추가될 때
+						if (inputLecture.int_getLectureDay2Stime() < lec.int_getLectureDay2Otime() + 1) {  //기존 01-02면 03부터 시작하는 수업들 추가 가능
+							flag = false;
+							System.out.println("d");
+							break;
+						}
+					} else if (inputLecture.int_getLectureDay2Stime() < lec.int_getLectureDay2Stime()) {  //이전 교시에 추가될 때
+						if (inputLecture.int_getLectureDay2Otime() > lec.int_getLectureDay2Stime() - 1) {  //기존 03-04면 02까지 끝나는 수업 추가 가능
+							flag = false;
+							System.out.println("d2");
+							break;
+						}
+					} else {  //같은 교시에 시작
+						flag = false;
+						System.out.println("d3");
+						break;
+					}
+				}
+
+				if (!flag) {
+					System.out.println("기존 시간표와 강의 시간이 겹칩니다.");
+					continue;
+				}
 			}
 
-			//4. 인원제한 검사
-			if (inputLecture.getLectureCnum() >= inputLecture.getLectureMnum()) {
+
+				//4. 인원제한 검사
+				if (inputLecture.getLectureCnum() >= inputLecture.getLectureMnum()) {
 //				System.out.println("과목 코드: " + inputLecture.getLectureCode());
 //				System.out.println("현인원: " + inputLecture.getLectureCnum() + " " + inputLecture.lectureCnum + " / Max:" + inputLecture.getLectureMnum());
-				System.out.println("여석이 없습니다.");
-				continue;
+					System.out.println("여석이 없습니다.");
+					continue;
+				}
+
+				//5. 1차 요구사항 - 최대 학점 한도 검사
+				if (loginUser.myCredit + inputLecture.getLectureCredit() > User.MAX_CREDIT) {
+					// 최대 학점 한도 초과시 메세지 출력
+					System.out.println(User.MAX_CREDIT + "학점을 초과해 신청할 수 없습니다.");
+					continue;
+				}
+
+				//6. 2차 요구사항 - A학점 이상 재수강 금지
+				if (loginUser.pastLectureList.contains(inputLecture)) {
+					for (Lecture l : loginUser.pastLectureList) {
+						if (l.lectureName.equals(inputLecture.lectureName)) {
+							if (l.getGrade().contains("A")) {
+								System.out.println("A학점 이상 받았던 과목은 재수강할 수 없습니다.");
+								continue;
+							}
+						}
+					}
+				}
+
+				// 검사 통과시 break
+				break;
 			}
-			
-			//5. 1차 요구사항 - 최대 학점 한도 검사
-			if (loginUser.myCredit + inputLecture.getLectureCredit() > User.MAX_CREDIT) {
-				// 최대 학점 한도 초과시 메세지 출력
-				System.out.println(User.MAX_CREDIT+"학점을 초과해 신청할 수 없습니다.");
-				continue;
-			}
-			
-			// 검사 통과시 break
-			break;
-		}
-		
-		// 2차 요구사항 - 수강신청한 과목의 등급 초기화
-		filereader.lecturelist.get(input).grade = "X";
-		
-		// 수강신청한 과목 loginUser의 myLectureList에 저장
-		loginUser.myLectureList.add(filereader.lecturelist.get(input));
-		
-		// loginUser의 myCredit 수강신청한 과목의 학점만큼 증가 
-		loginUser.myCredit += filereader.lecturelist.get(input).getLectureCredit();
-		
-		// 학번.txt 파일 업데이트
-		updateIdFile();
 
-		// lecturelist의 lecture의 수강신청인원 업데이트
-		filereader.lecturelist.get(input).plusLectureCnum();
+			// 2차 요구사항 - 수강신청한 과목의 등급 초기화
+			filereader.lecturelist.get(input).grade = "X";
 
-		// lecture_list 현재 수강신청 인원 업데이트
-		filereader.updateLectureFile(input);
+			// 수강신청한 과목 loginUser의 myLectureList에 저장
+			loginUser.myLectureList.add(filereader.lecturelist.get(input));
 
-		// 수강신청 완료
-		System.out.println("수강신청이 완료되었습니다.");
+			// loginUser의 myCredit 수강신청한 과목의 학점만큼 증가
+			loginUser.myCredit += filereader.lecturelist.get(input).getLectureCredit();
+
+			// 학번.txt 파일 업데이트
+			updateIdFile();
+
+			// lecturelist의 lecture의 수강신청인원 업데이트
+			filereader.lecturelist.get(input).plusLectureCnum();
+
+			// lecture_list 현재 수강신청 인원 업데이트
+			filereader.updateLectureFile(input);
+
+			// 수강신청 완료
+			System.out.println("수강신청이 완료되었습니다.");
 //		System.out.println("학점: "+loginUser.myCredit);
-	}
+		}
 	
 	// 학번.txt 파일 업데이트 메소드
 	private void updateIdFile() {

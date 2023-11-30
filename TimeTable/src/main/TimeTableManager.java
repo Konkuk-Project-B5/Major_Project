@@ -53,7 +53,7 @@ public class TimeTableManager {
 		    BufferedReader lecture_list_bufReader = new BufferedReader(reader);
 		    String line = "";
 			while ((line = lecture_list_bufReader.readLine()) != null) {
-				System.out.println(line);
+				//System.out.println(line);
 				boolean result =
 			line.matches(
 				"^\\d{3}\s[가-힣]+[0-9]*\s[가-힣]{3}\s[월|화|수|목|금]\s\\d{2}\s\\d{2}\s\\d{3}((\s\s\s\s\s)|(\s[월|화|수|목|금]\s\\d{2}\s\\d{2}\s\\d{3}\s))\\d{2}\s\\d{2}\s\\d{1}$"

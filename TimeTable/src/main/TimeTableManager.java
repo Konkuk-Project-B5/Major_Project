@@ -13,19 +13,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Pattern;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 public class TimeTableManager {
-	
-	/*
-	 * 2차 요구사항
-	 * 
-	 * '강의실' 개념 
-	 * '교강사' 개념
-	 * 이미 A 학점 이상을 받았던 과목은 재수강할 수 없음.
-	 * 신청한 강의 목록을 '강의 일시 순'으로 정렬해서 표시
-	 * 
-	 * */
 	
 	private static Scanner scan = new Scanner(System.in);
 	private User loginUser; // 로그인한 사용자 정보 저장용 User 객체
@@ -60,12 +49,14 @@ public class TimeTableManager {
 	        	//System.out.println(roomInfo[sizeCount]+" "+roomMaxSize[sizeCount]);
 	        	sizeCount++;
 	        }
+	        roomBufferReader.close();
 		    BufferedReader lecture_list_bufReader = new BufferedReader(reader);
 		    String line = "";
-			while ((line = lecture_list_bufReader.readLine()) != null) { 
+			while ((line = lecture_list_bufReader.readLine()) != null) {
+				System.out.println(line);
 				boolean result =
 			line.matches(
-			"^\\d{3}\s[가-힣]+[0-9]*\s[가-힣]{3}\s[월|화|수|목|금]\s\\d{2}\s\\d{2}\s\\d{3}((\s\s\s\s\s)|(\s[월|화|수|목|금]\s\\d{2}\s\\d{2}\s\\d{3}\s))\\d{2}\s\\d{2}\s\\d{1}$"
+				"^\\d{3}\s[가-힣]+[0-9]*\s[가-힣]{3}\s[월|화|수|목|금]\s\\d{2}\s\\d{2}\s\\d{3}((\s\s\s\s\s)|(\s[월|화|수|목|금]\s\\d{2}\s\\d{2}\s\\d{3}\s))\\d{2}\s\\d{2}\s\\d{1}$"
 			);
 				String[] lectureInfo = line.split(" ");
 				//System.out.println(lectureInfo[lectureInfo.length-2]+" "+lectureInfo[6]+" "+lectureInfo[10]); //수강신청 제한인원, 강의실
@@ -246,8 +237,7 @@ public class TimeTableManager {
 			    String line = "";
 			    
 				while ((line = student_bufReader.readLine()) != null) {
-					// 정규식 수정 필요
-					boolean result = line.matches("^\\d{4}\s\\d{3}\s[가-힣]+[0-9]*\s\\d{1}\s[A-Z][+]*$"); 
+					boolean result = line.matches("^\\d{4}\s\\d{3}\s[가-힣]+[0-9]*\s\\d{1}\s([ABCDF][+]*|X)$"); 
 					if (result == false) { 
 						System.out.println("오류 : 데이터 파일이 손상되었습니다.");
 						System.out.println("프로그램을 종료합니다."); 
@@ -294,21 +284,26 @@ public class TimeTableManager {
 				// 수강 연도, 과목 번호, 강의명, 학점, 등급 
 				String[] lectureInfo = line.split(" ");
 					
-				// filereader로부터 lecture 객체 가져옴
-				Lecture lecture = filereader.lecturelist.get(lectureInfo[1]);
-				
-				// 2차 요구사항 - lecture 객체의 grade 초기화
-				lecture.grade = lectureInfo[4];
-				
 				// 수강 연도가 현재 연도와 같으면  
 				if (lectureInfo[0].equals(Integer.toString(date.getYear()))) {
+					
+					// filereader로부터 lecture 객체 가져옴
+					Lecture lecture = filereader.lecturelist.get(lectureInfo[1]);
+					
+					// 2차 요구사항 - lecture 객체의 grade 초기화
+					lecture.grade = lectureInfo[4];
+					
 					// loginUser의 myLectureList에 lecture 추가
 					loginUser.myLectureList.add(lecture);
 					
 					// loginUser의 myCredit에 lecture의 credit 추가
 					loginUser.myCredit += lecture.getLectureCredit();
-				} else {
-					// 다르면 pastLectureList에 추가
+				} else { // 수강 했던 과목이면
+					
+					// 수강했던 과목에 대한 Lecture 객체 생성
+					Lecture lecture = new Lecture(lectureInfo[1], lectureInfo[2], lectureInfo[3], lectureInfo[4]);
+		
+					// pastLectureList에 추가
 					loginUser.pastLectureList.add(lecture);
 					loginUser.pastLectureListYear.add(Integer.parseInt(lectureInfo[0])); // 수강했던 강의 연도 저장
 				}
@@ -340,7 +335,7 @@ public class TimeTableManager {
 		String input = null;
 		
 		while (true) {
-			System.out.println("[메인 메뉴] 실행할 메뉴를 선택하세요");
+			System.out.println("\n[메인 메뉴] 실행할 메뉴를 선택하세요");
 			System.out.println("1. 수강신청하기\n2. 시간표조회하기\n3. 수강기록조회하기\n4. 로그아웃\n5. 종료하기");
 			System.out.print("선택: ");
 
@@ -556,18 +551,18 @@ public class TimeTableManager {
 					if (inputLecture.int_getLectureDay1Stime() > lec.int_getLectureDay1Stime()) {  //이후 교시에 추가될 때
 						if (inputLecture.int_getLectureDay1Stime() < lec.int_getLectureDay1Otime() + 1) {  //기존 01-02면 03부터 시작하는 수업들 추가 가능
 							flag = false;
-							System.out.println("a");
+//							System.out.println("a");
 							break;
 						}
 					} else if (inputLecture.int_getLectureDay1Stime() < lec.int_getLectureDay1Stime()) {  //이전 교시에 추가될 때
 						if (inputLecture.int_getLectureDay1Otime() > lec.int_getLectureDay1Stime() - 1) {  //기존 03-04면 02까지 끝나는 수업 추가 가능
 							flag = false;
-							System.out.println("a2");
+//							System.out.println("a2");
 							break;
 						}
 					} else {  //같은 교시에 시작
 						flag = false;
-						System.out.println("a3");
+//						System.out.println("a3");
 						break;
 					}
 				}
@@ -577,18 +572,18 @@ public class TimeTableManager {
 					if (inputLecture.int_getLectureDay1Stime() > lec.int_getLectureDay2Stime()) {  //이후 교시에 추가될 때
 						if (inputLecture.int_getLectureDay1Stime() < lec.int_getLectureDay2Otime() + 1) {  //기존 01-02면 03부터 시작하는 수업들 추가 가능
 							flag = false;
-							System.out.println("b");
+//							System.out.println("b");
 							break;
 						}
 					} else if (inputLecture.int_getLectureDay1Stime() < lec.int_getLectureDay2Stime()) {  //이전 교시에 추가될 때
 						if (inputLecture.int_getLectureDay1Otime() > lec.int_getLectureDay2Stime() - 1) {  //기존 03-04면 02까지 끝나는 수업 추가 가능
 							flag = false;
-							System.out.println("b2");
+//							System.out.println("b2");
 							break;
 						}
 					} else {  //같은 교시에 시작
 						flag = false;
-						System.out.println("b3");
+//						System.out.println("b3");
 						break;
 					}
 				}
@@ -598,18 +593,18 @@ public class TimeTableManager {
 					if (inputLecture.int_getLectureDay2Stime() > lec.int_getLectureDay1Stime()) {  //이후 교시에 추가될 때
 						if (inputLecture.int_getLectureDay2Stime() < lec.int_getLectureDay2Otime() + 1) {  //기존 01-02면 03부터 시작하는 수업들 추가 가능
 							flag = false;
-							System.out.println("c");
+//							System.out.println("c");
 							break;
 						}
 					} else if (inputLecture.int_getLectureDay2Stime() < lec.int_getLectureDay1Stime()) {  //이전 교시에 추가될 때
 						if (inputLecture.int_getLectureDay2Otime() > lec.int_getLectureDay1Stime() - 1) {  //기존 03-04면 02까지 끝나는 수업 추가 가능
 							flag = false;
-							System.out.println("c2");
+//							System.out.println("c2");
 							break;
 						}
 					} else {  //같은 교시에 시작
 						flag = false;
-						System.out.println("c3");
+//						System.out.println("c3");
 						break;
 					}
 				}
@@ -618,18 +613,18 @@ public class TimeTableManager {
 					if (inputLecture.int_getLectureDay2Stime() > lec.int_getLectureDay2Stime()) {  //이후 교시에 추가될 때
 						if (inputLecture.int_getLectureDay2Stime() < lec.int_getLectureDay2Otime() + 1) {  //기존 01-02면 03부터 시작하는 수업들 추가 가능
 							flag = false;
-							System.out.println("d");
+//							System.out.println("d");
 							break;
 						}
 					} else if (inputLecture.int_getLectureDay2Stime() < lec.int_getLectureDay2Stime()) {  //이전 교시에 추가될 때
 						if (inputLecture.int_getLectureDay2Otime() > lec.int_getLectureDay2Stime() - 1) {  //기존 03-04면 02까지 끝나는 수업 추가 가능
 							flag = false;
-							System.out.println("d2");
+//							System.out.println("d2");
 							break;
 						}
 					} else {  //같은 교시에 시작
 						flag = false;
-						System.out.println("d3");
+//						System.out.println("d3");
 						break;
 					}
 				}
@@ -657,15 +652,19 @@ public class TimeTableManager {
 				}
 
 				//6. 2차 요구사항 - A학점 이상 재수강 금지
-				if (loginUser.pastLectureList.contains(inputLecture)) {
-					for (Lecture l : loginUser.pastLectureList) {
-						if (l.lectureName.equals(inputLecture.lectureName)) {
-							if (l.getGrade().contains("A")) {
-								System.out.println("A학점 이상 받았던 과목은 재수강할 수 없습니다.");
-								continue;
-							}
+				Boolean flag_grade = true;
+				for (Lecture l : loginUser.pastLectureList) {
+					if (l.lectureName.equals(inputLecture.lectureName)) {
+						if (l.getGrade().contains("A")) {
+							flag_grade = false;
+							break;
 						}
 					}
+				}
+				
+				if (!flag_grade) {
+					System.out.println("A학점 이상 받았던 과목은 재수강할 수 없습니다.");
+					continue;
 				}
 
 				// 검사 통과시 break
@@ -718,5 +717,4 @@ public class TimeTableManager {
 			System.exit(0); // 오류 발생시 프로그램 종료
 		}
 	}
-	
 }

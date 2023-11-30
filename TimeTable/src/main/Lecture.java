@@ -17,13 +17,10 @@ public class Lecture implements Comparable<Lecture> {
 	protected String lecturer; //2차요구사항 - 교강사 추가
 	protected String lectureRoomDay1;  //2차요구사항 - 강의실 추가
 	protected String lectureRoomDay2; //2차요구사항 - 강의실 추가
-
+	protected String grade; // 2차 요구사항 - 등급 추가
 	public String getGrade() {
 		return grade;
 	}
-
-	// 2차 요구사항 - 등급 추가
-	String grade;
 	
 	// // Comparable 학번순 정렬 규칙
 	// @Override
@@ -43,6 +40,18 @@ public class Lecture implements Comparable<Lecture> {
 	// 	return lectureName;
 	// }
 	
+	// 2차 요구사항 - 수강했던 과목에 대한 객체 생성자
+	public Lecture(String lectureCode, String lectureName, String lectureCredit, String grade) {
+		this.lectureCode = lectureCode;
+		this.lectureName = lectureName;
+		this.lectureCredit = lectureCredit;
+		this.grade = grade;
+	}
+
+	public Lecture() {
+
+	}
+
 	// 1차 요구사항 - 학점 getter
 	public int getLectureCredit() {
 		int credit = 0;
@@ -224,5 +233,3 @@ public class Lecture implements Comparable<Lecture> {
 	    return this.lectureCode.compareTo(other.lectureCode);
 	}
 }
-
-

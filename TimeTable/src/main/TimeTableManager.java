@@ -35,7 +35,6 @@ public class TimeTableManager {
 		try {
 			FileInputStream input=new FileInputStream("./lecture_list.txt");
 	        InputStreamReader reader=new InputStreamReader(input,"MS949");
-	        
 	        FileInputStream roomFile=new FileInputStream("./lecture_room.txt");
 	        InputStreamReader roomReader=new InputStreamReader(roomFile,"MS949");
 	        BufferedReader roomBufferReader = new BufferedReader(roomReader);

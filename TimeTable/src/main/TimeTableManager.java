@@ -17,27 +17,27 @@ import java.util.regex.Pattern;
 public class TimeTableManager {
 	
 	private static Scanner scan = new Scanner(System.in);
-	private User loginUser; // ·Î±×ÀÎÇÑ »ç¿ëÀÚ Á¤º¸ ÀúÀå¿ë User °´Ã¼
-	private BufferedReader reader; // ÇĞ¹ø.txt ÆÄÀÏ ÀÔ·Â
-	private BufferedWriter writer; // ÇĞ¹ø.txt ÆÄÀÏ Ãâ·Â
-	private myFileReader filereader; // filereader °´Ã¼
+	private User loginUser; // ë¡œê·¸ì¸í•œ ì‚¬ìš©ì ì •ë³´ ì €ì¥ìš© User ê°ì²´
+	private BufferedReader reader; // í•™ë²ˆ.txt íŒŒì¼ ì…ë ¥
+	private BufferedWriter writer; // í•™ë²ˆ.txt íŒŒì¼ ì¶œë ¥
+	private myFileReader filereader; // filereader ê°ì²´
 
-	// 2Â÷ ¿ä±¸»çÇ× - ÇöÀç ³¯Â¥ Ãß°¡
+	// 2ì°¨ ìš”êµ¬ì‚¬í•­ - í˜„ì¬ ë‚ ì§œ ì¶”ê°€
 	private LocalDate date;
 	
-	// »ı¼ºÀÚ
+	// ìƒì„±ì
 	public TimeTableManager() {
-		// 2Â÷ ¿ä±¸»çÇ× - ÇöÀç ³¯Â¥ ÃÊ±âÈ­
+		// 2ì°¨ ìš”êµ¬ì‚¬í•­ - í˜„ì¬ ë‚ ì§œ ì´ˆê¸°í™”
 		date = LocalDate.now();
 		// System.out.println(date.getYear()+" "+date.getMonthValue());
 		
-		// ÆÄÀÏ ¹«°á¼º °Ë»ç
+		// íŒŒì¼ ë¬´ê²°ì„± ê²€ì‚¬
 		try {
 			FileInputStream input=new FileInputStream("./lecture_list.txt");
-	        InputStreamReader reader=new InputStreamReader(input,"MS949");
+	        InputStreamReader reader=new InputStreamReader(input,"UTF-8");
 	        
 	        FileInputStream roomFile=new FileInputStream("./lecture_room.txt");
-	        InputStreamReader roomReader=new InputStreamReader(roomFile,"MS949");
+	        InputStreamReader roomReader=new InputStreamReader(roomFile,"UTF-8");
 	        BufferedReader roomBufferReader = new BufferedReader(roomReader);
 	        String roomSize = "";
 			Integer[] roomMaxSize = new Integer[100];
@@ -56,26 +56,26 @@ public class TimeTableManager {
 //				System.out.println(line);
 				boolean result =
 			line.matches(
-				"^\\d{3}\s[°¡-ÆR]+[0-9]*\s[°¡-ÆR]{3}\s[¿ù|È­|¼ö|¸ñ|±İ]\s\\d{2}\s\\d{2}\s\\d{3}((\s\s\s\s\s)|(\s[¿ù|È­|¼ö|¸ñ|±İ]\s\\d{2}\s\\d{2}\s\\d{3}\s))\\d{2}\s\\d{2}\s\\d{1}$"
+				"^\\d{3}\s[ê°€-í£]+[0-9]*\s[ê°€-í£]{3}\s[ì›”|í™”|ìˆ˜|ëª©|ê¸ˆ]\s\\d{2}\s\\d{2}\s\\d{3}((\s\s\s\s\s)|(\s[ì›”|í™”|ìˆ˜|ëª©|ê¸ˆ]\s\\d{2}\s\\d{2}\s\\d{3}\s))\\d{2}\s\\d{2}\s\\d{1}$"
 			);
 				String[] lectureInfo = line.split(" ");
-				//System.out.println(lectureInfo[lectureInfo.length-2]+" "+lectureInfo[6]+" "+lectureInfo[10]); //¼ö°­½ÅÃ» Á¦ÇÑÀÎ¿ø, °­ÀÇ½Ç
+				//System.out.println(lectureInfo[lectureInfo.length-2]+" "+lectureInfo[6]+" "+lectureInfo[10]); //ìˆ˜ê°•ì‹ ì²­ ì œí•œì¸ì›, ê°•ì˜ì‹¤
 			    for(int i =0; i<sizeCount; i++) {
 			    	if(lectureInfo[6].equals(roomInfo[i])) {
 			    		if(Integer.parseInt(lectureInfo[lectureInfo.length-2]) >  roomMaxSize[i]) {
-			    			System.out.println(lectureInfo[1]+"ÀÇ ¼ö°­½ÅÃ»Á¦ÇÑÀÎ¿øÀÌ "+lectureInfo[6]+" °­ÀÇ½Ç ÃÖ´ë¼ö¿ëÀÎ¿øÀ» ³Ñ½À´Ï´Ù.");
+			    			System.out.println(lectureInfo[1]+"ì˜ ìˆ˜ê°•ì‹ ì²­ì œí•œì¸ì›ì´ "+lectureInfo[6]+" ê°•ì˜ì‹¤ ìµœëŒ€ìˆ˜ìš©ì¸ì›ì„ ë„˜ìŠµë‹ˆë‹¤.");
 			    			break;
 			    		}
 			    	}
 			    	else if(lectureInfo[10].equals(roomInfo[i])) {
 			    		if(Integer.parseInt(lectureInfo[lectureInfo.length-2]) >  roomMaxSize[i]) {
-			    			System.out.println(lectureInfo[1]+"ÀÇ ¼ö°­½ÅÃ»Á¦ÇÑÀÎ¿øÀÌ "+lectureInfo[10]+" °­ÀÇ½Ç ÃÖ´ë¼ö¿ëÀÎ¿øÀ» ³Ñ½À´Ï´Ù.");
+			    			System.out.println(lectureInfo[1]+"ì˜ ìˆ˜ê°•ì‹ ì²­ì œí•œì¸ì›ì´ "+lectureInfo[10]+" ê°•ì˜ì‹¤ ìµœëŒ€ìˆ˜ìš©ì¸ì›ì„ ë„˜ìŠµë‹ˆë‹¤.");
 			    			break;
 			    		}
 			    	}
 			    }
-				if (result == false) { System.out.println("¿À·ù :lecture µ¥ÀÌÅÍ ÆÄÀÏÀÌ ¼Õ»óµÇ¾ú½À´Ï´Ù.");
-			System.out.println("ÇÁ·Î±×·¥À» Á¾·áÇÕ´Ï´Ù."); System.exit(0); } }
+				if (result == false) { System.out.println("ì˜¤ë¥˜ :lecture ë°ì´í„° íŒŒì¼ì´ ì†ìƒë˜ì—ˆìŠµë‹ˆë‹¤.");
+			System.out.println("í”„ë¡œê·¸ë¨ì„ ì¢…ë£Œí•©ë‹ˆë‹¤."); System.exit(0); } }
 			 
 		    lecture_list_bufReader.close();
 		    File user_file = new File("./user.txt");
@@ -85,58 +85,58 @@ public class TimeTableManager {
 		    while ((line = user_bufReader.readLine()) != null) {
 		        boolean result = line.matches("(201[0-9])|(202[0-3])[0-9]{5}\s[a-z0-9]{7,13}");
 		        if (result == false) {        
-		        	System.out.println("¿À·ù : µ¥ÀÌÅÍ ÆÄÀÏÀÌ ¼Õ»óµÇ¾ú½À´Ï´Ù.");
-				    System.out.println("ÇÁ·Î±×·¥À» Á¾·áÇÕ´Ï´Ù.");
+		        	System.out.println("ì˜¤ë¥˜ : ë°ì´í„° íŒŒì¼ì´ ì†ìƒë˜ì—ˆìŠµë‹ˆë‹¤.");
+				    System.out.println("í”„ë¡œê·¸ë¨ì„ ì¢…ë£Œí•©ë‹ˆë‹¤.");
 				    System.exit(0);
 		        }
 		    }		    
 		    user_bufReader.close();
 		} catch (FileNotFoundException e) {
-		    System.out.println("¿À·ù : ¿Ã¹Ù¸¥ °æ·Î¿¡ µ¥ÀÌÅÍ ÆÄÀÏÀÌ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.");
-		    System.out.println("ÇÁ·Î±×·¥À» Á¾·áÇÕ´Ï´Ù.");
+		    System.out.println("ì˜¤ë¥˜ : ì˜¬ë°”ë¥¸ ê²½ë¡œì— ë°ì´í„° íŒŒì¼ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
+		    System.out.println("í”„ë¡œê·¸ë¨ì„ ì¢…ë£Œí•©ë‹ˆë‹¤.");
 		    System.exit(0);
 		} catch (IOException e) {
 		    System.out.println(e);
 		    System.exit(0);
 		}
 
-		// °´Ã¼ ÃÊ±âÈ­
+		// ê°ì²´ ì´ˆê¸°í™”
 		filereader = new myFileReader("./lecture_list.txt", "./lecturer.txt", "./lecture_room.txt");
 
-		// °Ë»ç ÈÄ ÇÁ·Î±×·¥ ½ÇÇà, ·Î±×ÀÎ/È¸¿ø°¡ÀÔ ¸Ş´º Ãâ·Â
-		System.out.println("[¼ö°­½ÅÃ» ÇÁ·Î±×·¥]");
+		// ê²€ì‚¬ í›„ í”„ë¡œê·¸ë¨ ì‹¤í–‰, ë¡œê·¸ì¸/íšŒì›ê°€ì… ë©”ë‰´ ì¶œë ¥
+		System.out.println("[ìˆ˜ê°•ì‹ ì²­ í”„ë¡œê·¸ë¨]");
 		screen();
 		menuinput();
 	}
 
-	// ·Î±×ÀÎ/È¸¿ø°¡ÀÔ ¸Ş´º Ãâ·Â ¸Ş¼Òµå
+	// ë¡œê·¸ì¸/íšŒì›ê°€ì… ë©”ë‰´ ì¶œë ¥ ë©”ì†Œë“œ
 	private void screen() {
-        System.out.println("1. È¸¿ø°¡ÀÔ");
-        System.out.println("2. ·Î±×ÀÎ");
-        System.out.println("3. Á¾·á");
-        System.out.print("¸Ş´º ÀÔ·Â: ");
+        System.out.println("1. íšŒì›ê°€ì…");
+        System.out.println("2. ë¡œê·¸ì¸");
+        System.out.println("3. ì¢…ë£Œ");
+        System.out.print("ë©”ë‰´ ì…ë ¥: ");
     }
 	
-	// ·Î±×ÀÎ/È¸¿ø°¡ÀÔ ¸Ş´º ÀÔ·Â ¸Ş¼Òµå
+	// ë¡œê·¸ì¸/íšŒì›ê°€ì… ë©”ë‰´ ì…ë ¥ ë©”ì†Œë“œ
 	private void menuinput() {
 		String input = scan.nextLine().replaceAll("\\s", "");
-		if (input.equals("1")||input.equals("È¸¿ø°¡ÀÔ"))
+		if (input.equals("1")||input.equals("íšŒì›ê°€ì…"))
 			signup();
-		else if (input.equals("2")||input.equals("·Î±×ÀÎ"))
+		else if (input.equals("2")||input.equals("ë¡œê·¸ì¸"))
 			signin();
-		else if (input.equals("3")||input.equals("Á¾·á")) {
-			System.out.println("ÇÁ·Î±×·¥À» Á¾·áÇÕ´Ï´Ù.");
+		else if (input.equals("3")||input.equals("ì¢…ë£Œ")) {
+			System.out.println("í”„ë¡œê·¸ë¨ì„ ì¢…ë£Œí•©ë‹ˆë‹¤.");
 			System.exit(0);
 		}
 		else {
-			System.out.println("ÀÔ·ÂÀÌ ¿Ã¹Ù¸£Áö ¾Ê½À´Ï´Ù. ´Ù½ÃÀÔ·ÂÇØÁÖ¼¼¿ä");
-			System.out.print("¸Ş´º ÀÔ·Â: ");
+			System.out.println("ì…ë ¥ì´ ì˜¬ë°”ë¥´ì§€ ì•ŠìŠµë‹ˆë‹¤. ë‹¤ì‹œì…ë ¥í•´ì£¼ì„¸ìš”");
+			System.out.print("ë©”ë‰´ ì…ë ¥: ");
 			menuinput();
 		}
 	}
 	
 
-	// È¸¿ø°¡ÀÔ ½Ã ÀÔ·ÂÇÑ Id°¡ ÀÌ¹Ì Á¸ÀçÇÏ´ÂÁö °Ë»ç ¸Ş¼Òµå
+	// íšŒì›ê°€ì… ì‹œ ì…ë ¥í•œ Idê°€ ì´ë¯¸ ì¡´ì¬í•˜ëŠ”ì§€ ê²€ì‚¬ ë©”ì†Œë“œ
 	private boolean isID(String id) {
 		try {
 			File file = new File("./user.txt");
@@ -150,12 +150,12 @@ public class TimeTableManager {
 				}
 			}
 		}catch(Exception e) {
-			System.out.println("ÆÄÀÏ ÀĞ±â ½ÇÆĞ");
+			System.out.println("íŒŒì¼ ì½ê¸° ì‹¤íŒ¨");
 		}
 		return false;
 	}
 	
-	// ·Î±×ÀÎ ½Ã ÀÔ·Â Id¿Í Pw°¡ ¸ÅÄ¡µÇ´ÂÁö °Ë»ç ¸Ş¼Òµå
+	// ë¡œê·¸ì¸ ì‹œ ì…ë ¥ Idì™€ Pwê°€ ë§¤ì¹˜ë˜ëŠ”ì§€ ê²€ì‚¬ ë©”ì†Œë“œ
 	private boolean isIdPwMatch(String id, String pw) {
 		try {
 			File file = new File("./user.txt");
@@ -169,32 +169,32 @@ public class TimeTableManager {
 				}
 			}
 		} catch (Exception e) {
-			System.out.println("ÆÄÀÏ ÀĞ±â ½ÇÆĞ");
+			System.out.println("íŒŒì¼ ì½ê¸° ì‹¤íŒ¨");
 		}
 		return false;
 	}
 	
-	// È¸¿ø°¡ÀÔ ¸Ş¼Òµå
+	// íšŒì›ê°€ì… ë©”ì†Œë“œ
 	private void signup() {
-		System.out.println("È¸¿ø°¡ÀÔÀ» ½ÃÀÛÇÕ´Ï´Ù.");
-		System.out.print("ÇĞ¹ø ÀÔ·Â: ");
+		System.out.println("íšŒì›ê°€ì…ì„ ì‹œì‘í•©ë‹ˆë‹¤.");
+		System.out.print("í•™ë²ˆ ì…ë ¥: ");
 		String inputid = scan.nextLine();
 		if (!(Pattern.matches("(201[0-9]|202[0-3])([0-9]{5})", inputid))) {
-			System.out.println("ÇĞ¹øÀº 201000000ÀÌ»ó 202399999 ÀÌÇÏÀÇ ÀÚ¿¬¼öÀÔ´Ï´Ù.");
+			System.out.println("í•™ë²ˆì€ 201000000ì´ìƒ 202399999 ì´í•˜ì˜ ìì—°ìˆ˜ì…ë‹ˆë‹¤.");
 			screen();
 			menuinput();
 			return;
 		}
 		if (isID(inputid)) {
-			System.out.println("ÀÌ¹Ì µî·ÏµÈ ÇĞ¹øÀÔ´Ï´Ù.");
+			System.out.println("ì´ë¯¸ ë“±ë¡ëœ í•™ë²ˆì…ë‹ˆë‹¤.");
 			screen();
 			menuinput();
 			return;
 		}
-		System.out.print("ºñ¹Ğ¹øÈ£ ÀÔ·Â: ");
+		System.out.print("ë¹„ë°€ë²ˆí˜¸ ì…ë ¥: ");
 		String inputpw = scan.nextLine();
 		if (!(Pattern.matches("[a-z0-9]{7,13}", inputpw))) {
-			System.out.println("ºñ¹Ğ¹øÈ£´Â ¿µ¹® ¼Ò¹®ÀÚ¿Í ¼ıÀÚ·Î¸¸ ÀÌ·ç¾îÁø ±æÀÌ°¡ 7ÀÌ»ó 13ÀÌÇÏÀÎ ¹®ÀÚ¿­ÀÌ¾î¾ßÇÕ´Ï´Ù.");
+			System.out.println("ë¹„ë°€ë²ˆí˜¸ëŠ” ì˜ë¬¸ ì†Œë¬¸ìì™€ ìˆ«ìë¡œë§Œ ì´ë£¨ì–´ì§„ ê¸¸ì´ê°€ 7ì´ìƒ 13ì´í•˜ì¸ ë¬¸ìì—´ì´ì–´ì•¼í•©ë‹ˆë‹¤.");
 			screen();
 			menuinput();
 			return;
@@ -204,9 +204,9 @@ public class TimeTableManager {
 			FileWriter fw = new FileWriter(file, true);
 			fw.write(inputid+" "+inputpw+"\n");
 			fw.close();
-			System.out.println("È¸¿ø°¡ÀÔÀ» ¿Ï·áÇß½À´Ï´Ù.");
+			System.out.println("íšŒì›ê°€ì…ì„ ì™„ë£Œí–ˆìŠµë‹ˆë‹¤.");
 		} catch (Exception e) {
-			System.out.println("ÆÄÀÏ ¾²±â ½ÇÆĞ");
+			System.out.println("íŒŒì¼ ì“°ê¸° ì‹¤íŒ¨");
 		}
 		createIdFile(inputid);
 		screen();
@@ -214,15 +214,15 @@ public class TimeTableManager {
 		return;
 	}
 	
-	// ·Î±×ÀÎ ¸Ş¼Òµå
+	// ë¡œê·¸ì¸ ë©”ì†Œë“œ
 	private void signin() {
-		System.out.println("·Î±×ÀÎÀ» ½ÃÀÛÇÕ´Ï´Ù. ÇĞ¹ø°ú ºñ¹Ğ¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.");
-		System.out.println("Çü½Ä: (<È¾°ø¹é·ù¿­0><ÇĞ¹ø><È¾°ø¹é·ù¿­1><ºñ¹Ğ¹øÈ£><È¾°ø¹é·ù¿­0>)");
-		System.out.print("ÀÔ·Â: ");
+		System.out.println("ë¡œê·¸ì¸ì„ ì‹œì‘í•©ë‹ˆë‹¤. í•™ë²ˆê³¼ ë¹„ë°€ë²ˆí˜¸ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.");
+		System.out.println("í˜•ì‹: (<íš¡ê³µë°±ë¥˜ì—´0><í•™ë²ˆ><íš¡ê³µë°±ë¥˜ì—´1><ë¹„ë°€ë²ˆí˜¸><íš¡ê³µë°±ë¥˜ì—´0>)");
+		System.out.print("ì…ë ¥: ");
 		String input = scan.nextLine().trim();
 		String inputidpw[] = input.split("\\s+");
 		if (inputidpw.length != 2 || !(Pattern.matches("(201[0-9]|202[0-3])([0-9]{5})", inputidpw[0])) || !(Pattern.matches("[a-z0-9]{7,13}", inputidpw[1]))) {
-			System.out.println("ÇĞ¹ø°ú ºñ¹Ğ¹øÈ£¸¦ È®ÀÎÇØÁÖ¼¼¿ä.");
+			System.out.println("í•™ë²ˆê³¼ ë¹„ë°€ë²ˆí˜¸ë¥¼ í™•ì¸í•´ì£¼ì„¸ìš”.");
 			screen();
 			menuinput();
 			return;
@@ -230,18 +230,18 @@ public class TimeTableManager {
 		if (isIdPwMatch(inputidpw[0],inputidpw[1])) {
 			try {
 				File student_file = new File("./"+inputidpw[0]+".txt");
-			    // ÀÔ·Â ½ºÆ®¸² »ı¼º
+			    // ì…ë ¥ ìŠ¤íŠ¸ë¦¼ ìƒì„±
 			    FileReader filereader = new FileReader(student_file);
-			    // ÀÔ·Â ¹öÆÛ »ı¼º
+			    // ì…ë ¥ ë²„í¼ ìƒì„±
 			    BufferedReader student_bufReader = new BufferedReader(filereader);
 			    String line = "";
 			    
 				while ((line = student_bufReader.readLine()) != null) {
-//					System.out.println(line);
-					boolean result = line.matches("^\\d{4}\s\\d{3}\s[°¡-ÆR]+[0-9]*\s\\d{1}\s([ABCDF][+]*|X)$"); 
+					System.out.println(line);
+					boolean result = line.matches("^\\d{4}\s\\d{3}\s[ê°€-í£]+[0-9]*\s\\d{1}\s([ABCDF][+]*|X)$"); 
 					if (result == false) { 
-						System.out.println("¿À·ù : µ¥ÀÌÅÍ ÆÄÀÏÀÌ ¼Õ»óµÇ¾ú½À´Ï´Ù.");
-						System.out.println("ÇÁ·Î±×·¥À» Á¾·áÇÕ´Ï´Ù."); 
+						System.out.println("ì˜¤ë¥˜ : ë°ì´í„° íŒŒì¼ì´ ì†ìƒë˜ì—ˆìŠµë‹ˆë‹¤.");
+						System.out.println("í”„ë¡œê·¸ë¨ì„ ì¢…ë£Œí•©ë‹ˆë‹¤."); 
 						System.exit(0); 
 					} 
 				}
@@ -249,28 +249,28 @@ public class TimeTableManager {
 			    student_bufReader.close();	
 			}
 		    catch (FileNotFoundException e) {
-			    System.out.println("¿À·ù : ¿Ã¹Ù¸¥ °æ·Î¿¡ µ¥ÀÌÅÍ ÆÄÀÏÀÌ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.");
-			    System.out.println("ÇÁ·Î±×·¥À» Á¾·áÇÕ´Ï´Ù.");
+			    System.out.println("ì˜¤ë¥˜ : ì˜¬ë°”ë¥¸ ê²½ë¡œì— ë°ì´í„° íŒŒì¼ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
+			    System.out.println("í”„ë¡œê·¸ë¨ì„ ì¢…ë£Œí•©ë‹ˆë‹¤.");
 			    System.exit(0);
 			} catch (IOException e) {
 			    System.out.println(e);
 			    System.exit(0);
 			}
 			loginUser = new User(inputidpw[0], inputidpw[1]);
-			System.out.println("·Î±×ÀÎÀ» ¿Ï·áÇß½À´Ï´Ù.");
+			System.out.println("ë¡œê·¸ì¸ì„ ì™„ë£Œí–ˆìŠµë‹ˆë‹¤.");
 			initUserLectureList();
 			mainMenu();
 		}
 		else {
-			System.out.println("ÇĞ¹ø°ú ºñ¹Ğ¹øÈ£¸¦ È®ÀÎÇØÁÖ¼¼¿ä.");
+			System.out.println("í•™ë²ˆê³¼ ë¹„ë°€ë²ˆí˜¸ë¥¼ í™•ì¸í•´ì£¼ì„¸ìš”.");
 			screen();
 			menuinput();
 			return;
 		}
 	}
 
-	// loginUserÀÇ myLectureList ÃÊ±âÈ­ ¸Ş¼Òµå
-	// 2Â÷ ¿ä±¸»çÇ× - loginUserÀÇ myLectureList¿Í pastLectureList ÃÊ±âÈ­
+	// loginUserì˜ myLectureList ì´ˆê¸°í™” ë©”ì†Œë“œ
+	// 2ì°¨ ìš”êµ¬ì‚¬í•­ - loginUserì˜ myLectureListì™€ pastLectureList ì´ˆê¸°í™”
 	private void initUserLectureList() {
 		try {
 			reader = new BufferedReader(new java.io.FileReader(loginUser.FILEPATH));
@@ -281,107 +281,107 @@ public class TimeTableManager {
 			String line = null;
 			while ((line = reader.readLine()) != null) {
 				
-				// 2Â÷ ¿ä±¸»çÇ× - ÇĞ¹ø.txt¿¡ ÀúÀåµÈ °­ÀÇ Á¤º¸ °¡Á®¿È
-				// ¼ö°­ ¿¬µµ, °ú¸ñ ¹øÈ£, °­ÀÇ¸í, ÇĞÁ¡, µî±Ş 
+				// 2ì°¨ ìš”êµ¬ì‚¬í•­ - í•™ë²ˆ.txtì— ì €ì¥ëœ ê°•ì˜ ì •ë³´ ê°€ì ¸ì˜´
+				// ìˆ˜ê°• ì—°ë„, ê³¼ëª© ë²ˆí˜¸, ê°•ì˜ëª…, í•™ì , ë“±ê¸‰ 
 				String[] lectureInfo = line.split(" ");
 					
-				// ¼ö°­ ¿¬µµ°¡ ÇöÀç ¿¬µµ¿Í °°À¸¸é  
+				// ìˆ˜ê°• ì—°ë„ê°€ í˜„ì¬ ì—°ë„ì™€ ê°™ìœ¼ë©´  
 				if (lectureInfo[0].equals(Integer.toString(date.getYear()))) {
 					
-					// filereader·ÎºÎÅÍ lecture °´Ã¼ °¡Á®¿È
+					// filereaderë¡œë¶€í„° lecture ê°ì²´ ê°€ì ¸ì˜´
 					Lecture lecture = filereader.lecturelist.get(lectureInfo[1]);
 					
-					// 2Â÷ ¿ä±¸»çÇ× - lecture °´Ã¼ÀÇ grade ÃÊ±âÈ­
+					// 2ì°¨ ìš”êµ¬ì‚¬í•­ - lecture ê°ì²´ì˜ grade ì´ˆê¸°í™”
 					lecture.grade = lectureInfo[4];
 					
-					// loginUserÀÇ myLectureList¿¡ lecture Ãß°¡
+					// loginUserì˜ myLectureListì— lecture ì¶”ê°€
 					loginUser.myLectureList.add(lecture);
 					
-					// loginUserÀÇ myCredit¿¡ lectureÀÇ credit Ãß°¡
+					// loginUserì˜ myCreditì— lectureì˜ credit ì¶”ê°€
 					loginUser.myCredit += lecture.getLectureCredit();
-				} else { // ¼ö°­ Çß´ø °ú¸ñÀÌ¸é
+				} else { // ìˆ˜ê°• í–ˆë˜ ê³¼ëª©ì´ë©´
 					
-					// ¼ö°­Çß´ø °ú¸ñ¿¡ ´ëÇÑ Lecture °´Ã¼ »ı¼º
+					// ìˆ˜ê°•í–ˆë˜ ê³¼ëª©ì— ëŒ€í•œ Lecture ê°ì²´ ìƒì„±
 					Lecture lecture = new Lecture(lectureInfo[1], lectureInfo[2], lectureInfo[3], lectureInfo[4]);
 		
-					// pastLectureList¿¡ Ãß°¡
+					// pastLectureListì— ì¶”ê°€
 					loginUser.pastLectureList.add(lecture);
-					loginUser.pastLectureListYear.add(Integer.parseInt(lectureInfo[0])); // ¼ö°­Çß´ø °­ÀÇ ¿¬µµ ÀúÀå
+					loginUser.pastLectureListYear.add(Integer.parseInt(lectureInfo[0])); // ìˆ˜ê°•í–ˆë˜ ê°•ì˜ ì—°ë„ ì €ì¥
 				}
 			}
 
 			reader.close();
 		} catch (FileNotFoundException e) {
-//			System.out.println(loginUser.FILEPATH+": ÆÄÀÏ Á¸ÀçÇÏÁö ¾ÊÀ½");
-			System.exit(0); // ¿À·ù ¹ß»ı½Ã ÇÁ·Î±×·¥ Á¾·á
+//			System.out.println(loginUser.FILEPATH+": íŒŒì¼ ì¡´ì¬í•˜ì§€ ì•ŠìŒ");
+			System.exit(0); // ì˜¤ë¥˜ ë°œìƒì‹œ í”„ë¡œê·¸ë¨ ì¢…ë£Œ
 		} catch (IOException e) {
-//			System.out.println(loginUser.FILEPATH+": ÀĞ±â ½ÇÆĞ");
-			System.exit(0); // ¿À·ù ¹ß»ı½Ã ÇÁ·Î±×·¥ Á¾·á
+//			System.out.println(loginUser.FILEPATH+": ì½ê¸° ì‹¤íŒ¨");
+			System.exit(0); // ì˜¤ë¥˜ ë°œìƒì‹œ í”„ë¡œê·¸ë¨ ì¢…ë£Œ
 		}
 	}
 
-	// ÇĞ¹ø.txt ÆÄÀÏ »ı¼º ¸Ş¼Òµå
+	// í•™ë²ˆ.txt íŒŒì¼ ìƒì„± ë©”ì†Œë“œ
 	private void createIdFile(String id) {
 		File file = new File("./" + id + ".txt");
 		try {
 			file.createNewFile();
 		} catch (IOException e) {
-//			System.out.println(id + ": ÆÄÀÏ »ı¼º ½ÇÆĞ");
-			System.exit(0); // ¿À·ù ¹ß»ı½Ã ÇÁ·Î±×·¥ Á¾·á
+//			System.out.println(id + ": íŒŒì¼ ìƒì„± ì‹¤íŒ¨");
+			System.exit(0); // ì˜¤ë¥˜ ë°œìƒì‹œ í”„ë¡œê·¸ë¨ ì¢…ë£Œ
 		}
 	}
 
-	// ¼ö°­½ÅÃ» ¹× ½Ã°£Ç¥ Á¶È¸ (¸ŞÀÎ ¸Ş´º) Ãâ·Â ¸Ş¼Òµå
+	// ìˆ˜ê°•ì‹ ì²­ ë° ì‹œê°„í‘œ ì¡°íšŒ (ë©”ì¸ ë©”ë‰´) ì¶œë ¥ ë©”ì†Œë“œ
 	private void mainMenu() {
 		String input = null;
 		
 		while (true) {
-			System.out.println("\n[¸ŞÀÎ ¸Ş´º] ½ÇÇàÇÒ ¸Ş´º¸¦ ¼±ÅÃÇÏ¼¼¿ä");
-			System.out.println("1. ¼ö°­½ÅÃ»ÇÏ±â\n2. ½Ã°£Ç¥Á¶È¸ÇÏ±â\n3. ¼ö°­±â·ÏÁ¶È¸ÇÏ±â\n4. ·Î±×¾Æ¿ô\n5. Á¾·áÇÏ±â");
-			System.out.print("¼±ÅÃ: ");
+			System.out.println("\n[ë©”ì¸ ë©”ë‰´] ì‹¤í–‰í•  ë©”ë‰´ë¥¼ ì„ íƒí•˜ì„¸ìš”");
+			System.out.println("1. ìˆ˜ê°•ì‹ ì²­í•˜ê¸°\n2. ì‹œê°„í‘œì¡°íšŒí•˜ê¸°\n3. ìˆ˜ê°•ê¸°ë¡ì¡°íšŒí•˜ê¸°\n4. ë¡œê·¸ì•„ì›ƒ\n5. ì¢…ë£Œí•˜ê¸°");
+			System.out.print("ì„ íƒ: ");
 
 			input = scan.nextLine().strip();
 
 			switch (input) {
 				case "1":
-				case "¼ö°­½ÅÃ»ÇÏ±â":
-					// ¼ö°­ ½ÅÃ» ¸Ş¼Òµå ½ÇÇà
+				case "ìˆ˜ê°•ì‹ ì²­í•˜ê¸°":
+					// ìˆ˜ê°• ì‹ ì²­ ë©”ì†Œë“œ ì‹¤í–‰
 					registerForLecture();
 					break;
 				case "2":
-				case "½Ã°£Ç¥Á¶È¸ÇÏ±â":
-					// ½Ã°£Ç¥ Á¶È¸ ¸Ş¼Òµå ½ÇÇà
+				case "ì‹œê°„í‘œì¡°íšŒí•˜ê¸°":
+					// ì‹œê°„í‘œ ì¡°íšŒ ë©”ì†Œë“œ ì‹¤í–‰
 					showTimeTable();
 					break;
-				// 2Â÷ ¿ä±¸ »çÇ× - ¼ö°­Çß´ø °ú¸ñ Á¶È¸
+				// 2ì°¨ ìš”êµ¬ ì‚¬í•­ - ìˆ˜ê°•í–ˆë˜ ê³¼ëª© ì¡°íšŒ
 				case "3":
-				case "¼ö°­±â·ÏÁ¶È¸ÇÏ±â":
-					// ¼ö°­±â·Ï Á¶È¸ ¸Ş¼Òµå ½ÇÇà
+				case "ìˆ˜ê°•ê¸°ë¡ì¡°íšŒí•˜ê¸°":
+					// ìˆ˜ê°•ê¸°ë¡ ì¡°íšŒ ë©”ì†Œë“œ ì‹¤í–‰
 					showPastTimeTable();
 					break;
 				case "4":
-				case "·Î±×¾Æ¿ô":
-					// ·Î±×¾Æ¿ô
-					System.out.println("·Î±×¾Æ¿ôÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù.");
+				case "ë¡œê·¸ì•„ì›ƒ":
+					// ë¡œê·¸ì•„ì›ƒ
+					System.out.println("ë¡œê·¸ì•„ì›ƒì´ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.");
 					screen();
 					menuinput();
 					return;
 				case "5":
-				case "Á¾·áÇÏ±â":
-					// ÇÁ·Î±×·¥ Á¾·á
-					System.out.println("ÇÁ·Î±×·¥À» Á¾·áÇÕ´Ï´Ù.");
+				case "ì¢…ë£Œí•˜ê¸°":
+					// í”„ë¡œê·¸ë¨ ì¢…ë£Œ
+					System.out.println("í”„ë¡œê·¸ë¨ì„ ì¢…ë£Œí•©ë‹ˆë‹¤.");
 					System.exit(0);
 				default:
-					// ¿À·ù ¸Ş¼¼Áö Ãâ·Â
-					System.out.println("Àß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù. ´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+					// ì˜¤ë¥˜ ë©”ì„¸ì§€ ì¶œë ¥
+					System.out.println("ì˜ëª»ëœ ì…ë ¥ì…ë‹ˆë‹¤. ë‹¤ì‹œ ì…ë ¥í•´ì£¼ì„¸ìš”.");
 					break;
 			}
 		}
 	}
 	
-	// ¼ö°­±â·Ï Á¶È¸ ¸Ş¼Òµå
+	// ìˆ˜ê°•ê¸°ë¡ ì¡°íšŒ ë©”ì†Œë“œ
 	private void showPastTimeTable() {
-		// ÇĞÁ¡ ¹Ş¾Ò´ø °ú¸ñ Ãâ·Â
+		// í•™ì  ë°›ì•˜ë˜ ê³¼ëª© ì¶œë ¥
 		String content="";
 		int count=0;
 		for (Lecture lecture : loginUser.pastLectureList) {
@@ -389,56 +389,56 @@ public class TimeTableManager {
 			count++;
 		}
 		System.out.println(content);
-		System.out.println("ÀÔ·ÂÀÌ µé¾î¿À´Â °æ¿ì ¸ŞÀÎ ¸Ş´º·Î µ¹¾Æ°©´Ï´Ù.\n");
+		System.out.println("ì…ë ¥ì´ ë“¤ì–´ì˜¤ëŠ” ê²½ìš° ë©”ì¸ ë©”ë‰´ë¡œ ëŒì•„ê°‘ë‹ˆë‹¤.\n");
 		scan.nextLine();
 	}
 
-	// ½Ã°£Ç¥ Á¶È¸ ¸Ş¼Òµå
+	// ì‹œê°„í‘œ ì¡°íšŒ ë©”ì†Œë“œ
 	private void showTimeTable() {
 		String input = null;
 		
 		while (true) {
 			if (!loginUser.printMyList()) {
 				System.out.println();
-				System.out.println("¼ö°­½ÅÃ»ÇÑ ±³°ú¸ñÀÌ ¾ø½À´Ï´Ù.");
+				System.out.println("ìˆ˜ê°•ì‹ ì²­í•œ êµê³¼ëª©ì´ ì—†ìŠµë‹ˆë‹¤.");
 				System.out.println();
 				while (true) {
-					System.out.println("¡Ø 'q'¸¦ ÀÔ·ÂÇÑ °æ¿ì ¸ŞÀÎ¸Ş´º·Î µ¹¾Æ°©´Ï´Ù.");
+					System.out.println("â€» 'q'ë¥¼ ì…ë ¥í•œ ê²½ìš° ë©”ì¸ë©”ë‰´ë¡œ ëŒì•„ê°‘ë‹ˆë‹¤.");
 					System.out.println();
 					input = scan.nextLine().strip();
 					if (input.equals("q")) {
-						System.out.println("¸ŞÀÎ¸Ş´º·Î µ¹¾Æ°©´Ï´Ù.");
+						System.out.println("ë©”ì¸ë©”ë‰´ë¡œ ëŒì•„ê°‘ë‹ˆë‹¤.");
 						System.out.println();
 						return;
 					}
-					System.out.println("ºñÁ¤»óÀÔ·ÂÀÔ´Ï´Ù.");
+					System.out.println("ë¹„ì •ìƒì…ë ¥ì…ë‹ˆë‹¤.");
 				}
 			}
 
-			// 1Â÷ ¿ä±¸»çÇ× - ¼ö°­ Ã¶È¸ ±â´É Ãß°¡
-			System.out.println("\n\n¼ö°­À» Ã¶È¸ÇÒ °ú¸ñ¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä. ÇöÀç ¼ö°­ ÇĞÁ¡Àº "+loginUser.myCredit+"ÇĞÁ¡ÀÔ´Ï´Ù. (ÃÖ´ë ¼ö°­ ÇĞÁ¡: "+User.MAX_CREDIT+"ÇĞÁ¡)\n¡Ø 'q'¸¦ ÀÔ·ÂÇÑ °æ¿ì ¸ŞÀÎ¸Ş´º·Î µ¹¾Æ°©´Ï´Ù.\n\n");
-			System.out.print("°ú¸ñ¹øÈ£ ÀÔ·Â : ");
+			// 1ì°¨ ìš”êµ¬ì‚¬í•­ - ìˆ˜ê°• ì² íšŒ ê¸°ëŠ¥ ì¶”ê°€
+			System.out.println("\n\nìˆ˜ê°•ì„ ì² íšŒí•  ê³¼ëª©ë²ˆí˜¸ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”. í˜„ì¬ ìˆ˜ê°• í•™ì ì€ "+loginUser.myCredit+"í•™ì ì…ë‹ˆë‹¤. (ìµœëŒ€ ìˆ˜ê°• í•™ì : "+User.MAX_CREDIT+"í•™ì )\nâ€» 'q'ë¥¼ ì…ë ¥í•œ ê²½ìš° ë©”ì¸ë©”ë‰´ë¡œ ëŒì•„ê°‘ë‹ˆë‹¤.\n\n");
+			System.out.print("ê³¼ëª©ë²ˆí˜¸ ì…ë ¥ : ");
 			input = scan.nextLine().strip();
 
 			if (input.equals("q")) {
-				System.out.println("¸ŞÀÎ¸Ş´º·Î µ¹¾Æ°©´Ï´Ù.");
+				System.out.println("ë©”ì¸ë©”ë‰´ë¡œ ëŒì•„ê°‘ë‹ˆë‹¤.");
 				return;
 			}
 			
-			// ¹®¹ı±ÔÄ¢¿¡ ¸Â´ÂÁö °Ë»ç
+			// ë¬¸ë²•ê·œì¹™ì— ë§ëŠ”ì§€ ê²€ì‚¬
 			if (!input.matches("\\d{3}")) {
-				System.out.println("°ú¸ñ¹øÈ£´Â 0°ú ÀÚ¿¬¼ö·Î¸¸ ÀÌ·ç¾îÁø ±æÀÌ°¡ 3ÀÎ ¹®ÀÚ¿­ÀÔ´Ï´Ù.");
+				System.out.println("ê³¼ëª©ë²ˆí˜¸ëŠ” 0ê³¼ ìì—°ìˆ˜ë¡œë§Œ ì´ë£¨ì–´ì§„ ê¸¸ì´ê°€ 3ì¸ ë¬¸ìì—´ì…ë‹ˆë‹¤.");
 				continue;
 			}
 			
-			//ÀÇ¹Ì±ÔÄ¢ °Ë»ç
-			//1. lecture_list.txt¿¡ ÀÖ´Â ¹øÈ£ÀÎÁö
+			//ì˜ë¯¸ê·œì¹™ ê²€ì‚¬
+			//1. lecture_list.txtì— ìˆëŠ” ë²ˆí˜¸ì¸ì§€
 			if (!filereader.lecturelist.containsKey(input)) {
-				System.out.println("°­ÀÇ°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.");
+				System.out.println("ê°•ì˜ê°€ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
 				continue;
 			}
 			
-			//2. ÇĞ¹ø.txt¿¡ ÀÖ´Â ¹øÈ£ÀÎÁö
+			//2. í•™ë²ˆ.txtì— ìˆëŠ” ë²ˆí˜¸ì¸ì§€
 			boolean flag = false;
 			for (Lecture lec : loginUser.myLectureList) {
 				if (lec.lectureCode.equals(input)) {
@@ -448,73 +448,73 @@ public class TimeTableManager {
 			}
 			
 			if (!flag) {
-				System.out.println("¼ö°­½ÅÃ»³»¿ª¿¡ ÀÔ·ÂÇÑ °­ÀÇ°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.");
+				System.out.println("ìˆ˜ê°•ì‹ ì²­ë‚´ì—­ì— ì…ë ¥í•œ ê°•ì˜ê°€ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
 				continue;
 			}
 			
-			// °Ë»ç Åë°ú 
+			// ê²€ì‚¬ í†µê³¼ 
 	
-			// ÀÔ·ÂÇÑ °ú¸ñ loginUserÀÇ myLectureList¿¡¼­ »èÁ¦
+			// ì…ë ¥í•œ ê³¼ëª© loginUserì˜ myLectureListì—ì„œ ì‚­ì œ
 			loginUser.myLectureList.remove(filereader.lecturelist.get(input));
 						
-			// loginUserÀÇ myCredit ¼ö°­Ã¶È¸ÇÑ °ú¸ñÀÇ ÇĞÁ¡¸¸Å­ °¨¼Ò 
+			// loginUserì˜ myCredit ìˆ˜ê°•ì² íšŒí•œ ê³¼ëª©ì˜ í•™ì ë§Œí¼ ê°ì†Œ 
 			loginUser.myCredit -= filereader.lecturelist.get(input).getLectureCredit();
 						
-			// ÇĞ¹ø.txt ÆÄÀÏ ¾÷µ¥ÀÌÆ®
+			// í•™ë²ˆ.txt íŒŒì¼ ì—…ë°ì´íŠ¸
 			updateIdFile();
 
-			//lecturelistÀÇ lectureÀÇ ¼ö°­½ÅÃ» ÀÎ¿ø ¾÷µ¥ÀÌÆ® - ¼ö°­½ÅÃ» ÀÎ¿ø °¨¼Ò
+			//lecturelistì˜ lectureì˜ ìˆ˜ê°•ì‹ ì²­ ì¸ì› ì—…ë°ì´íŠ¸ - ìˆ˜ê°•ì‹ ì²­ ì¸ì› ê°ì†Œ
 			filereader.lecturelist.get(input).minusLectureCnum();
 
-			//lecture_list ÇöÀç ¼ö°­½ÅÃ» ÀÎ¿ø ¾÷µ¥ÀÌÆ® - ¼ö°­½ÅÃ» ÀÎ¿ø °¨¼Ò
+			//lecture_list í˜„ì¬ ìˆ˜ê°•ì‹ ì²­ ì¸ì› ì—…ë°ì´íŠ¸ - ìˆ˜ê°•ì‹ ì²­ ì¸ì› ê°ì†Œ
 			filereader.updateLectureFile2(input);
 
-			// ¼ö°­Ã¶È¸ ¿Ï·á
-			System.out.println("¼ö°­Ã¶È¸°¡ ¿Ï·áµÇ¾ú½À´Ï´Ù.");
-//			System.out.println("ÇĞÁ¡: "+loginUser.myCredit);
+			// ìˆ˜ê°•ì² íšŒ ì™„ë£Œ
+			System.out.println("ìˆ˜ê°•ì² íšŒê°€ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.");
+//			System.out.println("í•™ì : "+loginUser.myCredit);
 		}
 	}
 
-	// ¼ö°­½ÅÃ» ¸Ş¼Òµå
+	// ìˆ˜ê°•ì‹ ì²­ ë©”ì†Œë“œ
 	private void registerForLecture() {
 		String input = null;
 
 		while (true) {
 
-			// °­ÀÇ ¸ñ·Ï Ãâ·Â
+			// ê°•ì˜ ëª©ë¡ ì¶œë ¥
 			filereader.printLectureList();
 
-			System.out.printf("\n\n¼ö°­½ÅÃ»ÇÒ °ú¸ñ¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä(¼ö°­ÇĞÁ¡ :%d/18)", loginUser.myCredit);
-			System.out.println("¡Ø 'q'¸¦ ÀÔ·ÂÇÑ °æ¿ì ¸ŞÀÎ¸Ş´º·Î µ¹¾Æ°©´Ï´Ù.\n\n");
-			System.out.print("°ú¸ñ¹øÈ£ ÀÔ·Â : ");
+			System.out.printf("\n\nìˆ˜ê°•ì‹ ì²­í•  ê³¼ëª©ë²ˆí˜¸ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”(ìˆ˜ê°•í•™ì  :%d/18)", loginUser.myCredit);
+			System.out.println("â€» 'q'ë¥¼ ì…ë ¥í•œ ê²½ìš° ë©”ì¸ë©”ë‰´ë¡œ ëŒì•„ê°‘ë‹ˆë‹¤.\n\n");
+			System.out.print("ê³¼ëª©ë²ˆí˜¸ ì…ë ¥ : ");
 			input = scan.nextLine().strip();
 
 			if (input.equals("q")) {
-				System.out.println("¸ŞÀÎ¸Ş´º·Î µ¹¾Æ°©´Ï´Ù.");
+				System.out.println("ë©”ì¸ë©”ë‰´ë¡œ ëŒì•„ê°‘ë‹ˆë‹¤.");
 				return;
 			}
 
-			// ¹®¹ı±ÔÄ¢¿¡ ¸Â´ÂÁö °Ë»ç
+			// ë¬¸ë²•ê·œì¹™ì— ë§ëŠ”ì§€ ê²€ì‚¬
 			if (!input.matches("\\d{3}")) {
-				System.out.println("°ú¸ñ¹øÈ£´Â 0°ú ÀÚ¿¬¼ö·Î¸¸ ÀÌ·ç¾îÁø ±æÀÌ°¡ 3ÀÎ ¹®ÀÚ¿­ÀÔ´Ï´Ù.");
+				System.out.println("ê³¼ëª©ë²ˆí˜¸ëŠ” 0ê³¼ ìì—°ìˆ˜ë¡œë§Œ ì´ë£¨ì–´ì§„ ê¸¸ì´ê°€ 3ì¸ ë¬¸ìì—´ì…ë‹ˆë‹¤.");
 				continue;
 			}
 
-			//ÀÇ¹Ì±ÔÄ¢ °Ë»ç
-			//1. lecture_list.txt¿¡ ÀÖ´Â ¹øÈ£ÀÎÁö
+			//ì˜ë¯¸ê·œì¹™ ê²€ì‚¬
+			//1. lecture_list.txtì— ìˆëŠ” ë²ˆí˜¸ì¸ì§€
 			if (!filereader.lecturelist.containsKey(input)) {
-				System.out.println("°­ÀÇ°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.");
+				System.out.println("ê°•ì˜ê°€ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
 				continue;
 			}
 
-			//2. µ¿ÀÏÇÑ °­ÀÇ Áßº¹ Ãß°¡ °Ë»ç
+			//2. ë™ì¼í•œ ê°•ì˜ ì¤‘ë³µ ì¶”ê°€ ê²€ì‚¬
 			Lecture inputLecture = filereader.lecturelist.get(input);
 			if (loginUser.myLectureList.contains(inputLecture)) {
-				System.out.println("µ¿ÀÏÇÑ °­ÀÇ¸¦ Ãß°¡Çß½À´Ï´Ù.");
+				System.out.println("ë™ì¼í•œ ê°•ì˜ë¥¼ ì¶”ê°€í–ˆìŠµë‹ˆë‹¤.");
 				continue;
 			} else {
-				// 1Â÷ ¿ä±¸ »çÇ× - ºĞ¹İ °Ë»ç Ãß°¡ 
-				// ºĞ¹İ == ¼ö°­½ÅÃ»³»¿ª¿¡ ¾øÀ½ && ¼ö°­½ÅÃ»³»¿ª¿¡ µ¿ÀÏÇÑ ÀÌ¸§ÀÇ °ú¸ñ Á¸Àç
+				// 1ì°¨ ìš”êµ¬ ì‚¬í•­ - ë¶„ë°˜ ê²€ì‚¬ ì¶”ê°€ 
+				// ë¶„ë°˜ == ìˆ˜ê°•ì‹ ì²­ë‚´ì—­ì— ì—†ìŒ && ìˆ˜ê°•ì‹ ì²­ë‚´ì—­ì— ë™ì¼í•œ ì´ë¦„ì˜ ê³¼ëª© ì¡´ì¬
 				boolean flag = true;
 				for (Lecture lec : loginUser.myLectureList) {
 					if (lec.lectureName.equals(inputLecture.lectureName)) {
@@ -524,13 +524,13 @@ public class TimeTableManager {
 				}
 
 				if (!flag) {
-					// ºĞ¹İ ½ÅÃ»½Ã ¸Ş¼¼Áö Ãâ·Â
-					System.out.println("ÀÌ¹Ì ¼ö°­ ÁßÀÎ °­ÀÇÀÇ ´Ù¸¥ ºĞ¹İÀ» Ãß°¡Çß½À´Ï´Ù.");
+					// ë¶„ë°˜ ì‹ ì²­ì‹œ ë©”ì„¸ì§€ ì¶œë ¥
+					System.out.println("ì´ë¯¸ ìˆ˜ê°• ì¤‘ì¸ ê°•ì˜ì˜ ë‹¤ë¥¸ ë¶„ë°˜ì„ ì¶”ê°€í–ˆìŠµë‹ˆë‹¤.");
 					continue;
 				}
 			}
 
-			//3. Áßº¹ ½Ã°£´ë °Ë»ç
+			//3. ì¤‘ë³µ ì‹œê°„ëŒ€ ê²€ì‚¬
 			boolean flag = true;
 			for (Lecture lec : loginUser.myLectureList) {
 				boolean flag_inputDay1_lecDay1 = inputLecture.getLectureDay1().equals(lec.getLectureDay1());
@@ -547,83 +547,83 @@ public class TimeTableManager {
 				if (!lec.getLectureDay2().equals("") || !inputLecture.getLectureDay2().equals("")) {
 					flag_inputDay2_lecDay2 = inputLecture.getLectureDay2().equals(lec.getLectureDay2());
 				}
-				if (flag_inputDay1_lecDay1)  //Day1, Day1 °°Àº ¿äÀÏ
+				if (flag_inputDay1_lecDay1)  //Day1, Day1 ê°™ì€ ìš”ì¼
 				{
-					if (inputLecture.int_getLectureDay1Stime() > lec.int_getLectureDay1Stime()) {  //ÀÌÈÄ ±³½Ã¿¡ Ãß°¡µÉ ¶§
-						if (inputLecture.int_getLectureDay1Stime() < lec.int_getLectureDay1Otime() + 1) {  //±âÁ¸ 01-02¸é 03ºÎÅÍ ½ÃÀÛÇÏ´Â ¼ö¾÷µé Ãß°¡ °¡´É
+					if (inputLecture.int_getLectureDay1Stime() > lec.int_getLectureDay1Stime()) {  //ì´í›„ êµì‹œì— ì¶”ê°€ë  ë•Œ
+						if (inputLecture.int_getLectureDay1Stime() < lec.int_getLectureDay1Otime() + 1) {  //ê¸°ì¡´ 01-02ë©´ 03ë¶€í„° ì‹œì‘í•˜ëŠ” ìˆ˜ì—…ë“¤ ì¶”ê°€ ê°€ëŠ¥
 							flag = false;
 //							System.out.println("a");
 							break;
 						}
-					} else if (inputLecture.int_getLectureDay1Stime() < lec.int_getLectureDay1Stime()) {  //ÀÌÀü ±³½Ã¿¡ Ãß°¡µÉ ¶§
-						if (inputLecture.int_getLectureDay1Otime() > lec.int_getLectureDay1Stime() - 1) {  //±âÁ¸ 03-04¸é 02±îÁö ³¡³ª´Â ¼ö¾÷ Ãß°¡ °¡´É
+					} else if (inputLecture.int_getLectureDay1Stime() < lec.int_getLectureDay1Stime()) {  //ì´ì „ êµì‹œì— ì¶”ê°€ë  ë•Œ
+						if (inputLecture.int_getLectureDay1Otime() > lec.int_getLectureDay1Stime() - 1) {  //ê¸°ì¡´ 03-04ë©´ 02ê¹Œì§€ ëë‚˜ëŠ” ìˆ˜ì—… ì¶”ê°€ ê°€ëŠ¥
 							flag = false;
 //							System.out.println("a2");
 							break;
 						}
-					} else {  //°°Àº ±³½Ã¿¡ ½ÃÀÛ
+					} else {  //ê°™ì€ êµì‹œì— ì‹œì‘
 						flag = false;
 //						System.out.println("a3");
 						break;
 					}
 				}
 
-				if (flag_inputDay1_lecDay2)  //Day1, Day2 °°Àº ¿äÀÏ
+				if (flag_inputDay1_lecDay2)  //Day1, Day2 ê°™ì€ ìš”ì¼
 				{
-					if (inputLecture.int_getLectureDay1Stime() > lec.int_getLectureDay2Stime()) {  //ÀÌÈÄ ±³½Ã¿¡ Ãß°¡µÉ ¶§
-						if (inputLecture.int_getLectureDay1Stime() < lec.int_getLectureDay2Otime() + 1) {  //±âÁ¸ 01-02¸é 03ºÎÅÍ ½ÃÀÛÇÏ´Â ¼ö¾÷µé Ãß°¡ °¡´É
+					if (inputLecture.int_getLectureDay1Stime() > lec.int_getLectureDay2Stime()) {  //ì´í›„ êµì‹œì— ì¶”ê°€ë  ë•Œ
+						if (inputLecture.int_getLectureDay1Stime() < lec.int_getLectureDay2Otime() + 1) {  //ê¸°ì¡´ 01-02ë©´ 03ë¶€í„° ì‹œì‘í•˜ëŠ” ìˆ˜ì—…ë“¤ ì¶”ê°€ ê°€ëŠ¥
 							flag = false;
 //							System.out.println("b");
 							break;
 						}
-					} else if (inputLecture.int_getLectureDay1Stime() < lec.int_getLectureDay2Stime()) {  //ÀÌÀü ±³½Ã¿¡ Ãß°¡µÉ ¶§
-						if (inputLecture.int_getLectureDay1Otime() > lec.int_getLectureDay2Stime() - 1) {  //±âÁ¸ 03-04¸é 02±îÁö ³¡³ª´Â ¼ö¾÷ Ãß°¡ °¡´É
+					} else if (inputLecture.int_getLectureDay1Stime() < lec.int_getLectureDay2Stime()) {  //ì´ì „ êµì‹œì— ì¶”ê°€ë  ë•Œ
+						if (inputLecture.int_getLectureDay1Otime() > lec.int_getLectureDay2Stime() - 1) {  //ê¸°ì¡´ 03-04ë©´ 02ê¹Œì§€ ëë‚˜ëŠ” ìˆ˜ì—… ì¶”ê°€ ê°€ëŠ¥
 							flag = false;
 //							System.out.println("b2");
 							break;
 						}
-					} else {  //°°Àº ±³½Ã¿¡ ½ÃÀÛ
+					} else {  //ê°™ì€ êµì‹œì— ì‹œì‘
 						flag = false;
 //						System.out.println("b3");
 						break;
 					}
 				}
 
-				if (flag_inputDay2_lecDay1)  //Day2, Day1 °°Àº ¿äÀÏ
+				if (flag_inputDay2_lecDay1)  //Day2, Day1 ê°™ì€ ìš”ì¼
 				{
-					if (inputLecture.int_getLectureDay2Stime() > lec.int_getLectureDay1Stime()) {  //ÀÌÈÄ ±³½Ã¿¡ Ãß°¡µÉ ¶§
-						if (inputLecture.int_getLectureDay2Stime() < lec.int_getLectureDay2Otime() + 1) {  //±âÁ¸ 01-02¸é 03ºÎÅÍ ½ÃÀÛÇÏ´Â ¼ö¾÷µé Ãß°¡ °¡´É
+					if (inputLecture.int_getLectureDay2Stime() > lec.int_getLectureDay1Stime()) {  //ì´í›„ êµì‹œì— ì¶”ê°€ë  ë•Œ
+						if (inputLecture.int_getLectureDay2Stime() < lec.int_getLectureDay2Otime() + 1) {  //ê¸°ì¡´ 01-02ë©´ 03ë¶€í„° ì‹œì‘í•˜ëŠ” ìˆ˜ì—…ë“¤ ì¶”ê°€ ê°€ëŠ¥
 							flag = false;
 //							System.out.println("c");
 							break;
 						}
-					} else if (inputLecture.int_getLectureDay2Stime() < lec.int_getLectureDay1Stime()) {  //ÀÌÀü ±³½Ã¿¡ Ãß°¡µÉ ¶§
-						if (inputLecture.int_getLectureDay2Otime() > lec.int_getLectureDay1Stime() - 1) {  //±âÁ¸ 03-04¸é 02±îÁö ³¡³ª´Â ¼ö¾÷ Ãß°¡ °¡´É
+					} else if (inputLecture.int_getLectureDay2Stime() < lec.int_getLectureDay1Stime()) {  //ì´ì „ êµì‹œì— ì¶”ê°€ë  ë•Œ
+						if (inputLecture.int_getLectureDay2Otime() > lec.int_getLectureDay1Stime() - 1) {  //ê¸°ì¡´ 03-04ë©´ 02ê¹Œì§€ ëë‚˜ëŠ” ìˆ˜ì—… ì¶”ê°€ ê°€ëŠ¥
 							flag = false;
 //							System.out.println("c2");
 							break;
 						}
-					} else {  //°°Àº ±³½Ã¿¡ ½ÃÀÛ
+					} else {  //ê°™ì€ êµì‹œì— ì‹œì‘
 						flag = false;
 //						System.out.println("c3");
 						break;
 					}
 				}
-				if (flag_inputDay2_lecDay2)  //Day2, Day2 °°Àº ¿äÀÏ
+				if (flag_inputDay2_lecDay2)  //Day2, Day2 ê°™ì€ ìš”ì¼
 				{
-					if (inputLecture.int_getLectureDay2Stime() > lec.int_getLectureDay2Stime()) {  //ÀÌÈÄ ±³½Ã¿¡ Ãß°¡µÉ ¶§
-						if (inputLecture.int_getLectureDay2Stime() < lec.int_getLectureDay2Otime() + 1) {  //±âÁ¸ 01-02¸é 03ºÎÅÍ ½ÃÀÛÇÏ´Â ¼ö¾÷µé Ãß°¡ °¡´É
+					if (inputLecture.int_getLectureDay2Stime() > lec.int_getLectureDay2Stime()) {  //ì´í›„ êµì‹œì— ì¶”ê°€ë  ë•Œ
+						if (inputLecture.int_getLectureDay2Stime() < lec.int_getLectureDay2Otime() + 1) {  //ê¸°ì¡´ 01-02ë©´ 03ë¶€í„° ì‹œì‘í•˜ëŠ” ìˆ˜ì—…ë“¤ ì¶”ê°€ ê°€ëŠ¥
 							flag = false;
 //							System.out.println("d");
 							break;
 						}
-					} else if (inputLecture.int_getLectureDay2Stime() < lec.int_getLectureDay2Stime()) {  //ÀÌÀü ±³½Ã¿¡ Ãß°¡µÉ ¶§
-						if (inputLecture.int_getLectureDay2Otime() > lec.int_getLectureDay2Stime() - 1) {  //±âÁ¸ 03-04¸é 02±îÁö ³¡³ª´Â ¼ö¾÷ Ãß°¡ °¡´É
+					} else if (inputLecture.int_getLectureDay2Stime() < lec.int_getLectureDay2Stime()) {  //ì´ì „ êµì‹œì— ì¶”ê°€ë  ë•Œ
+						if (inputLecture.int_getLectureDay2Otime() > lec.int_getLectureDay2Stime() - 1) {  //ê¸°ì¡´ 03-04ë©´ 02ê¹Œì§€ ëë‚˜ëŠ” ìˆ˜ì—… ì¶”ê°€ ê°€ëŠ¥
 							flag = false;
 //							System.out.println("d2");
 							break;
 						}
-					} else {  //°°Àº ±³½Ã¿¡ ½ÃÀÛ
+					} else {  //ê°™ì€ êµì‹œì— ì‹œì‘
 						flag = false;
 //						System.out.println("d3");
 						break;
@@ -631,28 +631,28 @@ public class TimeTableManager {
 				}
 
 				if (!flag) {
-					System.out.println("±âÁ¸ ½Ã°£Ç¥¿Í °­ÀÇ ½Ã°£ÀÌ °ãÄ¨´Ï´Ù.");
+					System.out.println("ê¸°ì¡´ ì‹œê°„í‘œì™€ ê°•ì˜ ì‹œê°„ì´ ê²¹ì¹©ë‹ˆë‹¤.");
 					continue;
 				}
 			}
 
 
-				//4. ÀÎ¿øÁ¦ÇÑ °Ë»ç
+				//4. ì¸ì›ì œí•œ ê²€ì‚¬
 				if (inputLecture.getLectureCnum() >= inputLecture.getLectureMnum()) {
-//				System.out.println("°ú¸ñ ÄÚµå: " + inputLecture.getLectureCode());
-//				System.out.println("ÇöÀÎ¿ø: " + inputLecture.getLectureCnum() + " " + inputLecture.lectureCnum + " / Max:" + inputLecture.getLectureMnum());
-					System.out.println("¿©¼®ÀÌ ¾ø½À´Ï´Ù.");
+//				System.out.println("ê³¼ëª© ì½”ë“œ: " + inputLecture.getLectureCode());
+//				System.out.println("í˜„ì¸ì›: " + inputLecture.getLectureCnum() + " " + inputLecture.lectureCnum + " / Max:" + inputLecture.getLectureMnum());
+					System.out.println("ì—¬ì„ì´ ì—†ìŠµë‹ˆë‹¤.");
 					continue;
 				}
 
-				//5. 1Â÷ ¿ä±¸»çÇ× - ÃÖ´ë ÇĞÁ¡ ÇÑµµ °Ë»ç
+				//5. 1ì°¨ ìš”êµ¬ì‚¬í•­ - ìµœëŒ€ í•™ì  í•œë„ ê²€ì‚¬
 				if (loginUser.myCredit + inputLecture.getLectureCredit() > User.MAX_CREDIT) {
-					// ÃÖ´ë ÇĞÁ¡ ÇÑµµ ÃÊ°ú½Ã ¸Ş¼¼Áö Ãâ·Â
-					System.out.println(User.MAX_CREDIT + "ÇĞÁ¡À» ÃÊ°úÇØ ½ÅÃ»ÇÒ ¼ö ¾ø½À´Ï´Ù.");
+					// ìµœëŒ€ í•™ì  í•œë„ ì´ˆê³¼ì‹œ ë©”ì„¸ì§€ ì¶œë ¥
+					System.out.println(User.MAX_CREDIT + "í•™ì ì„ ì´ˆê³¼í•´ ì‹ ì²­í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 					continue;
 				}
 
-				//6. 2Â÷ ¿ä±¸»çÇ× - AÇĞÁ¡ ÀÌ»ó Àç¼ö°­ ±İÁö
+				//6. 2ì°¨ ìš”êµ¬ì‚¬í•­ - Aí•™ì  ì´ìƒ ì¬ìˆ˜ê°• ê¸ˆì§€
 				Boolean flag_grade = true;
 				for (Lecture l : loginUser.pastLectureList) {
 					if (l.lectureName.equals(inputLecture.lectureName)) {
@@ -664,49 +664,49 @@ public class TimeTableManager {
 				}
 				
 				if (!flag_grade) {
-					System.out.println("AÇĞÁ¡ ÀÌ»ó ¹Ş¾Ò´ø °ú¸ñÀº Àç¼ö°­ÇÒ ¼ö ¾ø½À´Ï´Ù.");
+					System.out.println("Aí•™ì  ì´ìƒ ë°›ì•˜ë˜ ê³¼ëª©ì€ ì¬ìˆ˜ê°•í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 					continue;
 				}
 
-				// °Ë»ç Åë°ú½Ã break
+				// ê²€ì‚¬ í†µê³¼ì‹œ break
 				break;
 			}
 
-			// 2Â÷ ¿ä±¸»çÇ× - ¼ö°­½ÅÃ»ÇÑ °ú¸ñÀÇ µî±Ş ÃÊ±âÈ­
+			// 2ì°¨ ìš”êµ¬ì‚¬í•­ - ìˆ˜ê°•ì‹ ì²­í•œ ê³¼ëª©ì˜ ë“±ê¸‰ ì´ˆê¸°í™”
 			filereader.lecturelist.get(input).grade = "X";
 
-			// ¼ö°­½ÅÃ»ÇÑ °ú¸ñ loginUserÀÇ myLectureList¿¡ ÀúÀå
+			// ìˆ˜ê°•ì‹ ì²­í•œ ê³¼ëª© loginUserì˜ myLectureListì— ì €ì¥
 			loginUser.myLectureList.add(filereader.lecturelist.get(input));
 
-			// loginUserÀÇ myCredit ¼ö°­½ÅÃ»ÇÑ °ú¸ñÀÇ ÇĞÁ¡¸¸Å­ Áõ°¡
+			// loginUserì˜ myCredit ìˆ˜ê°•ì‹ ì²­í•œ ê³¼ëª©ì˜ í•™ì ë§Œí¼ ì¦ê°€
 			loginUser.myCredit += filereader.lecturelist.get(input).getLectureCredit();
 
-			// ÇĞ¹ø.txt ÆÄÀÏ ¾÷µ¥ÀÌÆ®
+			// í•™ë²ˆ.txt íŒŒì¼ ì—…ë°ì´íŠ¸
 			updateIdFile();
 
-			// lecturelistÀÇ lectureÀÇ ¼ö°­½ÅÃ»ÀÎ¿ø ¾÷µ¥ÀÌÆ®
+			// lecturelistì˜ lectureì˜ ìˆ˜ê°•ì‹ ì²­ì¸ì› ì—…ë°ì´íŠ¸
 			filereader.lecturelist.get(input).plusLectureCnum();
 
-			// lecture_list ÇöÀç ¼ö°­½ÅÃ» ÀÎ¿ø ¾÷µ¥ÀÌÆ®
+			// lecture_list í˜„ì¬ ìˆ˜ê°•ì‹ ì²­ ì¸ì› ì—…ë°ì´íŠ¸
 			filereader.updateLectureFile(input);
 
-			// ¼ö°­½ÅÃ» ¿Ï·á
-			System.out.println("¼ö°­½ÅÃ»ÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù.");
-//		System.out.println("ÇĞÁ¡: "+loginUser.myCredit);
+			// ìˆ˜ê°•ì‹ ì²­ ì™„ë£Œ
+			System.out.println("ìˆ˜ê°•ì‹ ì²­ì´ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.");
+//		System.out.println("í•™ì : "+loginUser.myCredit);
 		}
 	
-	// ÇĞ¹ø.txt ÆÄÀÏ ¾÷µ¥ÀÌÆ® ¸Ş¼Òµå
+	// í•™ë²ˆ.txt íŒŒì¼ ì—…ë°ì´íŠ¸ ë©”ì†Œë“œ
 	private void updateIdFile() {
 		String content = "";
 		int count = 0;
 		for (Lecture lecture : loginUser.myLectureList)
 			content += date.getYear() + " " + lecture.lectureCode + " " + lecture.lectureName + " " + lecture.lectureCredit + " " + lecture.grade + "\n";
 		
-		// 2Â÷ ¿ä±¸»çÇ× - ¼ö°­Çß´ø °­ÀÇ Ãß°¡
+		// 2ì°¨ ìš”êµ¬ì‚¬í•­ - ìˆ˜ê°•í–ˆë˜ ê°•ì˜ ì¶”ê°€
 		for (Lecture lecture : loginUser.pastLectureList) {
 			content += loginUser.pastLectureListYear.get(count) + " " + lecture.lectureCode + " " + lecture.lectureName + " " + lecture.lectureCredit + " " + lecture.grade + "\n";
 			count++;
-			// ¼ö°­Çß´ø ¿¬µµ ±×´ë·Î º¯°æ
+			// ìˆ˜ê°•í–ˆë˜ ì—°ë„ ê·¸ëŒ€ë¡œ ë³€ê²½
 		}
 		
 		try {
@@ -714,8 +714,8 @@ public class TimeTableManager {
 			writer.write(content);
 			writer.close();
 		} catch (IOException e) {
-//			System.out.println(loginUser.FILEPATH+": ¾²±â ½ÇÆĞ");
-			System.exit(0); // ¿À·ù ¹ß»ı½Ã ÇÁ·Î±×·¥ Á¾·á
+//			System.out.println(loginUser.FILEPATH+": ì“°ê¸° ì‹¤íŒ¨");
+			System.exit(0); // ì˜¤ë¥˜ ë°œìƒì‹œ í”„ë¡œê·¸ë¨ ì¢…ë£Œ
 		}
 	}
 }

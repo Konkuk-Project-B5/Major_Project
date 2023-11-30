@@ -1,8 +1,8 @@
 eclipse.preferences.version=1
-encoding//TimeTable/202011255.txt=MS949
-encoding//TimeTable/202211329.txt=MS949
-encoding//TimeTable/202312345.txt=MS949
-encoding//TimeTable/lecture_list.txt=MS949
-encoding//TimeTable/lecturer.txt=MS949
-encoding//TimeTable/src/main/TimeTableManager.java=MS949
-encoding/<project>=MS949
+encoding//TimeTable/202011255.txt=UTF-8
+encoding//TimeTable/202211329.txt=UTF-8
+encoding//TimeTable/202312345.txt=UTF-8
+encoding//TimeTable/lecture_list.txt=UTF-8
+encoding//TimeTable/lecturer.txt=UTF-8
+encoding//TimeTable/src/main/TimeTableManager.java=UTF-8
+encoding/<project>=UTF-8

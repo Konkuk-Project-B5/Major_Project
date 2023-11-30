@@ -5,15 +5,15 @@ import java.util.Collections;
 
 public class User {
 	
-	String id; // í•™ë²ˆ 
-	String password; // ë¹„ë°€ë²ˆí˜¸
-	final String FILEPATH; // í•™ë²ˆ.txt íŒŒì¼ ê²½ë¡œ ë¬¸ìì—´
-	ArrayList<Lecture> myLectureList = null; // ìˆ˜ê°• ì‹ ì²­í•œ ê°•ì˜ ë¦¬ìŠ¤íŠ¸
-	ArrayList<Lecture> pastLectureList = null; // 2ì°¨ ìš”êµ¬ì‚¬í•­ - ìˆ˜ê°•í–ˆë˜ ê°•ì˜ ë¦¬ìŠ¤íŠ¸
-	ArrayList<Integer> pastLectureListYear = null; // ìˆ˜ê°•í–ˆë˜ ê°•ì˜ ì—°ë„ ë¦¬ìŠ¤íŠ¸
-	// 1ì°¨ ìš”êµ¬ì‚¬í•­ - ìµœëŒ€ í•™ì  í•œë„, ì‚¬ìš©ì í•™ì  ì¶”ê°€
-	static final int MAX_CREDIT = 18; // ìµœëŒ€ í•™ì  í•œë„
-	int myCredit; // í•™ì 
+	String id; // ÇĞ¹ø 
+	String password; // ºñ¹Ğ¹øÈ£
+	final String FILEPATH; // ÇĞ¹ø.txt ÆÄÀÏ °æ·Î ¹®ÀÚ¿­
+	ArrayList<Lecture> myLectureList = null; // ¼ö°­ ½ÅÃ»ÇÑ °­ÀÇ ¸®½ºÆ®
+	ArrayList<Lecture> pastLectureList = null; // 2Â÷ ¿ä±¸»çÇ× - ¼ö°­Çß´ø °­ÀÇ ¸®½ºÆ®
+	ArrayList<Integer> pastLectureListYear = null; // ¼ö°­Çß´ø °­ÀÇ ¿¬µµ ¸®½ºÆ®
+	// 1Â÷ ¿ä±¸»çÇ× - ÃÖ´ë ÇĞÁ¡ ÇÑµµ, »ç¿ëÀÚ ÇĞÁ¡ Ãß°¡
+	static final int MAX_CREDIT = 18; // ÃÖ´ë ÇĞÁ¡ ÇÑµµ
+	int myCredit; // ÇĞÁ¡
 	
  	
 	public User(String id, String password) {
@@ -29,8 +29,8 @@ public class User {
 			return false;
 		} else {
 			Collections.sort(myLectureList);
-			System.out.println("ìˆ˜ê°•ì‹ ì²­ë‚´ì—­");
-			System.out.printf("%-10s %-10s %-10s %-18s %-10s %-10s\n", "ê³¼ëª©ë²ˆí˜¸", "êµê³¼ëª©ëª…", "í•™ì ","ê°•ì˜ì‹œê°„", "ê°•ì˜ì‹¤", "êµê°•ì‚¬");
+			System.out.println("¼ö°­½ÅÃ»³»¿ª");
+			System.out.printf("%-10s %-10s %-10s %-18s %-10s %-10s\n", "°ú¸ñ¹øÈ£", "±³°ú¸ñ¸í", "ÇĞÁ¡","°­ÀÇ½Ã°£", "°­ÀÇ½Ç", "±³°­»ç");
 			for (Lecture value : myLectureList) {
 				value.printMyLectureList();
 		  }

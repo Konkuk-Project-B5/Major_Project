@@ -52,31 +52,36 @@ public class TimeTableManager {
 	        roomBufferReader.close();
 		    BufferedReader lecture_list_bufReader = new BufferedReader(reader);
 		    String line = "";
+		    boolean conditionFlag = false;
 			while ((line = lecture_list_bufReader.readLine()) != null) {
 				//System.out.println(line);
 				boolean result =
 			line.matches(
 				"^\\d{3}\s[가-힣]+[0-9]*\s[가-힣]{3}\s[월|화|수|목|금]\s\\d{2}\s\\d{2}\s\\d{3}((\s\s\s\s\s)|(\s[월|화|수|목|금]\s\\d{2}\s\\d{2}\s\\d{3}\s))\\d{2}\s\\d{2}\s\\d{1}$"
 			);
+				
 				String[] lectureInfo = line.split(" ");
 				//System.out.println(lectureInfo[lectureInfo.length-2]+" "+lectureInfo[6]+" "+lectureInfo[10]); //수강신청 제한인원, 강의실
 			    for(int i =0; i<sizeCount; i++) {
 			    	if(lectureInfo[6].equals(roomInfo[i])) {
 			    		if(Integer.parseInt(lectureInfo[lectureInfo.length-2]) >  roomMaxSize[i]) {
 			    			System.out.println(lectureInfo[1]+"의 수강신청제한인원이 "+lectureInfo[6]+" 강의실 최대수용인원을 넘습니다.");
-			    			break;
+			    			conditionFlag = true;
 			    		}
 			    	}
 			    	else if(lectureInfo[10].equals(roomInfo[i])) {
 			    		if(Integer.parseInt(lectureInfo[lectureInfo.length-2]) >  roomMaxSize[i]) {
 			    			System.out.println(lectureInfo[1]+"의 수강신청제한인원이 "+lectureInfo[10]+" 강의실 최대수용인원을 넘습니다.");
-			    			break;
+			    			conditionFlag = true;
 			    		}
 			    	}
 			    }
+			    
 				if (result == false) { System.out.println("오류 :lecture 데이터 파일이 손상되었습니다.");
 			System.out.println("프로그램을 종료합니다."); System.exit(0); } }
-			 
+			if(conditionFlag == true) {
+		    	System.out.println("프로그램을 종료합니다."); System.exit(0);
+		    }
 		    lecture_list_bufReader.close();
 		    File user_file = new File("./user.txt");
 		    FileReader user_filereader = new FileReader(user_file);

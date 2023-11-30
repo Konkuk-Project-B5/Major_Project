@@ -27,13 +27,13 @@ private String filePath1 = "./lecture_list.txt";
 		readLectureRoomFile();
 	}
 
-	private void readLectureRoomFile() { // 2ì°¨ìš”êµ¬ì‚¬í•­ - ê°•ì˜ì‹¤ ì¶”ê°€ ê°•ì˜ì‹¤ íŒŒì¼ ì½ì–´ì™€ì„œ í•´ì‰¬ë§µì— ì €ì¥HashMap<String, Lecture_room> lectureRoomlist
+	private void readLectureRoomFile() { // 2Â÷¿ä±¸»çÇ× - °­ÀÇ½Ç Ãß°¡ °­ÀÇ½Ç ÆÄÀÏ ÀĞ¾î¿Í¼­ ÇØ½¬¸Ê¿¡ ÀúÀåHashMap<String, Lecture_room> lectureRoomlist
 		try (BufferedReader br = new BufferedReader(new FileReader(filePath2))) {
 			String line;
 
 			while ((line = br.readLine()) != null) {
 
-				String[] parts = line.split(" "); // ìŠ¤í˜ì´ìŠ¤ë°”ë¡œ ë¬¸ìì—´ì„ ë¶„í• 
+				String[] parts = line.split(" "); // ½ºÆäÀÌ½º¹Ù·Î ¹®ÀÚ¿­À» ºĞÇÒ
 
 				if (parts.length >= 2) {
 					Lecture_room lec = new Lecture_room(parts[0].trim(), parts[1].trim());
@@ -43,17 +43,17 @@ private String filePath1 = "./lecture_list.txt";
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.out.println("íŒŒì¼ì„ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤,");
+			System.out.println("ÆÄÀÏÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù,");
 		}
 	}
 
-	private void readLecuturerFile() { // 2ì°¨ìš”êµ¬ì‚¬í•­ - êµê°•ì‚¬ ì¶”ê°€ êµê°•ì‚¬ íŒŒì¼ ì½ì–´ì™€ì„œ í•´ì‰¬ë§µì— ì €ì¥ HashMap<String, Lecturer> lecturerlist = new HashMap<>();
+	private void readLecuturerFile() { // 2Â÷¿ä±¸»çÇ× - ±³°­»ç Ãß°¡ ±³°­»ç ÆÄÀÏ ÀĞ¾î¿Í¼­ ÇØ½¬¸Ê¿¡ ÀúÀå HashMap<String, Lecturer> lecturerlist = new HashMap<>();
 		try (BufferedReader br = new BufferedReader(new FileReader(filePath3))) {
 			String line;
 
 			while ((line = br.readLine()) != null) {
 
-				String[] parts = line.split(" "); // ìŠ¤í˜ì´ìŠ¤ë°”ë¡œ ë¬¸ìì—´ì„ ë¶„í• 
+				String[] parts = line.split(" "); // ½ºÆäÀÌ½º¹Ù·Î ¹®ÀÚ¿­À» ºĞÇÒ
 
 				if (parts.length >= 1) {
 					Lecturer lec = new Lecturer(parts[0].trim());
@@ -63,7 +63,7 @@ private String filePath1 = "./lecture_list.txt";
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.out.println("íŒŒì¼ì„ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤,");
+			System.out.println("ÆÄÀÏÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù,");
 		}
 	}
 	private void readLectureFile() {
@@ -72,24 +72,24 @@ private String filePath1 = "./lecture_list.txt";
 
 			while ((line = br.readLine()) != null) {
 
-				String[] parts = line.split(" "); // ìŠ¤í˜ì´ìŠ¤ë°”ë¡œ ë¬¸ìì—´ì„ ë¶„í• 
+				String[] parts = line.split(" "); // ½ºÆäÀÌ½º¹Ù·Î ¹®ÀÚ¿­À» ºĞÇÒ
 
 				if (parts.length >= 13) {
 					Lecture lec = new Lecture();
 					lec.lectureCode = parts[0].trim();
 					lec.lectureName = parts[1].trim();
-					lec.lecturer = parts[2].trim(); // 2ì°¨ìš”êµ¬ì‚¬í•­ - êµê°•ì‚¬ ì¶”ê°€
+					lec.lecturer = parts[2].trim(); // 2Â÷¿ä±¸»çÇ× - ±³°­»ç Ãß°¡
 					lec.lectureDay1 = parts[3].trim(); 
-					lec.lectureDay1Stime = parts[4].trim(); // 2ì°¨ìš”êµ¬ì‚¬í•­ - ìš”ì¼ì— ë”°ë¼ ê°•ì˜ ì‹œê°„ ë‹¤ë¥´ê²Œ ê°€ëŠ¥
-					lec.lectureDay1Otime = parts[5].trim(); // 2ì°¨ìš”êµ¬ì‚¬í•­ - ìš”ì¼ì— ë”°ë¼ ê°•ì˜ ì‹œê°„ ë‹¤ë¥´ê²Œ ê°€ëŠ¥
-					lec.lectureRoomDay1 = parts[6].trim(); // 2ì°¨ìš”êµ¬ì‚¬í•­ - ê°•ì˜ì‹¤ ì¶”ê°€
-					lec.lectureDay2 = parts[7].trim(); // 2ì°¨ìš”êµ¬ì‚¬í•­ - ìš”ì¼ì— ë”°ë¼ ê°•ì˜ ì‹œê°„ ë‹¤ë¥´ê²Œ ê°€ëŠ¥
-					lec.lectureDay2Stime = parts[8].trim();  // 2ì°¨ìš”êµ¬ì‚¬í•­ - ìš”ì¼ì— ë”°ë¼ ê°•ì˜ ì‹œê°„ ë‹¤ë¥´ê²Œ ê°€ëŠ¥
-					lec.lectureDay2Otime = parts[9].trim(); // 2ì°¨ìš”êµ¬ì‚¬í•­ - ìš”ì¼ì— ë”°ë¼ ê°•ì˜ ì‹œê°„ ë‹¤ë¥´ê²Œ ê°€ëŠ¥
-					lec.lectureRoomDay2 = parts[10].trim(); // 2ì°¨ìš”êµ¬ì‚¬í•­ - ê°•ì˜ì‹¤ ì¶”ê°€
+					lec.lectureDay1Stime = parts[4].trim(); // 2Â÷¿ä±¸»çÇ× - ¿äÀÏ¿¡ µû¶ó °­ÀÇ ½Ã°£ ´Ù¸£°Ô °¡´É
+					lec.lectureDay1Otime = parts[5].trim(); // 2Â÷¿ä±¸»çÇ× - ¿äÀÏ¿¡ µû¶ó °­ÀÇ ½Ã°£ ´Ù¸£°Ô °¡´É
+					lec.lectureRoomDay1 = parts[6].trim(); // 2Â÷¿ä±¸»çÇ× - °­ÀÇ½Ç Ãß°¡
+					lec.lectureDay2 = parts[7].trim(); // 2Â÷¿ä±¸»çÇ× - ¿äÀÏ¿¡ µû¶ó °­ÀÇ ½Ã°£ ´Ù¸£°Ô °¡´É
+					lec.lectureDay2Stime = parts[8].trim();  // 2Â÷¿ä±¸»çÇ× - ¿äÀÏ¿¡ µû¶ó °­ÀÇ ½Ã°£ ´Ù¸£°Ô °¡´É
+					lec.lectureDay2Otime = parts[9].trim(); // 2Â÷¿ä±¸»çÇ× - ¿äÀÏ¿¡ µû¶ó °­ÀÇ ½Ã°£ ´Ù¸£°Ô °¡´É
+					lec.lectureRoomDay2 = parts[10].trim(); // 2Â÷¿ä±¸»çÇ× - °­ÀÇ½Ç Ãß°¡
 					lec.lectureCnum = parts[11].trim(); 
 					lec.lectureMnum = parts[12].trim();
-					// 1ì°¨ ìš”êµ¬ì‚¬í•­ - ê°•ì˜ í•™ì  ì„ì‹œ ì´ˆê¸°í™”
+					// 1Â÷ ¿ä±¸»çÇ× - °­ÀÇ ÇĞÁ¡ ÀÓ½Ã ÃÊ±âÈ­
 					lec.lectureCredit = parts[13].trim();
 					lecturelist.put(parts[0].trim(), lec);
 				}
@@ -97,13 +97,13 @@ private String filePath1 = "./lecture_list.txt";
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.out.println("íŒŒì¼ì„ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤,");
+			System.out.println("ÆÄÀÏÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù,");
 		}
 	}
 
 	public void printLectureList() {
-		System.out.println("ê°•ì˜ëª©ë¡");
-		System.out.printf("%-10s %-20s %-20s %-18s %10s%n", "ê³¼ëª©ë²ˆí˜¸", "êµê³¼ëª©ëª…", "ê°•ì˜ì‹œê°„", "í˜„ì¬ìˆ˜ê°•ì¸ì› / ìµœëŒ€ìˆ˜ê°•ì¸ì›","í•™ì ");
+		System.out.println("°­ÀÇ¸ñ·Ï");
+		System.out.printf("%-10s %-20s %-20s %-18s %10s%n", "°ú¸ñ¹øÈ£", "±³°ú¸ñ¸í", "°­ÀÇ½Ã°£", "ÇöÀç¼ö°­ÀÎ¿ø / ÃÖ´ë¼ö°­ÀÎ¿ø","ÇĞÁ¡");
 		Collection<Lecture> values = lecturelist.values();
 		for (Lecture value : values) {
 			value.printLectureList();
@@ -111,28 +111,28 @@ private String filePath1 = "./lecture_list.txt";
 	}
 	
 	public void updateLectureFile(String lectureNum) {
-	    // ì„ì‹œë¡œ ìˆ˜ì •ëœ ë°ì´í„°ë¥¼ ì €ì¥í•  ë¦¬ìŠ¤íŠ¸
+	    // ÀÓ½Ã·Î ¼öÁ¤µÈ µ¥ÀÌÅÍ¸¦ ÀúÀåÇÒ ¸®½ºÆ®
 	    List<String> updatedData = new ArrayList<>();
 
 	try (BufferedReader br = new BufferedReader(new FileReader(filePath1))) {
 	        String line;
 
 	        while ((line = br.readLine()) != null) {
-	            String[] parts = line.split(" "); // ê³µë°±ìœ¼ë¡œ ë¬¸ìì—´ì„ ë¶„í• 
+	            String[] parts = line.split(" "); // °ø¹éÀ¸·Î ¹®ÀÚ¿­À» ºĞÇÒ
 	            if (parts.length >= 7) {
 	                if (parts[0].trim().equals(lectureNum)) {
 	                    int val = Integer.parseInt(parts[6].trim());
 	                    val++;
-	                    // ë°ì´í„° íŒŒì¼ í˜•ì‹ ë§ê²Œ 10 ì´í•˜ì¼ ê²½ìš° ì•ì— 0 ì¶”ê°€
+	                    // µ¥ÀÌÅÍ ÆÄÀÏ Çü½Ä ¸Â°Ô 10 ÀÌÇÏÀÏ °æ¿ì ¾Õ¿¡ 0 Ãß°¡
 	                    if(val < 10) {
 	                    	parts[6] = "0" + Integer.toString(val);
 	                    } else {
 	                    	parts[6] = Integer.toString(val);
 	                    }
-	                    // ìˆ˜ì •ëœ ì¤„ì„ ë¦¬ìŠ¤íŠ¸ì— ì¶”ê°€
+	                    // ¼öÁ¤µÈ ÁÙÀ» ¸®½ºÆ®¿¡ Ãß°¡
 	                    updatedData.add(String.join(" ", parts));
 	                } else {
-	                    // ìˆ˜ì •í•˜ì§€ ì•Šì€ ì¤„ì€ ê·¸ëŒ€ë¡œ ë¦¬ìŠ¤íŠ¸ì— ì¶”ê°€
+	                    // ¼öÁ¤ÇÏÁö ¾ÊÀº ÁÙÀº ±×´ë·Î ¸®½ºÆ®¿¡ Ãß°¡
 	                    updatedData.add(line);
 	                }
 	         
@@ -140,11 +140,11 @@ private String filePath1 = "./lecture_list.txt";
 	        }
 	    } catch (IOException e) {
 	        e.printStackTrace();
-	        System.out.println("íŒŒì¼ì„ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
+	        System.out.println("ÆÄÀÏÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù.");
 	        return;
 	    }
 
-	    // íŒŒì¼ì— ìˆ˜ì •ëœ ë°ì´í„°ë¥¼ ë‹¤ì‹œ ì”€
+	    // ÆÄÀÏ¿¡ ¼öÁ¤µÈ µ¥ÀÌÅÍ¸¦ ´Ù½Ã ¾¸
 	    try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath1))) {
 	        for (String updatedLine : updatedData) {
 	            bw.write(updatedLine);
@@ -152,26 +152,26 @@ private String filePath1 = "./lecture_list.txt";
 	        }
 	    } catch (IOException e) {
 	        e.printStackTrace();
-	        System.out.println("íŒŒì¼ ì“°ê¸° ì˜¤ë¥˜ ë°œìƒ.");
+	        System.out.println("ÆÄÀÏ ¾²±â ¿À·ù ¹ß»ı.");
 	    }
 	}
 	
-	// ì¸ì› ê°ì†Œ ì—…ë°ì´íŠ¸
+	// ÀÎ¿ø °¨¼Ò ¾÷µ¥ÀÌÆ®
 	public void updateLectureFile2(String lectureNum) {
-	    // ì„ì‹œë¡œ ìˆ˜ì •ëœ ë°ì´í„°ë¥¼ ì €ì¥í•  ë¦¬ìŠ¤íŠ¸
+	    // ÀÓ½Ã·Î ¼öÁ¤µÈ µ¥ÀÌÅÍ¸¦ ÀúÀåÇÒ ¸®½ºÆ®
 	    List<String> updatedData = new ArrayList<>();
 
 	try (BufferedReader br = new BufferedReader(new FileReader(filePath1))) {
 	        String line;
 
 	        while ((line = br.readLine()) != null) {
-	            String[] parts = line.split(" "); // ê³µë°±ìœ¼ë¡œ ë¬¸ìì—´ì„ ë¶„í• 
+	            String[] parts = line.split(" "); // °ø¹éÀ¸·Î ¹®ÀÚ¿­À» ºĞÇÒ
 	            if (parts.length >= 7) {
 	                if (parts[0].trim().equals(lectureNum)) {
 	                    int val = Integer.parseInt(parts[6].trim());
 	                    val--;
 	                    if (val < 0) {
-	                        val = 0; // ìŒìˆ˜ë¡œ ë–¨ì–´ì§€ì§€ ì•Šë„ë¡ ì²˜ë¦¬
+	                        val = 0; // À½¼ö·Î ¶³¾îÁöÁö ¾Êµµ·Ï Ã³¸®
 	                        parts[6] = "0" + Integer.toString(val);
 	                    } 
 	                    else if(val < 10) {
@@ -179,21 +179,21 @@ private String filePath1 = "./lecture_list.txt";
 	                    } else {
 	                    	parts[6] = Integer.toString(val);
 	                    }
-	                    // ìˆ˜ì •ëœ ì¤„ì„ ë¦¬ìŠ¤íŠ¸ì— ì¶”ê°€
+	                    // ¼öÁ¤µÈ ÁÙÀ» ¸®½ºÆ®¿¡ Ãß°¡
 	                    updatedData.add(String.join(" ", parts));
 	                } else {
-	                    // ìˆ˜ì •í•˜ì§€ ì•Šì€ ì¤„ì€ ê·¸ëŒ€ë¡œ ë¦¬ìŠ¤íŠ¸ì— ì¶”ê°€
+	                    // ¼öÁ¤ÇÏÁö ¾ÊÀº ÁÙÀº ±×´ë·Î ¸®½ºÆ®¿¡ Ãß°¡
 	                    updatedData.add(line);
 	                }
 	            }
 	        }
 	    } catch (IOException e) {
 	        e.printStackTrace();
-	        System.out.println("íŒŒì¼ì„ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
+	        System.out.println("ÆÄÀÏÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù.");
 	        return;
 	    }
 
-	    // íŒŒì¼ì— ìˆ˜ì •ëœ ë°ì´í„°ë¥¼ ë‹¤ì‹œ ì”€
+	    // ÆÄÀÏ¿¡ ¼öÁ¤µÈ µ¥ÀÌÅÍ¸¦ ´Ù½Ã ¾¸
 	    try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath1))) {
 	        for (String updatedLine : updatedData) {
 	            bw.write(updatedLine);
@@ -201,7 +201,7 @@ private String filePath1 = "./lecture_list.txt";
 	        }
 	    } catch (IOException e) {
 	        e.printStackTrace();
-	        System.out.println("íŒŒì¼ ì“°ê¸° ì˜¤ë¥˜ ë°œìƒ.");
+	        System.out.println("ÆÄÀÏ ¾²±â ¿À·ù ¹ß»ı.");
 	    }
 	}
 	

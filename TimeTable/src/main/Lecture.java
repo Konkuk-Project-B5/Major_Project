@@ -5,24 +5,24 @@ import java.util.List;
 public class Lecture implements Comparable<Lecture> {
 	protected String lectureCode;
 	protected String lectureName;
-	protected String lectureCredit; // 1ì°¨ ìš”êµ¬ì‚¬í•­ - ê°•ì˜ í•™ì  ì¶”ê°€
+	protected String lectureCredit; // 1Â÷ ¿ä±¸»çÇ× - °­ÀÇ ÇĞÁ¡ Ãß°¡
 	protected String lectureDay1;
 	protected String lectureDay2;
 	protected String lectureDay1Stime;
 	protected String lectureDay1Otime;
-	protected String lectureDay2Stime;//2ì°¨ìš”êµ¬ì‚¬í•­ - ìš”ì¼ì— ë”°ë¼ ê°•ì˜ ì‹œê°„ ë‹¤ë¥´ê²Œ ê°€ëŠ¥
+	protected String lectureDay2Stime;//2Â÷¿ä±¸»çÇ× - ¿äÀÏ¿¡ µû¶ó °­ÀÇ ½Ã°£ ´Ù¸£°Ô °¡´É
 	protected String lectureDay2Otime;
 	protected String lectureCnum;
 	protected String lectureMnum;
-	protected String lecturer; //2ì°¨ìš”êµ¬ì‚¬í•­ - êµê°•ì‚¬ ì¶”ê°€
-	protected String lectureRoomDay1;  //2ì°¨ìš”êµ¬ì‚¬í•­ - ê°•ì˜ì‹¤ ì¶”ê°€
-	protected String lectureRoomDay2; //2ì°¨ìš”êµ¬ì‚¬í•­ - ê°•ì˜ì‹¤ ì¶”ê°€
-	protected String grade; // 2ì°¨ ìš”êµ¬ì‚¬í•­ - ë“±ê¸‰ ì¶”ê°€
+	protected String lecturer; //2Â÷¿ä±¸»çÇ× - ±³°­»ç Ãß°¡
+	protected String lectureRoomDay1;  //2Â÷¿ä±¸»çÇ× - °­ÀÇ½Ç Ãß°¡
+	protected String lectureRoomDay2; //2Â÷¿ä±¸»çÇ× - °­ÀÇ½Ç Ãß°¡
+	protected String grade; // 2Â÷ ¿ä±¸»çÇ× - µî±Ş Ãß°¡
 	public String getGrade() {
 		return grade;
 	}
 	
-	// // Comparable í•™ë²ˆìˆœ ì •ë ¬ ê·œì¹™
+	// // Comparable ÇĞ¹ø¼ø Á¤·Ä ±ÔÄ¢
 	// @Override
 	// public int compareTo(Lecture other) {
 	// 	return this.lectureCode.compareTo(other.lectureCode);
@@ -40,7 +40,7 @@ public class Lecture implements Comparable<Lecture> {
 	// 	return lectureName;
 	// }
 	
-	// 2ì°¨ ìš”êµ¬ì‚¬í•­ - ìˆ˜ê°•í–ˆë˜ ê³¼ëª©ì— ëŒ€í•œ ê°ì²´ ìƒì„±ì
+	// 2Â÷ ¿ä±¸»çÇ× - ¼ö°­Çß´ø °ú¸ñ¿¡ ´ëÇÑ °´Ã¼ »ı¼ºÀÚ
 	public Lecture(String lectureCode, String lectureName, String lectureCredit, String grade) {
 		this.lectureCode = lectureCode;
 		this.lectureName = lectureName;
@@ -52,13 +52,13 @@ public class Lecture implements Comparable<Lecture> {
 
 	}
 
-	// 1ì°¨ ìš”êµ¬ì‚¬í•­ - í•™ì  getter
+	// 1Â÷ ¿ä±¸»çÇ× - ÇĞÁ¡ getter
 	public int getLectureCredit() {
 		int credit = 0;
 		try {
 			credit = Integer.parseInt(lectureCredit);
 		} catch (NumberFormatException e) {
-			System.exit(0); // ì˜¤ë¥˜ ë°œìƒì‹œ í”„ë¡œê·¸ë¨ ì¢…ë£Œ
+			System.exit(0); // ¿À·ù ¹ß»ı½Ã ÇÁ·Î±×·¥ Á¾·á
 		}
 		return credit;
 	}
@@ -76,7 +76,7 @@ public class Lecture implements Comparable<Lecture> {
 		try {
 			LectureDay1Stime = Integer.parseInt(lectureDay1Stime);
 		} catch (NumberFormatException e) {
-			System.exit(0); // ì˜¤ë¥˜ ë°œìƒì‹œ í”„ë¡œê·¸ë¨ ì¢…ë£Œ
+			System.exit(0); // ¿À·ù ¹ß»ı½Ã ÇÁ·Î±×·¥ Á¾·á
 		}
 		return LectureDay1Stime;
 	}
@@ -86,7 +86,7 @@ public class Lecture implements Comparable<Lecture> {
 		try {
 			LectureDay2Stime = Integer.parseInt(lectureDay2Stime);
 		} catch (NumberFormatException e) {
-			System.exit(0); // ì˜¤ë¥˜ ë°œìƒì‹œ í”„ë¡œê·¸ë¨ ì¢…ë£Œ
+			System.exit(0); // ¿À·ù ¹ß»ı½Ã ÇÁ·Î±×·¥ Á¾·á
 		}
 		return LectureDay2Stime;
 	}
@@ -96,7 +96,7 @@ public class Lecture implements Comparable<Lecture> {
 		try {
 			LectureDay1Otime = Integer.parseInt(lectureDay1Otime);
 		} catch (NumberFormatException e) {
-			System.exit(0); // ì˜¤ë¥˜ ë°œìƒì‹œ í”„ë¡œê·¸ë¨ ì¢…ë£Œ
+			System.exit(0); // ¿À·ù ¹ß»ı½Ã ÇÁ·Î±×·¥ Á¾·á
 		}
 		return LectureDay1Otime;
 	}
@@ -106,7 +106,7 @@ public class Lecture implements Comparable<Lecture> {
 		try {
 			LectureDay2Otime = Integer.parseInt(lectureDay2Otime);
 		} catch (NumberFormatException e) {
-			System.exit(0); // ì˜¤ë¥˜ ë°œìƒì‹œ í”„ë¡œê·¸ë¨ ì¢…ë£Œ
+			System.exit(0); // ¿À·ù ¹ß»ı½Ã ÇÁ·Î±×·¥ Á¾·á
 		}
 		return LectureDay2Otime;
 	}
@@ -116,12 +116,12 @@ public class Lecture implements Comparable<Lecture> {
 		try {
 			Cnum = Integer.parseInt(lectureCnum);
 		} catch (NumberFormatException e) {
-			System.exit(0); // ì˜¤ë¥˜ ë°œìƒì‹œ í”„ë¡œê·¸ë¨ ì¢…ë£Œ
+			System.exit(0); // ¿À·ù ¹ß»ı½Ã ÇÁ·Î±×·¥ Á¾·á
 		}
 		return Cnum;
 	}
 
-	public void setLectureCnum(String lectureCnum) { // setterì´ê±°ë°–ì— ì—†ìŒ
+	public void setLectureCnum(String lectureCnum) { // setterÀÌ°Å¹Û¿¡ ¾øÀ½
 		this.lectureCnum = lectureCnum;
 	}
 
@@ -148,7 +148,7 @@ public class Lecture implements Comparable<Lecture> {
 		try {
 			Mnum = Integer.parseInt(lectureMnum);
 		} catch (NumberFormatException e) {
-			System.exit(0); // ì˜¤ë¥˜ ë°œìƒì‹œ í”„ë¡œê·¸ë¨ ì¢…ë£Œ
+			System.exit(0); // ¿À·ù ¹ß»ı½Ã ÇÁ·Î±×·¥ Á¾·á
 		}
 		return Mnum;
 	}
@@ -156,42 +156,42 @@ public class Lecture implements Comparable<Lecture> {
 	public void printLectureList() {
 		String enrollment = String.format("%s / %s", lectureCnum, lectureMnum);
 
-		if (lectureDay2.isEmpty()) {// ìš”ì¼ í•œê°œ
+		if (lectureDay2.isEmpty()) {// ¿äÀÏ ÇÑ°³
 			String time = String.format("%s %s-%s", lectureDay1, lectureDay1Stime, lectureDay1Otime);
 			System.out.printf("%-10s %-20s %-20s %-20s %10s%n", lectureCode, lectureName, time, enrollment,lectureCredit);
-		} else {// ìš”ì¼ ë‘ê°œ
+		} else {// ¿äÀÏ µÎ°³
 			String time = String.format("%s %s-%s, %s %s-%s", lectureDay1, lectureDay1Stime, lectureDay1Otime, lectureDay2, lectureDay2Stime, lectureDay2Otime);
 			System.out.printf("%-10s %-20s %-20s %-20s %10s%n", lectureCode, lectureName, time, enrollment,lectureCredit);
 		}
 	}
 	
-	// ê°•ì˜ì‹¤, ê°•ì‚¬ ì¶”ê°€
+	// °­ÀÇ½Ç, °­»ç Ãß°¡
 	public void printMyLectureList() {
-		if (lectureDay2.isEmpty()) {// ìš”ì¼ í•œê°œ
+		if (lectureDay2.isEmpty()) {// ¿äÀÏ ÇÑ°³
 			String time = String.format("%s %s-%s", lectureDay1, lectureDay1Stime, lectureDay1Otime);
 			System.out.printf("%-10s %-10s %-10s %-20s %-12s %-10s%n", lectureCode, lectureName ,lectureCredit,time, lectureRoomDay1, lecturer);
-		} else {// ìš”ì¼ ë‘ê°œ
+		} else {// ¿äÀÏ µÎ°³
 			String time = String.format("%s %s-%s, %s %s-%s", lectureDay1, lectureDay1Stime, lectureDay1Otime, lectureDay2, lectureDay2Stime, lectureDay2Otime);
 			String lectureRoom = "";
-			// ê°•ì˜ì‹¤ 2ê°œì¸ ê²½ìš°
+			// °­ÀÇ½Ç 2°³ÀÎ °æ¿ì
 			if(!lectureRoomDay1.equals(lectureRoomDay2)) {
 				 lectureRoom = String.format("%s / %s", lectureRoomDay1, lectureRoomDay2);
-		    // ê°•ì˜ì‹¤ 1ê°œì¸ ê²½ìš°
+		    // °­ÀÇ½Ç 1°³ÀÎ °æ¿ì
 			} else {
 				 lectureRoom = lectureRoomDay1;
 			}
-			// ì¶œë ¥
+			// Ãâ·Â
 			System.out.printf("%-10s %-10s %-10s %-20s %-12s %-10s%n", lectureCode, lectureName,lectureCredit,time, lectureRoom,lecturer);
 		}
 
 	}
 
-	// 2ì°¨ ìš”êµ¬ì‚¬í•­ ì •ë ¬ ìœ„í•œ Getter ì¶”ê°€
+	// 2Â÷ ¿ä±¸»çÇ× Á¤·Ä À§ÇÑ Getter Ãß°¡
 		public String getLectureDay1Stime() {
 			return lectureDay1Stime;
 		}
 
-		// 2ì°¨ ìš”êµ¬ì‚¬í•­ ì •ë ¬ ìœ„í•œ Getter ì¶”ê°€
+		// 2Â÷ ¿ä±¸»çÇ× Á¤·Ä À§ÇÑ Getter Ãß°¡
 		public String getLectureDay1Otime() {
 			return lectureDay1Otime;
 		}
@@ -199,37 +199,37 @@ public class Lecture implements Comparable<Lecture> {
 	
 	@Override
 	public int compareTo(Lecture other) {
-		// ìš”ì¼ ìˆ«ì ë§¤í•‘
-	    List<String> daysOfWeek = List.of("ì›”", "í™”", "ìˆ˜", "ëª©", "ê¸ˆ");
+		// ¿äÀÏ ¼ıÀÚ ¸ÅÇÎ
+	    List<String> daysOfWeek = List.of("¿ù", "È­", "¼ö", "¸ñ", "±İ");
 	    
-	    // ìš”ì¼ ë¹„êµ
+	    // ¿äÀÏ ºñ±³
 	    int dayComparison = daysOfWeek.indexOf(this.getLectureDay1()) - daysOfWeek.indexOf(other.getLectureDay1());
 	    if (dayComparison != 0) {
 	        return dayComparison;
 	    }
 
-	    // ì‹œê°„ ë¹„êµ
-	    // ì‹œì‘ì‹œê°„ 
+	    // ½Ã°£ ºñ±³
+	    // ½ÃÀÛ½Ã°£ 
 	    int lectureStartTime = Integer.parseInt(getLectureDay1Stime());
 	    int otherlectureStartTime = Integer.parseInt(other.getLectureDay1Stime());
 	    
-	    // ì¢…ë£Œì‹œê°„
+	    // Á¾·á½Ã°£
 	    int lectureEndTime = Integer.parseInt(getLectureDay1Otime());
 	    int OtherlectureEndTime	= Integer.parseInt(other.getLectureDay1Otime());
 	    
-	    // ì‹œì‘ì‹œê°„ ë¹„êµê²°ê³¼
+	    // ½ÃÀÛ½Ã°£ ºñ±³°á°ú
 	    int timeComparison1 = Integer.compare(lectureStartTime, otherlectureStartTime);
-	    // ì¢…ë£Œì‹œê°„ ë¹„êµê²°ê³¼
+	    // Á¾·á½Ã°£ ºñ±³°á°ú
 	    int timeComparison2 = Integer.compare(lectureEndTime, OtherlectureEndTime);
 	    
-	    // ì‹œì‘ì‹œê°„ ë¹„êµ
+	    // ½ÃÀÛ½Ã°£ ºñ±³
 	    if (timeComparison1 != 0) {
 	        return timeComparison1;
-	    } // ì¢…ë£Œì‹œê°„ ë¹„êµ
+	    } // Á¾·á½Ã°£ ºñ±³
 	    else if(timeComparison2 != 0) {
 	    	return timeComparison2;
 	    }
-	    // ê³¼ëª©ë²ˆí˜¸ ë¹„êµ
+	    // °ú¸ñ¹øÈ£ ºñ±³
 	    return this.lectureCode.compareTo(other.lectureCode);
 	}
 }

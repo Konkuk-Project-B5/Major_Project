@@ -533,6 +533,9 @@ public class TimeTableManager {
 				}
 			}
 
+//			for(Lecture lec: loginUser.myLectureList) {
+//				System.out.println("loginUser.myLectureList에 있는 강의명: " +lec.lectureName);
+//			}
 			//3. 중복 시간대 검사
 			boolean flag = true;
 			for (Lecture lec : loginUser.myLectureList) {
@@ -566,7 +569,7 @@ public class TimeTableManager {
 						}
 					} else {  //같은 교시에 시작
 						flag = false;
-//						System.out.println("a3");
+//						System.out.println(flag);
 						break;
 					}
 				}
@@ -632,11 +635,10 @@ public class TimeTableManager {
 						break;
 					}
 				}
-
-				if (!flag) {
-					System.out.println("기존 시간표와 강의 시간이 겹칩니다.");
-					continue;
-				}
+			}
+			if (!flag) {
+				System.out.println("기존 시간표와 강의 시간이 겹칩니다.");
+				continue;
 			}
 
 
